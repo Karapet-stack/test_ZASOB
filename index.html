@@ -7,7 +7,6 @@
 <title>Засоби комп'ютерних інформаційних систем — тест</title>
 
 <style>
-
 * {
     box-sizing: border-box;
 }
@@ -132,14 +131,11 @@ button:disabled {
     background: white;
     border-radius: 10px;
     padding: 15px;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     gap: 15px;
     flex-wrap: wrap;
-
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 
@@ -189,14 +185,10 @@ button:disabled {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-
     border: 1px solid #d8dee7;
     border-radius: 9px;
-
     padding: 14px;
-
     cursor: pointer;
-
     transition: .15s;
 }
 
@@ -273,8 +265,14 @@ button:disabled {
     font-size: 14px;
 }
 
-@media (max-width: 650px) {
+.start-status {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f8fafc;
+}
 
+@media (max-width: 650px) {
     .container {
         padding: 10px;
     }
@@ -294,28 +292,17 @@ button:disabled {
     .navigation {
         flex-direction: column;
     }
-
 }
-
 </style>
 </head>
-
 
 <body>
 
 <div class="container">
 
-
 <header>
-
-    <h1>
-        Засоби комп'ютерних інформаційних систем
-    </h1>
-
-    <p>
-        Підсумковий тест
-    </p>
-
+    <h1>Засоби комп'ютерних інформаційних систем</h1>
+    <p>Підсумковий тест</p>
 </header>
 
 
@@ -341,7 +328,6 @@ button:disabled {
 
     </label>
 
-
     <div class="info">
 
         <div class="info-item">
@@ -366,7 +352,6 @@ button:disabled {
 
     </div>
 
-
     <p>
         У питаннях із кількома правильними відповідями
         необхідно вибрати всі правильні варіанти.
@@ -383,28 +368,20 @@ button:disabled {
         таке питання зараховується як неправильне.
     </p>
 
-
     <div class="warning-box">
-
         <b>Увага!</b><br>
         Після натискання «Розпочати тест» одна спроба
         буде використана. Закриття сторінки або браузера
         не повертає використану спробу.
-
     </div>
 
-
     <div class="fullscreen-info">
-
         Під час тестування використовується повноекранний режим.
         Вихід із повноекранного режиму під час тесту
         призведе до його завершення.
-
     </div>
 
-
     <br>
-
 
     <button
         id="startButton"
@@ -414,11 +391,7 @@ button:disabled {
         Розпочати тест
     </button>
 
-
-    <p
-        id="startError"
-        class="error"
-    ></p>
+    <p id="startError" class="error"></p>
 
 </section>
 
@@ -427,10 +400,7 @@ button:disabled {
      ТЕСТ
 ===================================================== -->
 
-<section
-    id="testScreen"
-    class="hidden"
->
+<section id="testScreen" class="hidden">
 
     <div class="topbar">
 
@@ -456,7 +426,6 @@ button:disabled {
 
     </div>
 
-
     <div class="progress">
 
         <div
@@ -466,12 +435,10 @@ button:disabled {
 
     </div>
 
-
     <div
         id="questionContainer"
         class="card"
     ></div>
-
 
     <div class="navigation">
 
@@ -483,7 +450,6 @@ button:disabled {
             ← Назад
         </button>
 
-
         <button
             id="nextButton"
             class="primary"
@@ -491,7 +457,6 @@ button:disabled {
         >
             Далі →
         </button>
-
 
         <button
             id="finishButton"
@@ -515,13 +480,9 @@ button:disabled {
     class="card hidden"
 >
 
-    <h2>
-        Результат тестування
-    </h2>
-
+    <h2>Результат тестування</h2>
 
     <div id="resultContent"></div>
-
 
     <div
         id="saveStatus"
@@ -529,7 +490,6 @@ button:disabled {
     ></div>
 
 </section>
-
 
 </div>
 
@@ -1288,27 +1248,35 @@ correct:["A","B","C","D"]
 
 
 /* =====================================================
+   ПЕРЕВІРКА КІЛЬКОСТІ ПИТАНЬ
+===================================================== */
+
+if (questions.length !== 60) {
+    console.error(
+        "ПОМИЛКА: кількість питань не дорівнює 60!",
+        questions.length
+    );
+}
+
+
+/* =====================================================
    ЗМІННІ
 ===================================================== */
 
 let currentQuestion = 0;
-
 let answers = {};
-
 let studentName = "";
 
 let attemptNumber = 0;
+let attemptId = null;
 
 let timeLeft = TEST_TIME;
-
 let timer = null;
 
-let startTime = null;
+let serverStartTime = null;
 
 let testActive = false;
-
 let finishing = false;
-
 let fullscreenExitHandled = false;
 
 
@@ -1342,13 +1310,11 @@ async function startTest() {
         return;
     }
 
-
     studentName =
         document
         .getElementById("studentName")
         .value
         .trim();
-
 
     if (studentName.length < 2) {
 
@@ -1357,7 +1323,6 @@ async function startTest() {
 
         return;
     }
-
 
     startError.textContent = "";
 
@@ -1377,8 +1342,7 @@ async function startTest() {
                     method: "POST",
 
                     headers: {
-                        "apikey":
-                            SUPABASE_ANON_KEY,
+                        "apikey": SUPABASE_ANON_KEY,
 
                         "Authorization":
                             "Bearer " +
@@ -1388,72 +1352,109 @@ async function startTest() {
                             "application/json"
                     },
 
-                    body:
-                        JSON.stringify({
-                            p_student_name:
-                                studentName,
+                    body: JSON.stringify({
+                        p_student_name:
+                            studentName,
 
-                            p_subject:
-                                TEST_SUBJECT
-                        })
+                        p_subject:
+                            TEST_SUBJECT
+                    })
                 }
             );
 
 
-        if (!response.ok) {
+        const rawText =
+            await response.text();
 
-            const errorText =
-                await response.text();
+        let data = null;
+
+        try {
+            data = rawText
+                ? JSON.parse(rawText)
+                : null;
+        }
+        catch {
+            data = null;
+        }
+
+
+        console.log(
+            "Supabase start response:",
+            data
+        );
+
+
+        if (!response.ok) {
 
             console.error(
                 "Supabase start error:",
-                errorText
+                rawText
             );
 
-
-            if (
-                errorText.includes(
-                    "Використано всі спроби"
-                )
-            ) {
-
-                throw new Error(
-                    "Ви вже використали всі 3 спроби."
-                );
-
-            }
-
             throw new Error(
-                "Не вдалося отримати спробу."
+                "Помилка Supabase: " +
+                rawText
             );
         }
 
 
-        attemptNumber =
-            await response.json();
+        /*
+         * Нова функція повертає:
+         *
+         * {
+         *   allowed: true,
+         *   attempt_id: 123,
+         *   attempt_number: 1,
+         *   started_at: "...",
+         *   attempts_used: 1,
+         *   max_attempts: 3
+         * }
+         */
+
+
+        if (!data || data.allowed !== true) {
+
+            throw new Error(
+                data?.message ||
+                "Ви вже використали всі доступні спроби."
+            );
+        }
 
 
         if (
-            !Number.isInteger(attemptNumber) ||
-            attemptNumber < 1 ||
-            attemptNumber > 3
+            !data.attempt_id ||
+            !data.attempt_number
         ) {
 
             throw new Error(
-                "Сервер повернув некоректний номер спроби."
+                "Supabase повернув некоректні дані спроби."
             );
         }
 
 
-        startTime =
-            new Date();
+        attemptId =
+            Number(data.attempt_id);
+
+        attemptNumber =
+            Number(data.attempt_number);
+
+
+        serverStartTime =
+            data.started_at
+                ? new Date(data.started_at)
+                : new Date();
+
+
+        /*
+         * Встановлюємо час не просто на 30 хв,
+         * а від часу, який повернув сервер.
+         */
+        calculateRemainingTime();
 
 
         currentQuestion = 0;
 
         answers = {};
-
-        timeLeft = TEST_TIME;
 
         testActive = true;
 
@@ -1496,13 +1497,20 @@ async function startTest() {
             );
 
 
+        /*
+         * Fullscreen викликається саме після натискання
+         * кнопки користувачем.
+         */
         await enterFullscreen();
 
-    }
 
+    }
     catch(error) {
 
-        console.error(error);
+        console.error(
+            "START ERROR:",
+            error
+        );
 
 
         startError.textContent =
@@ -1516,6 +1524,47 @@ async function startTest() {
             "Розпочати тест";
     }
 
+}
+
+
+/* =====================================================
+   РОЗРАХУНОК ЧАСУ ВІД СЕРВЕРА
+===================================================== */
+
+function calculateRemainingTime() {
+
+    if (!serverStartTime) {
+
+        timeLeft = TEST_TIME;
+
+        return;
+    }
+
+
+    const elapsed =
+        Math.floor(
+            (
+                Date.now() -
+                serverStartTime.getTime()
+            ) / 1000
+        );
+
+
+    timeLeft =
+        Math.max(
+            0,
+            TEST_TIME - elapsed
+        );
+
+
+    /*
+     * Якщо час уже вийшов,
+     * тест одразу завершуємо.
+     */
+    if (timeLeft <= 0) {
+
+        timeLeft = 0;
+    }
 }
 
 
@@ -1539,7 +1588,6 @@ async function enterFullscreen() {
         }
 
     }
-
     catch(error) {
 
         console.warn(
@@ -1572,6 +1620,7 @@ document.addEventListener(
             interruptTest(
                 "Ви вийшли з повноекранного режиму. Тест завершено."
             );
+
         }
 
     }
@@ -1589,7 +1638,7 @@ function updateTimer() {
     }
 
 
-    timeLeft--;
+    calculateRemainingTime();
 
     updateTimerDisplay();
 
@@ -1609,6 +1658,7 @@ function updateTimer() {
         clearInterval(timer);
 
         finishTest(true);
+
     }
 
 }
@@ -1636,11 +1686,10 @@ function updateTimerDisplay() {
     document
     .getElementById("timer")
     .textContent =
-        String(minutes).padStart(2, "0")
-        +
-        ":"
-        +
+        String(minutes).padStart(2, "0") +
+        ":" +
         String(seconds).padStart(2, "0");
+
 }
 
 
@@ -1669,8 +1718,7 @@ function showQuestion() {
             questions.length
             *
             100
-        )
-        + "%";
+        ) + "%";
 
 
     let html = "";
@@ -1700,7 +1748,6 @@ function showQuestion() {
         `;
 
     }
-
     else {
 
         html += `
@@ -1708,6 +1755,7 @@ function showQuestion() {
                 Оберіть одну правильну відповідь.
             </p>
         `;
+
     }
 
 
@@ -1806,7 +1854,6 @@ function showQuestion() {
         .remove("hidden");
 
     }
-
     else {
 
         document
@@ -1911,9 +1958,9 @@ function checkAnswer(
 ) {
 
     /*
-       Якщо студент нічого не вибрав,
-       питання автоматично неправильне.
-    */
+     * Нічого не вибрано =
+     * неправильна відповідь.
+     */
 
     if (
         !Array.isArray(user) ||
@@ -1924,6 +1971,11 @@ function checkAnswer(
 
     }
 
+
+    /*
+     * Для multi-select кількість вибраних
+     * варіантів повинна збігатися.
+     */
 
     if (
         user.length !==
@@ -2014,8 +2066,9 @@ function calculateScore() {
         (q, index) => {
 
             /*
-               Відсутня відповідь → false → 0 балів.
-            */
+             * Якщо answers[index] відсутня,
+             * checkAnswer поверне false.
+             */
 
             if (
                 checkAnswer(
@@ -2103,6 +2156,17 @@ async function finishTest(
         new Date();
 
 
+    /*
+     * Спочатку зберігаємо результат,
+     * поки attemptId гарантовано є.
+     */
+
+    await saveResult(
+        score,
+        grade
+    );
+
+
     try {
 
         if (document.fullscreenElement) {
@@ -2112,7 +2176,6 @@ async function finishTest(
         }
 
     }
-
     catch(error) {
 
         console.warn(error);
@@ -2181,19 +2244,11 @@ async function finishTest(
         </div>
     `;
 
-
-    await saveResult(
-        score,
-        grade,
-        "Завершено",
-        finishTime
-    );
-
 }
 
 
 /* =====================================================
-   ПЕРЕРВАННЯ ТЕСТУ
+   ПЕРЕРИВАННЯ ТЕСТУ
 ===================================================== */
 
 async function interruptTest(
@@ -2218,33 +2273,15 @@ async function interruptTest(
     clearInterval(timer);
 
 
-    const score =
-        calculateScore();
+    /*
+     * Спроба вже була списана сервером
+     * при старті тесту.
+     *
+     * Тут ми лише змінюємо статус
+     * на "перервано".
+     */
 
-
-    const finishTime =
-        new Date();
-
-
-    try {
-
-        await saveResult(
-            score,
-            calculateGrade(score),
-            "Перервано",
-            finishTime
-        );
-
-    }
-
-    catch(error) {
-
-        console.error(
-            "Помилка збереження перерваного тесту:",
-            error
-        );
-
-    }
+    await markAttemptInterrupted();
 
 
     try {
@@ -2256,7 +2293,6 @@ async function interruptTest(
         }
 
     }
-
     catch(error) {
 
         console.warn(error);
@@ -2315,8 +2351,7 @@ async function interruptTest(
     .innerHTML = `
 
         <span class="success">
-            ✓ Інформацію про перервану спробу
-            збережено в базу даних.
+            ✓ Спробу позначено як перервану.
         </span>
 
     `;
@@ -2325,14 +2360,75 @@ async function interruptTest(
 
 
 /* =====================================================
-   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ В SUPABASE
+   ПОЗНАЧЕННЯ СПРОБИ ЯК ПЕРЕРВАНОЇ
+===================================================== */
+
+async function markAttemptInterrupted() {
+
+    if (!attemptId) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/rpc/interrupt_test_attempt",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "apikey":
+                            SUPABASE_ANON_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_ANON_KEY,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            p_attempt_id:
+                                attemptId
+                        })
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Помилка переривання:",
+                await response.text()
+            );
+
+        }
+
+    }
+    catch(error) {
+
+        console.error(
+            "Помилка RPC interrupt:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ
 ===================================================== */
 
 async function saveResult(
     score,
-    grade,
-    statusText,
-    finishTime
+    grade
 ) {
 
     const status =
@@ -2344,6 +2440,20 @@ async function saveResult(
         "Збереження результату...";
 
 
+    if (!attemptId) {
+
+        status.innerHTML = `
+
+            <span class="error">
+                ✗ Не знайдено номер спроби.
+            </span>
+
+        `;
+
+        return false;
+    }
+
+
     try {
 
         const response =
@@ -2351,11 +2461,9 @@ async function saveResult(
                 SUPABASE_URL +
                 "/rest/v1/rpc/save_test_result",
                 {
-
                     method: "POST",
 
                     headers: {
-
                         "apikey":
                             SUPABASE_ANON_KEY,
 
@@ -2365,20 +2473,13 @@ async function saveResult(
 
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body:
                         JSON.stringify({
 
-                            p_student_name:
-                                studentName,
-
-                            p_subject:
-                                TEST_SUBJECT,
-
-                            p_attempt:
-                                attemptNumber,
+                            p_attempt_id:
+                                attemptId,
 
                             p_score:
                                 score,
@@ -2387,39 +2488,64 @@ async function saveResult(
                                 questions.length,
 
                             p_grade:
-                                grade,
-
-                            p_status:
-                                statusText,
-
-                            p_start_time:
-                                startTime
-                                .toISOString(),
-
-                            p_finish_time:
-                                finishTime
-                                .toISOString()
+                                grade
 
                         })
-
                 }
             );
 
 
+        const rawText =
+            await response.text();
+
+
+        let data = null;
+
+
+        try {
+
+            data =
+                rawText
+                ? JSON.parse(rawText)
+                : null;
+
+        }
+        catch {
+
+            data = null;
+
+        }
+
+
+        console.log(
+            "Supabase result response:",
+            data
+        );
+
+
         if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
 
             console.error(
                 "Supabase result error:",
-                errorText
+                rawText
             );
 
+            throw new Error(
+                rawText ||
+                "Помилка збереження результату."
+            );
+
+        }
+
+
+        if (
+            data &&
+            data.ok === false
+        ) {
 
             throw new Error(
-                errorText
+                data.message ||
+                "Результат не було збережено."
             );
 
         }
@@ -2436,11 +2562,16 @@ async function saveResult(
 
         `;
 
-    }
 
+        return true;
+
+    }
     catch(error) {
 
-        console.error(error);
+        console.error(
+            "SAVE RESULT ERROR:",
+            error
+        );
 
 
         status.innerHTML = `
@@ -2452,13 +2583,17 @@ async function saveResult(
 
                 <br><br>
 
-                Результат залишився
-                на екрані, але не був
-                записаний у Supabase.
+                ${escapeHtml(
+                    error.message ||
+                    "Невідома помилка."
+                )}
 
             </span>
 
         `;
+
+
+        return false;
 
     }
 
@@ -2502,7 +2637,78 @@ function escapeHtml(text) {
 
 
 /* =====================================================
-   ЗАБОРОНА ВИПАДКОВОГО ПЕРЕЗАВАНТАЖЕННЯ
+   ЗАКРИТТЯ / ПЕРЕЗАВАНТАЖЕННЯ
+===================================================== */
+
+/*
+ * ВАЖЛИВО:
+ *
+ * Спроба вже списана в момент start_test_attempt.
+ *
+ * Тому навіть якщо браузер закриють і RPC interrupt
+ * не встигне виконатися, наступна спроба все одно
+ * буде №2.
+ *
+ * pagehide лише намагається змінити статус
+ * "розпочато" -> "перервано".
+ */
+
+window.addEventListener(
+    "pagehide",
+    function() {
+
+        if (
+            testActive &&
+            !finishing &&
+            attemptId
+        ) {
+
+            try {
+
+                fetch(
+                    SUPABASE_URL +
+                    "/rest/v1/rpc/interrupt_test_attempt",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "apikey":
+                                SUPABASE_ANON_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_ANON_KEY,
+
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                p_attempt_id:
+                                    attemptId
+                            }),
+
+                        keepalive: true
+
+                    }
+                );
+
+            }
+            catch(error) {
+
+                console.warn(error);
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ПОПЕРЕДЖЕННЯ ПЕРЕД ЗАКРИТТЯМ
 ===================================================== */
 
 window.addEventListener(
@@ -2525,26 +2731,20 @@ window.addEventListener(
 
 
 /* =====================================================
-   ЗАБОРОНА КЛАВІШІ ESC
-   ВАЖЛИВО:
-   браузер усе одно може дозволити ESC.
-   Тому fullscreenchange є основним контролем.
+   ENTER У ПОЛІ ПІБ
 ===================================================== */
 
-document.addEventListener(
+document
+.getElementById("studentName")
+.addEventListener(
     "keydown",
     function(event) {
 
-        if (
-            testActive &&
-            event.key === "Escape"
-        ) {
+        if (event.key === "Enter") {
 
-            /*
-             * Не можна гарантовано заборонити
-             * браузеру вийти з fullscreen.
-             * Після виходу спрацює fullscreenchange.
-             */
+            event.preventDefault();
+
+            startTest();
 
         }
 
