@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -327,11 +328,6 @@ button:disabled {
     <p>Підсумковий тест</p>
 </header>
 
-
-<!-- =====================================================
-     ПОЧАТОК ТЕСТУ
-===================================================== -->
-
 <section id="startScreen" class="card">
 
     <h2>Початок тестування</h2>
@@ -431,11 +427,6 @@ button:disabled {
 
 </section>
 
-
-<!-- =====================================================
-     ТЕСТ
-===================================================== -->
-
 <section id="testScreen" class="hidden">
 
     <div class="topbar">
@@ -504,11 +495,6 @@ button:disabled {
 
 </section>
 
-
-<!-- =====================================================
-     РЕЗУЛЬТАТ
-===================================================== -->
-
 <section
     id="resultScreen"
     class="card hidden"
@@ -527,7 +513,6 @@ button:disabled {
 
 </div>
 
-
 <script>
 
 /* =====================================================
@@ -544,6 +529,9 @@ const SUPABASE_ANON_KEY =
 /* =====================================================
    НАЛАШТУВАННЯ
 ===================================================== */
+
+const TEST_ID =
+    "kcis_2026";
 
 const TEST_SUBJECT =
     "Засоби комп'ютерних інформаційних систем";
@@ -1560,6 +1548,9 @@ async function updateAttemptInfo() {
             await supabaseRPC(
                 "get_student_test_info",
                 {
+                    p_test_id:
+                        TEST_ID,
+
                     p_student_code:
                         code
                 }
@@ -1679,23 +1670,17 @@ async function startTest() {
 
     try {
 
-        /*
-         * Отримуємо IP як додаткову
-         * інформацію для журналу.
-         */
-
         const ipAddress =
             await getPublicIP();
 
-
-        /*
-         * Запускаємо серверну спробу.
-         */
 
         const data =
             await supabaseRPC(
                 "start_test_attempt",
                 {
+                    p_test_id:
+                        TEST_ID,
+
                     p_student_code:
                         studentCode,
 
@@ -1713,10 +1698,6 @@ async function startTest() {
                 }
             );
 
-
-        /*
-         * Сервер відмовив.
-         */
 
         if (
             !data ||
@@ -1767,10 +1748,6 @@ async function startTest() {
         }
 
 
-        /*
-         * Отримуємо дані створеної спроби.
-         */
-
         attemptId =
             Number(
                 data.attempt_id
@@ -1781,10 +1758,6 @@ async function startTest() {
                 data.attempt_number
             );
 
-
-        /*
-         * Ініціалізація тесту.
-         */
 
         testStartTime =
             new Date();
@@ -1803,10 +1776,6 @@ async function startTest() {
         fullscreenExitHandled = false;
 
 
-        /*
-         * Оновлюємо інформацію.
-         */
-
         document
             .getElementById("studentLabel")
             .textContent =
@@ -1819,10 +1788,6 @@ async function startTest() {
             " / " +
             MAX_ATTEMPTS;
 
-
-        /*
-         * Показуємо тест.
-         */
 
         startScreen
             .classList
@@ -1838,20 +1803,12 @@ async function startTest() {
         updateTimerDisplay();
 
 
-        /*
-         * Запускаємо таймер.
-         */
-
         timer =
             setInterval(
                 updateTimer,
                 1000
             );
 
-
-        /*
-         * Переходимо у fullscreen.
-         */
 
         await enterFullscreen();
 
@@ -1935,979 +1892,5 @@ document.addEventListener(
             !fullscreenExitHandled
         ) {
 
-            fullscreenExitHandled = true;
-
-            interruptTest(
-                "Ви вийшли з повноекранного режиму. Тест завершено."
-            );
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   ТАЙМЕР
-===================================================== */
-
-function updateTimer() {
-
-    if (!testActive) {
-        return;
-    }
-
-    if (!testStartTime) {
-        return;
-    }
-
-    const elapsed =
-        Math.floor(
-            (
-                Date.now() -
-                testStartTime.getTime()
-            ) / 1000
-        );
-
-    timeLeft =
-        Math.max(
-            0,
-            TEST_TIME - elapsed
-        );
-
-    updateTimerDisplay();
-
-    const timerElement =
-        document.getElementById("timer");
-
-    if (timeLeft <= 60) {
-
-        timerElement
-            .classList
-            .add("timer-warning");
-
-    }
-
-    if (timeLeft <= 0) {
-
-        clearInterval(timer);
-
-        finishTest(true);
-
-    }
-
-}
-
-
-function updateTimerDisplay() {
-
-    const safeTime =
-        Math.max(
-            0,
-            timeLeft
-        );
-
-    const minutes =
-        Math.floor(
-            safeTime / 60
-        );
-
-    const seconds =
-        safeTime % 60;
-
-    document
-        .getElementById("timer")
-        .textContent =
-        String(minutes)
-            .padStart(2, "0") +
-        ":" +
-        String(seconds)
-            .padStart(2, "0");
-
-}
-
-
-/* =====================================================
-   ВІДОБРАЖЕННЯ ПИТАННЯ
-===================================================== */
-
-function showQuestion() {
-
-    const q =
-        questions[currentQuestion];
-
-    document
-        .getElementById("questionNumber")
-        .textContent =
-        currentQuestion + 1;
-
-    document
-        .getElementById("progressBar")
-        .style.width =
-        (
-            (
-                currentQuestion + 1
-            ) /
-            questions.length *
-            100
-        ) + "%";
-
-    let html = "";
-
-    html += `
-        <div class="question-number">
-            Питання ${currentQuestion + 1}
-            із ${questions.length}
-        </div>
-    `;
-
-    html += `
-        <h2 class="question-title">
-            ${escapeHtml(q.q)}
-        </h2>
-    `;
-
-    if (q.type === "multi") {
-
-        html += `
-            <p class="hint">
-                Оберіть усі правильні відповіді.
-            </p>
-        `;
-
-    }
-    else {
-
-        html += `
-            <p class="hint">
-                Оберіть одну правильну відповідь.
-            </p>
-        `;
-
-    }
-
-    html += `
-        <div class="options">
-    `;
-
-    q.a.forEach(
-        (answer, index) => {
-
-            const letter =
-                String.fromCharCode(
-                    65 + index
-                );
-
-            let checked = "";
-
-            if (
-                answers[currentQuestion] &&
-                answers[currentQuestion]
-                    .includes(letter)
-            ) {
-
-                checked =
-                    "checked";
-
-            }
-
-            html += `
-
-                <label class="option">
-
-                    <input
-                        type="${
-                            q.type === "multi"
-                            ? "checkbox"
-                            : "radio"
-                        }"
-
-                        name="question"
-
-                        value="${letter}"
-
-                        ${checked}
-
-                        onchange="saveAnswer()"
-                    >
-
-                    <span>
-                        <b>${letter}.</b>
-                        ${escapeHtml(answer)}
-                    </span>
-
-                </label>
-
-            `;
-
-        }
-    );
-
-    html += `
-        </div>
-    `;
-
-    document
-        .getElementById("questionContainer")
-        .innerHTML =
-        html;
-
-
-    document
-        .getElementById("prevButton")
-        .disabled =
-        currentQuestion === 0;
-
-
-    if (
-        currentQuestion ===
-        questions.length - 1
-    ) {
-
-        document
-            .getElementById("nextButton")
-            .classList
-            .add("hidden");
-
-        document
-            .getElementById("finishButton")
-            .classList
-            .remove("hidden");
-
-    }
-    else {
-
-        document
-            .getElementById("nextButton")
-            .classList
-            .remove("hidden");
-
-        document
-            .getElementById("finishButton")
-            .classList
-            .add("hidden");
-
-    }
-
-}
-
-
-/* =====================================================
-   ЗБЕРІГАННЯ ВІДПОВІДІ
-===================================================== */
-
-function saveAnswer() {
-
-    const selected =
-        document.querySelectorAll(
-            'input[name="question"]:checked'
-        );
-
-    answers[currentQuestion] =
-        Array
-            .from(selected)
-            .map(
-                input =>
-                    input.value
-            );
-
-}
-
-
-/* =====================================================
-   ДАЛІ
-===================================================== */
-
-function nextQuestion() {
-
-    saveAnswer();
-
-    if (
-        currentQuestion <
-        questions.length - 1
-    ) {
-
-        currentQuestion++;
-
-        showQuestion();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-}
-
-
-/* =====================================================
-   НАЗАД
-===================================================== */
-
-function previousQuestion() {
-
-    saveAnswer();
-
-    if (currentQuestion > 0) {
-
-        currentQuestion--;
-
-        showQuestion();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-}
-
-
-/* =====================================================
-   ПЕРЕВІРКА ВІДПОВІДІ
-===================================================== */
-
-function checkAnswer(
-    user,
-    correct
-) {
-
-    if (
-        !Array.isArray(user) ||
-        user.length === 0
-    ) {
-
-        return false;
-
-    }
-
-    if (
-        user.length !==
-        correct.length
-    ) {
-
-        return false;
-
-    }
-
-    const u =
-        [...user].sort();
-
-    const c =
-        [...correct].sort();
-
-    return u.every(
-        (value, index) =>
-            value === c[index]
-    );
-
-}
-
-
-/* =====================================================
-   ОЦІНКА 1–12
-===================================================== */
-
-function calculateGrade(score) {
-
-    const percent =
-        score /
-        questions.length *
-        100;
-
-    if (percent < 35)
-        return 1;
-
-    if (percent < 45)
-        return 2;
-
-    if (percent < 55)
-        return 3;
-
-    if (percent < 60)
-        return 4;
-
-    if (percent < 65)
-        return 5;
-
-    if (percent < 70)
-        return 6;
-
-    if (percent < 75)
-        return 7;
-
-    if (percent < 80)
-        return 8;
-
-    if (percent < 85)
-        return 9;
-
-    if (percent < 90)
-        return 10;
-
-    if (percent < 95)
-        return 11;
-
-    return 12;
-
-}
-
-
-/* =====================================================
-   ПІДРАХУНОК БАЛІВ
-===================================================== */
-
-function calculateScore() {
-
-    let score = 0;
-
-    questions.forEach(
-        (q, index) => {
-
-            if (
-                checkAnswer(
-                    answers[index],
-                    q.correct
-                )
-            ) {
-
-                score++;
-
-            }
-
-        }
-    );
-
-    return score;
-
-}
-
-
-/* =====================================================
-   ЗАВЕРШЕННЯ ТЕСТУ
-===================================================== */
-
-async function finishTest(
-    auto = false
-) {
-
-    if (
-        !testActive ||
-        finishing
-    ) {
-
-        return;
-
-    }
-
-    saveAnswer();
-
-    if (!auto) {
-
-        const confirmFinish =
-            confirm(
-                "Ви впевнені, що хочете завершити тест?"
-            );
-
-        if (!confirmFinish) {
-
-            return;
-
-        }
-
-    }
-
-    finishing = true;
-    testActive = false;
-
-    clearInterval(timer);
-
-    const score =
-        calculateScore();
-
-    const percent =
-        Math.round(
-            score /
-            questions.length *
-            100
-        );
-
-
-    /*
-     * Спочатку зберігаємо результат
-     * на сервері.
-     */
-
-    const saved =
-        await saveResult(score);
-
-
-    /*
-     * Виходимо з fullscreen.
-     */
-
-    try {
-
-        if (document.fullscreenElement) {
-
-            await document.exitFullscreen();
-
-        }
-
-    }
-    catch(error) {
-
-        console.warn(error);
-
-    }
-
-
-    /*
-     * Показуємо результат.
-     */
-
-    testScreen
-        .classList
-        .add("hidden");
-
-    resultScreen
-        .classList
-        .remove("hidden");
-
-
-    let grade =
-        null;
-
-    if (saved && saved.grade !== undefined) {
-
-        grade =
-            Number(saved.grade);
-
-    }
-    else {
-
-        grade =
-            calculateGrade(score);
-
-    }
-
-
-    document
-        .getElementById("resultContent")
-        .innerHTML = `
-
-        <div class="result-grade">
-            ${grade} / 12
-        </div>
-
-        <div class="result-info">
-
-            <p>
-                <b>
-                    ${escapeHtml(studentName)}
-                </b>
-            </p>
-
-            <p>
-                Код студента:
-                <b>
-                    ${escapeHtml(studentCode)}
-                </b>
-            </p>
-
-            <p>
-                Спроба:
-                <b>
-                    ${attemptNumber} із ${MAX_ATTEMPTS}
-                </b>
-            </p>
-
-            <p>
-                Правильних відповідей:
-                <b>${score}</b>
-                із
-                <b>${questions.length}</b>
-            </p>
-
-            <p>
-                Результат:
-                <b>${percent}%</b>
-            </p>
-
-            ${
-                auto
-                ?
-                `
-                <p class="error">
-                    Час тестування завершився.
-                    Тест завершено автоматично.
-                </p>
-                `
-                :
-                ""
-            }
-
-        </div>
-    `;
-
-}
-
-
-/* =====================================================
-   ПЕРЕРИВАННЯ ТЕСТУ
-===================================================== */
-
-async function interruptTest(
-    message
-) {
-
-    if (
-        !testActive ||
-        finishing
-    ) {
-
-        return;
-
-    }
-
-    finishing = true;
-    testActive = false;
-
-    clearInterval(timer);
-
-
-    /*
-     * Тут НЕ викликаємо finish_test_attempt.
-     *
-     * Спроба вже створена сервером і тому
-     * вже враховується серед використаних.
-     *
-     * Статус залишиться active, щоб викладач
-     * міг бачити, що тест був перерваний.
-     */
-
-
-    try {
-
-        if (document.fullscreenElement) {
-
-            await document.exitFullscreen();
-
-        }
-
-    }
-    catch(error) {
-
-        console.warn(error);
-
-    }
-
-
-    testScreen
-        .classList
-        .add("hidden");
-
-    resultScreen
-        .classList
-        .remove("hidden");
-
-
-    document
-        .getElementById("resultContent")
-        .innerHTML = `
-
-        <div class="result-grade">
-            —
-        </div>
-
-        <div class="result-info">
-
-            <p>
-                <b>
-                    ${escapeHtml(studentName)}
-                </b>
-            </p>
-
-            <p>
-                Код студента:
-                <b>
-                    ${escapeHtml(studentCode)}
-                </b>
-            </p>
-
-            <p>
-                Спроба:
-                <b>
-                    ${attemptNumber} із ${MAX_ATTEMPTS}
-                </b>
-            </p>
-
-            <p class="error">
-                ${escapeHtml(message)}
-            </p>
-
-            <p>
-                Ця спроба використана
-                і не повертається.
-            </p>
-
-        </div>
-    `;
-
-
-    document
-        .getElementById("saveStatus")
-        .innerHTML = `
-
-        <span class="error">
-            Спробу завершено без результату.
-        </span>
-
-    `;
-
-}
-
-
-/* =====================================================
-   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ В SUPABASE
-===================================================== */
-
-async function saveResult(score) {
-
-    const status =
-        document
-            .getElementById("saveStatus");
-
-    status.innerHTML =
-        "Збереження результату...";
-
-
-    try {
-
-        const data =
-            await supabaseRPC(
-                "finish_test_attempt",
-                {
-                    p_attempt_id:
-                        attemptId,
-
-                    p_score:
-                        score
-                }
-            );
-
-
-        if (
-            !data ||
-            data.success !== true
-        ) {
-
-            throw new Error(
-                data?.message ||
-                data?.error ||
-                "Не вдалося завершити спробу."
-            );
-
-        }
-
-
-        status.innerHTML = `
-
-            <span class="success">
-
-                ✓ Результат успішно
-                збережено в базу даних.
-
-            </span>
-
-        `;
-
-
-        return data;
-
-    }
-    catch(error) {
-
-        console.error(
-            "SAVE RESULT ERROR:",
-            error
-        );
-
-
-        status.innerHTML = `
-
-            <span class="error">
-
-                ✗ Не вдалося зберегти
-                результат у базу даних.
-
-                <br><br>
-
-                ${escapeHtml(
-                    error.message ||
-                    "Невідома помилка."
-                )}
-
-            </span>
-
-        `;
-
-
-        return null;
-
-    }
-
-}
-
-
-/* =====================================================
-   ЗАХИСТ ВІД HTML
-===================================================== */
-
-function escapeHtml(text) {
-
-    return String(text)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =====================================================
-   ПОПЕРЕДЖЕННЯ ПЕРЕД ЗАКРИТТЯМ
-===================================================== */
-
-window.addEventListener(
-    "beforeunload",
-    function(event) {
-
-        if (
-            testActive &&
-            !finishing
-        ) {
-
-            event.preventDefault();
-
-            event.returnValue = "";
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   КОД СТУДЕНТА — ПЕРЕВІРКА СПРОБ
-===================================================== */
-
-let attemptInfoTimer = null;
-
-studentCodeInput.addEventListener(
-    "input",
-    function() {
-
-        startError.textContent = "";
-
-        clearTimeout(
-            attemptInfoTimer
-        );
-
-        attemptInfoTimer =
-            setTimeout(
-                updateAttemptInfo,
-                300
-            );
-
-    }
-);
-
-
-/* =====================================================
-   ПІБ — ОЧИЩЕННЯ ПОМИЛКИ
-===================================================== */
-
-studentNameInput.addEventListener(
-    "input",
-    function() {
-
-        startError.textContent = "";
-
-    }
-);
-
-
-/* =====================================================
-   ENTER У ПОЛІ КОДУ
-===================================================== */
-
-studentCodeInput.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            studentNameInput.focus();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   ENTER У ПОЛІ ПІБ
-===================================================== */
-
-studentNameInput.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (event.key === "Enter") {
-
-            event.preventDefault();
-
-            startTest();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   ПОЧАТКОВИЙ СТАН
-===================================================== */
-
-updateAttemptInfo();
-
-</script>
-
-</body>
-</html>
+            fullscreenExitHandled = true
+```
