@@ -1,6 +1,8 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -146,6 +148,16 @@ button:disabled{
     background:#fff;
 }
 
+.image-error{
+    padding:12px;
+    border:1px solid #fecaca;
+    background:#fef2f2;
+    color:#991b1b;
+    border-radius:10px;
+    margin:12px 0 18px;
+    text-align:center;
+}
+
 .nav{
     display:flex;
     justify-content:space-between;
@@ -179,35 +191,17 @@ button:disabled{
     margin-top:12px;
 }
 
-.review-item{
-    padding:14px;
-    border:1px solid #e2e8f0;
-    border-radius:10px;
-    margin:10px 0;
-}
-
-.review-item.correct{
-    border-left:5px solid #16a34a;
-}
-
-.review-item.wrong{
-    border-left:5px solid #dc2626;
-}
-
-.image-error{
-    padding:12px;
-    border:1px solid #fecaca;
-    background:#fef2f2;
-    color:#991b1b;
-    border-radius:10px;
-    margin:12px 0 18px;
-    text-align:center;
+.return-button{
+    margin-top:18px;
 }
 
 </style>
+
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -215,7 +209,10 @@ button:disabled{
 
     <h1>Тест: Креслення</h1>
 
-    <div class="small" style="color:#dbeafe">
+    <div
+        class="small"
+        style="color:#dbeafe"
+    >
         32 питання · 30 хвилин · до 3 спроб
     </div>
 
@@ -231,7 +228,10 @@ button:disabled{
      ПОЧАТОК
 ========================================================= -->
 
-<section id="startCard" class="card">
+<section
+    id="startCard"
+    class="card"
+>
 
     <h2>Початок тестування</h2>
 
@@ -239,6 +239,7 @@ button:disabled{
         Тест містить 32 питання з креслення.
         Частина завдань містить графічні зображення.
     </p>
+
 
     <label for="studentCode">
         Код здобувача
@@ -363,7 +364,13 @@ button:disabled{
 
     <div id="resultBox"></div>
 
-    <div id="reviewBox"></div>
+
+    <button
+        id="returnStartBtn"
+        class="return-button"
+    >
+        ← Повернутися на початок
+    </button>
 
 </section>
 
@@ -417,10 +424,6 @@ const STORAGE_KEY =
 /* =========================================================
    КАРТИНКИ
 ========================================================= */
-
-/*
-   Використовуються актуальні файли Wikimedia Commons.
-*/
 
 const IMG_LINES =
 "https://commons.wikimedia.org/wiki/Special:FilePath/Line_types.png";
@@ -896,17 +899,15 @@ const Q = [
 
 
 /* =========================================================
-   ПЕРЕВІРКА КІЛЬКОСТІ ПИТАНЬ
+   ПЕРЕВІРКА
 ========================================================= */
 
 if(Q.length !== MAX_SCORE){
 
     console.error(
-        "Помилка: кількість питань не відповідає MAX_SCORE.",
-        {
-            questions:Q.length,
-            maxScore:MAX_SCORE
-        }
+        "Кількість питань не відповідає MAX_SCORE",
+        Q.length,
+        MAX_SCORE
     );
 }
 
@@ -969,8 +970,10 @@ function makeId(prefix){
     const key =
         prefix + "_id";
 
+
     let id =
         localStorage.getItem(key);
+
 
     if(!id){
 
@@ -982,14 +985,16 @@ function makeId(prefix){
               Date.now() +
               "_" +
               Math.random()
-                .toString(36)
-                .slice(2);
+                  .toString(36)
+                  .slice(2);
+
 
         localStorage.setItem(
             key,
             id
         );
     }
+
 
     return id;
 }
@@ -1027,13 +1032,16 @@ async function getIP(){
                 }
             );
 
+
         if(!r.ok){
 
             return null;
         }
 
+
         const j =
             await r.json();
+
 
         return j.ip || null;
 
@@ -1059,6 +1067,7 @@ async function supabaseRPC(
             "/rest/v1/rpc/" +
             name,
             {
+
                 method:"POST",
 
                 headers:{
@@ -1159,8 +1168,11 @@ function loadState(){
         ){
 
             state={
+
                 ...state,
+
                 ...s
+
             };
         }
 
@@ -1272,7 +1284,6 @@ async function checkAttempts(){
             }.`;
 
 
-
         $("startBtn").disabled =
             used >= MAX_ATTEMPTS;
 
@@ -1346,12 +1357,15 @@ function renderQuestion(){
     let html =
 
         `<div class="question-title">
+
             ${
                 state.current + 1
             }.
+
             ${
                 escapeHtml(q.q)
             }
+
         </div>`;
 
 
@@ -1360,11 +1374,20 @@ function renderQuestion(){
         html +=
 
             `<img
+
                 class="question-image"
+
                 src="${q.img}"
+
                 alt="Ілюстрація до питання"
+
                 loading="eager"
-                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+
+                onerror="
+                    this.style.display='none';
+                    this.nextElementSibling.style.display='block';
+                "
+
             >
 
             <div
@@ -1394,20 +1417,25 @@ function renderQuestion(){
 
                 return `
 
-                <label class="option">
+                    <label class="option">
 
-                    <input
-                        type="radio"
-                        name="answer"
-                        value="${i}"
-                        ${checked}
-                    >
+                        <input
 
-                    ${
-                        escapeHtml(ans)
-                    }
+                            type="radio"
 
-                </label>
+                            name="answer"
+
+                            value="${i}"
+
+                            ${checked}
+
+                        >
+
+                        ${
+                            escapeHtml(ans)
+                        }
+
+                    </label>
 
                 `;
 
@@ -1437,6 +1465,7 @@ function renderQuestion(){
                                 el.value
                             );
 
+
                         saveState();
 
                     }
@@ -1452,7 +1481,8 @@ function renderQuestion(){
 
     $("nextBtn").textContent =
 
-        state.current === Q.length - 1
+        state.current ===
+        Q.length - 1
 
         ? "Завершити тест"
 
@@ -1497,8 +1527,8 @@ function startTimer(){
 
 
     timerHandle =
-        setInterval(
 
+        setInterval(
             () => {
 
                 if(
@@ -1547,7 +1577,7 @@ function startTimer(){
 
 
 /* =========================================================
-   РОЗРАХУНОК РЕЗУЛЬТАТУ
+   РОЗРАХУНОК
 ========================================================= */
 
 function calculateResult(){
@@ -1566,8 +1596,12 @@ function calculateResult(){
 
 
         if(
+
             Q[i].c.length === 1 &&
-            selected === Q[i].c[0]
+
+            selected ===
+            Q[i].c[0]
+
         ){
 
             correct++;
@@ -1596,7 +1630,7 @@ function calculateResult(){
 
 
 /* =========================================================
-   НОРМАЛЬНЕ ЗАВЕРШЕННЯ
+   ЗАВЕРШЕННЯ ТЕСТУ
 ========================================================= */
 
 async function finishTest(
@@ -1629,10 +1663,13 @@ async function finishTest(
     state.finished=true;
 
     state.finishReason =
-        reason || "Завершено";
+        reason ||
+        "Завершено";
+
 
     state.score =
         result.correct;
+
 
     state.grade =
         result.grade;
@@ -1664,6 +1701,7 @@ async function finishTest(
 
                     p_score:
                         result.correct
+
                 }
             );
 
@@ -1697,11 +1735,17 @@ async function finishTest(
 function interruptAttemptOnClose(){
 
     if(
+
         !state.active ||
+
         state.finished ||
+
         finishing ||
+
         !state.attemptId ||
+
         !state.studentCode
+
     ){
 
         return;
@@ -1728,6 +1772,7 @@ function interruptAttemptOnClose(){
 
             p_device_id:
                 deviceId()
+
         });
 
 
@@ -1753,6 +1798,7 @@ function interruptAttemptOnClose(){
                     "Authorization":
                         "Bearer " +
                         SUPABASE_ANON_KEY
+
                 },
 
                 body:body,
@@ -1760,6 +1806,7 @@ function interruptAttemptOnClose(){
                 keepalive:true,
 
                 credentials:"omit"
+
             }
 
         );
@@ -1774,9 +1821,8 @@ function interruptAttemptOnClose(){
 
 
     /*
-       Видаляємо локальний стан.
-       Після повторного відкриття
-       стара спроба не відновиться.
+       Видаляємо локальний стан,
+       щоб тест не відновився.
     */
 
     try{
@@ -1825,7 +1871,7 @@ function interruptAttemptOnClose(){
 
 
 /* =========================================================
-   РЕЗУЛЬТАТ НА ЕКРАНІ
+   РЕЗУЛЬТАТ
 ========================================================= */
 
 function showResult(
@@ -1863,7 +1909,9 @@ function showResult(
         <p>
 
             Оцінка:
-            <b>${result.grade}</b>
+            <b>
+                ${result.grade}
+            </b>
 
         </p>
 
@@ -1872,11 +1920,13 @@ function showResult(
 
             Результат:
             <b>
+
                 ${
                     Math.round(
                         result.percent * 100
                     )
                 }%
+
             </b>
 
         </p>
@@ -1885,6 +1935,7 @@ function showResult(
         <p class="small">
 
             Причина завершення:
+
             ${
                 escapeHtml(
                     state.finishReason ||
@@ -1914,81 +1965,10 @@ function showResult(
                 збереження результату.
 
             </div>`
+
         }
 
     `;
-
-
-    let review =
-        "<h3>Перегляд відповідей</h3>";
-
-
-    Q.forEach(
-        (q,i) => {
-
-            const selected =
-                state.answers[i];
-
-
-            const ok =
-
-                q.c.length === 1 &&
-                selected === q.c[0];
-
-
-            review += `
-
-                <div
-                    class="review-item ${
-                        ok
-                        ? "correct"
-                        : "wrong"
-                    }"
-                >
-
-                    <b>
-
-                        ${i+1}.
-                        ${
-                            escapeHtml(q.q)
-                        }
-
-                    </b>
-
-                    <br><br>
-
-                    Ваша відповідь:
-
-                    ${
-                        selected == null
-
-                        ? "не вибрано"
-
-                        : escapeHtml(
-                            q.a[selected]
-                        )
-                    }
-
-                    <br>
-
-                    Правильна відповідь:
-
-                    ${
-                        escapeHtml(
-                            q.a[q.c[0]]
-                        )
-                    }
-
-                </div>
-
-            `;
-
-        }
-    );
-
-
-    $("reviewBox").innerHTML =
-        review;
 }
 
 
@@ -2022,9 +2002,13 @@ async function startTest(){
 
 
     if(
+
         code.length < 2 ||
+
         name.length < 2 ||
+
         group.length < 1
+
     ){
 
         $("startError").textContent =
@@ -2077,7 +2061,9 @@ async function startTest(){
 
                     p_max_score:
                         MAX_SCORE
+
                 }
+
             );
 
 
@@ -2088,14 +2074,18 @@ async function startTest(){
 
 
         if(
+
             !info ||
+
             info.allowed !== true
+
         ){
 
             throw new Error(
 
                 info?.message ||
                 "Ця спроба недоступна."
+
             );
         }
 
@@ -2140,6 +2130,7 @@ async function startTest(){
             score:null,
 
             grade:null
+
         };
 
 
@@ -2158,13 +2149,16 @@ async function startTest(){
 
         renderQuestion();
 
+
         startTimer();
 
 
         if(
+
             document
                 .documentElement
                 .requestFullscreen
+
         ){
 
             document
@@ -2198,26 +2192,14 @@ async function startTest(){
 
 
 /* =========================================================
-   КНОПКИ
+   НАЗАД
 ========================================================= */
-
-$("studentCode")
-.addEventListener(
-    "blur",
-    checkAttempts
-);
-
-
-$("startBtn")
-.addEventListener(
-    "click",
-    startTest
-);
-
 
 $("prevBtn")
 .addEventListener(
+
     "click",
+
     () => {
 
         if(
@@ -2230,18 +2212,28 @@ $("prevBtn")
 
             renderQuestion();
         }
+
     }
+
 );
 
 
+/* =========================================================
+   ДАЛІ / ЗАВЕРШЕННЯ
+========================================================= */
+
 $("nextBtn")
 .addEventListener(
+
     "click",
+
     () => {
 
         if(
+
             state.current <
             Q.length - 1
+
         ){
 
             state.current++;
@@ -2253,9 +2245,11 @@ $("nextBtn")
         }else{
 
             if(
+
                 confirm(
                     "Завершити тестування?"
                 )
+
             ){
 
                 finishTest(
@@ -2263,7 +2257,155 @@ $("nextBtn")
                 );
             }
         }
+
     }
+
+);
+
+
+/* =========================================================
+   ПОВЕРНУТИСЯ НА ПОЧАТОК
+========================================================= */
+
+$("returnStartBtn")
+.addEventListener(
+
+    "click",
+
+    () => {
+
+        /*
+           Зупиняємо таймер.
+        */
+
+        clearInterval(
+            timerHandle
+        );
+
+
+        /*
+           Видаляємо локальний стан
+           завершеної спроби.
+        */
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+
+        /*
+           Повністю очищаємо стан.
+        */
+
+        state={
+
+            active:false,
+
+            finished:false,
+
+            attemptId:null,
+
+            attemptNumber:null,
+
+            studentCode:"",
+
+            studentName:"",
+
+            studentGroup:"",
+
+            current:0,
+
+            answers:[],
+
+            startTime:null,
+
+            endTime:null,
+
+            finishReason:"",
+
+            score:null,
+
+            grade:null
+
+        };
+
+
+        /*
+           Показуємо початкову форму.
+        */
+
+        $("resultCard")
+            .classList
+            .add("hidden");
+
+
+        $("testCard")
+            .classList
+            .add("hidden");
+
+
+        $("startCard")
+            .classList
+            .remove("hidden");
+
+
+        /*
+           Очищаємо поля.
+        */
+
+        $("studentCode").value="";
+
+        $("studentName").value="";
+
+        $("studentGroup").value="";
+
+
+        $("attemptInfo").textContent="";
+
+
+        $("startError")
+            .classList
+            .add("hidden");
+
+
+        $("startBtn").disabled=false;
+
+
+        /*
+           Оновлюємо кількість доступних спроб.
+        */
+
+        checkAttempts();
+
+
+        /*
+           Повертаємо сторінку догори.
+        */
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    }
+
+);
+
+
+/* =========================================================
+   ПЕРЕВІРКА КОДУ
+========================================================= */
+
+$("studentCode")
+.addEventListener(
+
+    "blur",
+
+    checkAttempts
+
 );
 
 
@@ -2271,20 +2413,15 @@ $("nextBtn")
    ЗАКРИТТЯ ВКЛАДКИ / ВІКНА
 ========================================================= */
 
-/*
-   pagehide спрацьовує при:
-   - закритті вкладки;
-   - закритті браузера;
-   - перезавантаженні;
-   - переході на іншу сторінку.
-
-   keepalive дозволяє спробувати відправити
-   RPC навіть під час вивантаження сторінки.
-*/
-
 window.addEventListener(
+
     "pagehide",
+
     function(event){
+
+        /*
+           Не обробляємо bfcache.
+        */
 
         if(event.persisted){
 
@@ -2293,7 +2430,9 @@ window.addEventListener(
 
 
         interruptAttemptOnClose();
+
     }
+
 );
 
 
@@ -2307,14 +2446,17 @@ async function init(){
 
 
     /*
-       Якщо в localStorage залишилася активна
-       спроба після аварійного закриття браузера,
-       намагаємося позначити її interrupted.
+       Якщо залишилася активна спроба
+       після закриття/перезавантаження,
+       позначаємо її interrupted.
     */
 
     if(
+
         state.active &&
+
         state.attemptId
+
     ){
 
         try{
@@ -2341,7 +2483,9 @@ async function init(){
 
                     p_device_id:
                         deviceId()
+
                 }
+
             );
 
         }catch(e){
@@ -2352,10 +2496,6 @@ async function init(){
             );
         }
 
-
-        /*
-           Стара спроба більше не відновлюється.
-        */
 
         localStorage.removeItem(
             STORAGE_KEY
@@ -2391,13 +2531,14 @@ async function init(){
             score:null,
 
             grade:null
+
         };
     }
 
 
     /*
-       Якщо тест уже був нормально завершений
-       у цій вкладці/сесії — показуємо результат.
+       Якщо тест був нормально завершений,
+       показуємо результат.
     */
 
     if(state.finished){
@@ -2417,7 +2558,9 @@ async function init(){
                 percent:
                     Number(
                         state.score || 0
-                    ) / Q.length,
+                    )
+                    /
+                    Q.length,
 
                 grade:
                     Number(
@@ -2425,9 +2568,12 @@ async function init(){
                         gradeFromPercent(
                             Number(
                                 state.score || 0
-                            ) / Q.length
+                            )
+                            /
+                            Q.length
                         )
                     )
+
             },
 
             false
