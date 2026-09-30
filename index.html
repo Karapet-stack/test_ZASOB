@@ -272,6 +272,15 @@ button:disabled {
     background: #f8fafc;
 }
 
+.attempt-limit {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
 @media (max-width: 650px) {
     .container {
         padding: 10px;
@@ -305,7 +314,6 @@ button:disabled {
     <p>Підсумковий тест</p>
 </header>
 
-
 <!-- =====================================================
      ПОЧАТОК ТЕСТУ
 ===================================================== -->
@@ -315,7 +323,6 @@ button:disabled {
     <h2>Початок тестування</h2>
 
     <label class="main-label">
-
         Прізвище та ім'я:
 
         <input
@@ -325,7 +332,6 @@ button:disabled {
             maxlength="100"
             autocomplete="name"
         >
-
     </label>
 
     <div class="info">
@@ -350,6 +356,10 @@ button:disabled {
             Спроб: <b>3</b>
         </div>
 
+    </div>
+
+    <div id="attemptInfo" class="attempt-limit">
+        Введіть прізвище та ім'я, щоб перевірити доступні спроби.
     </div>
 
     <p>
@@ -427,12 +437,10 @@ button:disabled {
     </div>
 
     <div class="progress">
-
         <div
             id="progressBar"
             class="progress-bar"
         ></div>
-
     </div>
 
     <div
@@ -516,6 +524,9 @@ const TEST_SUBJECT =
 
 const TEST_TIME =
     30 * 60;
+
+const MAX_ATTEMPTS =
+    3;
 
 
 /* =====================================================
@@ -1268,12 +1279,11 @@ let answers = {};
 let studentName = "";
 
 let attemptNumber = 0;
-let attemptId = null;
 
 let timeLeft = TEST_TIME;
 let timer = null;
 
-let serverStartTime = null;
+let testStartTime = null;
 
 let testActive = false;
 let finishing = false;
@@ -1299,6 +1309,153 @@ const startError =
 const startButton =
     document.getElementById("startButton");
 
+const studentNameInput =
+    document.getElementById("studentName");
+
+const attemptInfo =
+    document.getElementById("attemptInfo");
+
+
+/* =====================================================
+   КЛЮЧ ДЛЯ LOCALSTORAGE
+===================================================== */
+
+function normalizeStudentName(name) {
+
+    return name
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+
+}
+
+
+function getAttemptKey(name) {
+
+    return (
+        "computer_info_systems_attempts_" +
+        normalizeStudentName(name)
+    );
+
+}
+
+
+/* =====================================================
+   ОТРИМАННЯ КІЛЬКОСТІ ВИКОРИСТАНИХ СПРОБ
+===================================================== */
+
+function getUsedAttempts(name) {
+
+    const key =
+        getAttemptKey(name);
+
+    const value =
+        localStorage.getItem(key);
+
+    if (value === null) {
+        return 0;
+    }
+
+    const number =
+        parseInt(value, 10);
+
+    if (Number.isNaN(number)) {
+        return 0;
+    }
+
+    return Math.max(
+        0,
+        Math.min(
+            MAX_ATTEMPTS,
+            number
+        )
+    );
+
+}
+
+
+/* =====================================================
+   ВИКОРИСТАТИ СПРОБУ
+===================================================== */
+
+function useAttempt(name) {
+
+    const used =
+        getUsedAttempts(name);
+
+    if (used >= MAX_ATTEMPTS) {
+        return 0;
+    }
+
+    const newValue =
+        used + 1;
+
+    localStorage.setItem(
+        getAttemptKey(name),
+        String(newValue)
+    );
+
+    return newValue;
+
+}
+
+
+/* =====================================================
+   ОНОВЛЕННЯ ІНФОРМАЦІЇ ПРО СПРОБИ
+===================================================== */
+
+function updateAttemptInfo() {
+
+    const name =
+        studentNameInput.value.trim();
+
+    if (name.length < 2) {
+
+        attemptInfo.textContent =
+            "Введіть прізвище та ім’я, щоб перевірити доступні спроби.";
+
+        startButton.disabled = false;
+
+        return;
+    }
+
+    const used =
+        getUsedAttempts(name);
+
+    const remaining =
+        MAX_ATTEMPTS - used;
+
+    if (remaining <= 0) {
+
+        attemptInfo.textContent =
+            "Ви використали всі 3 спроби.";
+
+        attemptInfo.style.background =
+            "#fef2f2";
+
+        attemptInfo.style.color =
+            "#b91c1c";
+
+        startButton.disabled = true;
+
+    }
+    else {
+
+        attemptInfo.textContent =
+            `Використано спроб: ${used} із ${MAX_ATTEMPTS}. Залишилося: ${remaining}.`;
+
+        attemptInfo.style.background =
+            "#eff6ff";
+
+        attemptInfo.style.color =
+            "#1d4ed8";
+
+        startButton.disabled = false;
+
+    }
+
+}
+
 
 /* =====================================================
    ПОЧАТОК ТЕСТУ
@@ -1311,8 +1468,7 @@ async function startTest() {
     }
 
     studentName =
-        document
-        .getElementById("studentName")
+        studentNameInput
         .value
         .trim();
 
@@ -1326,245 +1482,101 @@ async function startTest() {
 
     startError.textContent = "";
 
-    startButton.disabled = true;
+    /*
+     * Перевіряємо кількість доступних спроб.
+     */
 
-    startButton.textContent =
-        "Перевірка доступності спроби...";
+    const used =
+        getUsedAttempts(studentName);
 
-
-    try {
-
-        const response =
-            await fetch(
-                SUPABASE_URL +
-                "/rest/v1/rpc/start_test_attempt",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey": SUPABASE_ANON_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_ANON_KEY,
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        p_student_name:
-                            studentName,
-
-                        p_subject:
-                            TEST_SUBJECT
-                    })
-                }
-            );
-
-
-        const rawText =
-            await response.text();
-
-        let data = null;
-
-        try {
-            data = rawText
-                ? JSON.parse(rawText)
-                : null;
-        }
-        catch {
-            data = null;
-        }
-
-
-        console.log(
-            "Supabase start response:",
-            data
-        );
-
-
-        if (!response.ok) {
-
-            console.error(
-                "Supabase start error:",
-                rawText
-            );
-
-            throw new Error(
-                "Помилка Supabase: " +
-                rawText
-            );
-        }
-
-
-        /*
-         * Нова функція повертає:
-         *
-         * {
-         *   allowed: true,
-         *   attempt_id: 123,
-         *   attempt_number: 1,
-         *   started_at: "...",
-         *   attempts_used: 1,
-         *   max_attempts: 3
-         * }
-         */
-
-
-        if (!data || data.allowed !== true) {
-
-            throw new Error(
-                data?.message ||
-                "Ви вже використали всі доступні спроби."
-            );
-        }
-
-
-        if (
-            !data.attempt_id ||
-            !data.attempt_number
-        ) {
-
-            throw new Error(
-                "Supabase повернув некоректні дані спроби."
-            );
-        }
-
-
-        attemptId =
-            Number(data.attempt_id);
-
-        attemptNumber =
-            Number(data.attempt_number);
-
-
-        serverStartTime =
-            data.started_at
-                ? new Date(data.started_at)
-                : new Date();
-
-
-        /*
-         * Встановлюємо час не просто на 30 хв,
-         * а від часу, який повернув сервер.
-         */
-        calculateRemainingTime();
-
-
-        currentQuestion = 0;
-
-        answers = {};
-
-        testActive = true;
-
-        finishing = false;
-
-        fullscreenExitHandled = false;
-
-
-        document
-        .getElementById("studentLabel")
-        .textContent =
-            studentName;
-
-
-        document
-        .getElementById("attemptLabel")
-        .textContent =
-            attemptNumber + " / 3";
-
-
-        startScreen
-        .classList
-        .add("hidden");
-
-
-        testScreen
-        .classList
-        .remove("hidden");
-
-
-        showQuestion();
-
-        updateTimerDisplay();
-
-
-        timer =
-            setInterval(
-                updateTimer,
-                1000
-            );
-
-
-        /*
-         * Fullscreen викликається саме після натискання
-         * кнопки користувачем.
-         */
-        await enterFullscreen();
-
-
-    }
-    catch(error) {
-
-        console.error(
-            "START ERROR:",
-            error
-        );
-
+    if (used >= MAX_ATTEMPTS) {
 
         startError.textContent =
-            error.message ||
-            "Не вдалося розпочати тест.";
+            "Ви вже використали всі 3 спроби.";
 
-
-        startButton.disabled = false;
-
-        startButton.textContent =
-            "Розпочати тест";
-    }
-
-}
-
-
-/* =====================================================
-   РОЗРАХУНОК ЧАСУ ВІД СЕРВЕРА
-===================================================== */
-
-function calculateRemainingTime() {
-
-    if (!serverStartTime) {
-
-        timeLeft = TEST_TIME;
+        updateAttemptInfo();
 
         return;
     }
 
+    /*
+     * Спроба списується одразу.
+     *
+     * Тобто натиснув «Розпочати тест» —
+     * одна спроба вже використана.
+     */
 
-    const elapsed =
-        Math.floor(
-            (
-                Date.now() -
-                serverStartTime.getTime()
-            ) / 1000
-        );
+    attemptNumber =
+        useAttempt(studentName);
 
+    if (attemptNumber === 0) {
 
-    timeLeft =
-        Math.max(
-            0,
-            TEST_TIME - elapsed
-        );
+        startError.textContent =
+            "Ви вже використали всі 3 спроби.";
 
+        updateAttemptInfo();
+
+        return;
+    }
 
     /*
-     * Якщо час уже вийшов,
-     * тест одразу завершуємо.
+     * Фіксуємо час початку.
      */
-    if (timeLeft <= 0) {
 
-        timeLeft = 0;
-    }
+    testStartTime =
+        new Date();
+
+    timeLeft =
+        TEST_TIME;
+
+    currentQuestion = 0;
+
+    answers = {};
+
+    testActive = true;
+
+    finishing = false;
+
+    fullscreenExitHandled = false;
+
+    /*
+     * Оновлюємо інформацію.
+     */
+
+    document
+        .getElementById("studentLabel")
+        .textContent =
+        studentName;
+
+    document
+        .getElementById("attemptLabel")
+        .textContent =
+        attemptNumber + " / 3";
+
+    startScreen
+        .classList
+        .add("hidden");
+
+    testScreen
+        .classList
+        .remove("hidden");
+
+    showQuestion();
+
+    updateTimerDisplay();
+
+    timer =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+    /*
+     * Повноекранний режим.
+     */
+
+    await enterFullscreen();
+
 }
 
 
@@ -1637,21 +1649,34 @@ function updateTimer() {
         return;
     }
 
+    if (!testStartTime) {
+        return;
+    }
 
-    calculateRemainingTime();
+    const elapsed =
+        Math.floor(
+            (
+                Date.now() -
+                testStartTime.getTime()
+            ) / 1000
+        );
+
+    timeLeft =
+        Math.max(
+            0,
+            TEST_TIME - elapsed
+        );
 
     updateTimerDisplay();
-
 
     if (timeLeft <= 60) {
 
         document
-        .getElementById("timer")
-        .classList
-        .add("timer-warning");
+            .getElementById("timer")
+            .classList
+            .add("timer-warning");
 
     }
-
 
     if (timeLeft <= 0) {
 
@@ -1672,20 +1697,17 @@ function updateTimerDisplay() {
             timeLeft
         );
 
-
     const minutes =
         Math.floor(
             safeTime / 60
         );
 
-
     const seconds =
         safeTime % 60;
 
-
     document
-    .getElementById("timer")
-    .textContent =
+        .getElementById("timer")
+        .textContent =
         String(minutes).padStart(2, "0") +
         ":" +
         String(seconds).padStart(2, "0");
@@ -1702,27 +1724,23 @@ function showQuestion() {
     const q =
         questions[currentQuestion];
 
-
     document
-    .getElementById("questionNumber")
-    .textContent =
+        .getElementById("questionNumber")
+        .textContent =
         currentQuestion + 1;
 
-
     document
-    .getElementById("progressBar")
-    .style.width =
+        .getElementById("progressBar")
+        .style.width =
         (
-            (currentQuestion + 1)
-            /
-            questions.length
-            *
+            (
+                currentQuestion + 1
+            ) /
+            questions.length *
             100
         ) + "%";
 
-
     let html = "";
-
 
     html += `
         <div class="question-number">
@@ -1731,13 +1749,11 @@ function showQuestion() {
         </div>
     `;
 
-
     html += `
         <h2 class="question-title">
             ${escapeHtml(q.q)}
         </h2>
     `;
-
 
     if (q.type === "multi") {
 
@@ -1758,11 +1774,9 @@ function showQuestion() {
 
     }
 
-
     html += `
         <div class="options">
     `;
-
 
     q.a.forEach(
         (answer, index) => {
@@ -1772,9 +1786,7 @@ function showQuestion() {
                     65 + index
                 );
 
-
             let checked = "";
-
 
             if (
                 answers[currentQuestion] &&
@@ -1785,7 +1797,6 @@ function showQuestion() {
                 checked = "checked";
 
             }
-
 
             html += `
 
@@ -1819,23 +1830,19 @@ function showQuestion() {
         }
     );
 
-
     html += `
         </div>
     `;
 
-
     document
-    .getElementById("questionContainer")
-    .innerHTML =
+        .getElementById("questionContainer")
+        .innerHTML =
         html;
 
-
     document
-    .getElementById("prevButton")
-    .disabled =
+        .getElementById("prevButton")
+        .disabled =
         currentQuestion === 0;
-
 
     if (
         currentQuestion ===
@@ -1843,29 +1850,27 @@ function showQuestion() {
     ) {
 
         document
-        .getElementById("nextButton")
-        .classList
-        .add("hidden");
-
+            .getElementById("nextButton")
+            .classList
+            .add("hidden");
 
         document
-        .getElementById("finishButton")
-        .classList
-        .remove("hidden");
+            .getElementById("finishButton")
+            .classList
+            .remove("hidden");
 
     }
     else {
 
         document
-        .getElementById("nextButton")
-        .classList
-        .remove("hidden");
-
+            .getElementById("nextButton")
+            .classList
+            .remove("hidden");
 
         document
-        .getElementById("finishButton")
-        .classList
-        .add("hidden");
+            .getElementById("finishButton")
+            .classList
+            .add("hidden");
 
     }
 
@@ -1883,14 +1888,13 @@ function saveAnswer() {
             'input[name="question"]:checked'
         );
 
-
     answers[currentQuestion] =
         Array
-        .from(selected)
-        .map(
-            input =>
-                input.value
-        );
+            .from(selected)
+            .map(
+                input =>
+                    input.value
+            );
 
 }
 
@@ -1902,7 +1906,6 @@ function saveAnswer() {
 function nextQuestion() {
 
     saveAnswer();
-
 
     if (
         currentQuestion <
@@ -1930,7 +1933,6 @@ function nextQuestion() {
 function previousQuestion() {
 
     saveAnswer();
-
 
     if (currentQuestion > 0) {
 
@@ -1971,10 +1973,9 @@ function checkAnswer(
 
     }
 
-
     /*
-     * Для multi-select кількість вибраних
-     * варіантів повинна збігатися.
+     * Для multi-select кількість
+     * повинна збігатися.
      */
 
     if (
@@ -1986,14 +1987,11 @@ function checkAnswer(
 
     }
 
-
     const u =
         [...user].sort();
 
-
     const c =
         [...correct].sort();
-
 
     return u.every(
         (value, index) =>
@@ -2013,7 +2011,6 @@ function calculateGrade(score) {
         score /
         questions.length *
         100;
-
 
     if (percent < 35)
         return 1;
@@ -2061,14 +2058,8 @@ function calculateScore() {
 
     let score = 0;
 
-
     questions.forEach(
         (q, index) => {
-
-            /*
-             * Якщо answers[index] відсутня,
-             * checkAnswer поверне false.
-             */
 
             if (
                 checkAnswer(
@@ -2083,7 +2074,6 @@ function calculateScore() {
 
         }
     );
-
 
     return score;
 
@@ -2107,9 +2097,7 @@ async function finishTest(
 
     }
 
-
     saveAnswer();
-
 
     if (!auto) {
 
@@ -2118,31 +2106,22 @@ async function finishTest(
                 "Ви впевнені, що хочете завершити тест?"
             );
 
-
         if (!confirmFinish) {
-
             return;
-
         }
 
     }
 
-
     finishing = true;
-
     testActive = false;
 
-
     clearInterval(timer);
-
 
     const score =
         calculateScore();
 
-
     const grade =
         calculateGrade(score);
-
 
     const percent =
         Math.round(
@@ -2151,14 +2130,8 @@ async function finishTest(
             100
         );
 
-
-    const finishTime =
-        new Date();
-
-
     /*
-     * Спочатку зберігаємо результат,
-     * поки attemptId гарантовано є.
+     * Зберігаємо результат у Supabase.
      */
 
     await saveResult(
@@ -2166,6 +2139,9 @@ async function finishTest(
         grade
     );
 
+    /*
+     * Виходимо з fullscreen.
+     */
 
     try {
 
@@ -2182,20 +2158,17 @@ async function finishTest(
 
     }
 
-
     testScreen
-    .classList
-    .add("hidden");
-
+        .classList
+        .add("hidden");
 
     resultScreen
-    .classList
-    .remove("hidden");
-
+        .classList
+        .remove("hidden");
 
     document
-    .getElementById("resultContent")
-    .innerHTML = `
+        .getElementById("resultContent")
+        .innerHTML = `
 
         <div class="result-grade">
             ${grade} / 12
@@ -2264,25 +2237,10 @@ async function interruptTest(
 
     }
 
-
     finishing = true;
-
     testActive = false;
 
-
     clearInterval(timer);
-
-
-    /*
-     * Спроба вже була списана сервером
-     * при старті тесту.
-     *
-     * Тут ми лише змінюємо статус
-     * на "перервано".
-     */
-
-    await markAttemptInterrupted();
-
 
     try {
 
@@ -2299,20 +2257,17 @@ async function interruptTest(
 
     }
 
-
     testScreen
-    .classList
-    .add("hidden");
-
+        .classList
+        .add("hidden");
 
     resultScreen
-    .classList
-    .remove("hidden");
-
+        .classList
+        .remove("hidden");
 
     document
-    .getElementById("resultContent")
-    .innerHTML = `
+        .getElementById("resultContent")
+        .innerHTML = `
 
         <div class="result-grade">
             —
@@ -2345,13 +2300,12 @@ async function interruptTest(
         </div>
     `;
 
-
     document
-    .getElementById("saveStatus")
-    .innerHTML = `
+        .getElementById("saveStatus")
+        .innerHTML = `
 
-        <span class="success">
-            ✓ Спробу позначено як перервану.
+        <span class="error">
+            Спробу завершено.
         </span>
 
     `;
@@ -2360,70 +2314,7 @@ async function interruptTest(
 
 
 /* =====================================================
-   ПОЗНАЧЕННЯ СПРОБИ ЯК ПЕРЕРВАНОЇ
-===================================================== */
-
-async function markAttemptInterrupted() {
-
-    if (!attemptId) {
-        return;
-    }
-
-
-    try {
-
-        const response =
-            await fetch(
-                SUPABASE_URL +
-                "/rest/v1/rpc/interrupt_test_attempt",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey":
-                            SUPABASE_ANON_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_ANON_KEY,
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            p_attempt_id:
-                                attemptId
-                        })
-                }
-            );
-
-
-        if (!response.ok) {
-
-            console.error(
-                "Помилка переривання:",
-                await response.text()
-            );
-
-        }
-
-    }
-    catch(error) {
-
-        console.error(
-            "Помилка RPC interrupt:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ
+   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ В SUPABASE
 ===================================================== */
 
 async function saveResult(
@@ -2433,37 +2324,22 @@ async function saveResult(
 
     const status =
         document
-        .getElementById("saveStatus");
-
+            .getElementById("saveStatus");
 
     status.innerHTML =
         "Збереження результату...";
-
-
-    if (!attemptId) {
-
-        status.innerHTML = `
-
-            <span class="error">
-                ✗ Не знайдено номер спроби.
-            </span>
-
-        `;
-
-        return false;
-    }
-
 
     try {
 
         const response =
             await fetch(
                 SUPABASE_URL +
-                "/rest/v1/rpc/save_test_result",
+                "/rest/v1/test_results",
                 {
                     method: "POST",
 
                     headers: {
+
                         "apikey":
                             SUPABASE_ANON_KEY,
 
@@ -2472,84 +2348,47 @@ async function saveResult(
                             SUPABASE_ANON_KEY,
 
                         "Content-Type":
-                            "application/json"
+                            "application/json",
+
+                        "Prefer":
+                            "return=minimal"
+
                     },
 
                     body:
                         JSON.stringify({
 
-                            p_attempt_id:
-                                attemptId,
+                            student_name:
+                                studentName,
 
-                            p_score:
+                            subject:
+                                TEST_SUBJECT,
+
+                            score:
                                 score,
 
-                            p_max_score:
+                            max_score:
                                 questions.length,
 
-                            p_grade:
+                            grade:
                                 grade
 
                         })
+
                 }
             );
 
-
-        const rawText =
-            await response.text();
-
-
-        let data = null;
-
-
-        try {
-
-            data =
-                rawText
-                ? JSON.parse(rawText)
-                : null;
-
-        }
-        catch {
-
-            data = null;
-
-        }
-
-
-        console.log(
-            "Supabase result response:",
-            data
-        );
-
-
         if (!response.ok) {
 
-            console.error(
-                "Supabase result error:",
-                rawText
-            );
+            const errorText =
+                await response.text();
 
             throw new Error(
-                rawText ||
+                errorText ||
                 "Помилка збереження результату."
             );
 
         }
-
-
-        if (
-            data &&
-            data.ok === false
-        ) {
-
-            throw new Error(
-                data.message ||
-                "Результат не було збережено."
-            );
-
-        }
-
 
         status.innerHTML = `
 
@@ -2562,7 +2401,6 @@ async function saveResult(
 
         `;
 
-
         return true;
 
     }
@@ -2572,7 +2410,6 @@ async function saveResult(
             "SAVE RESULT ERROR:",
             error
         );
-
 
         status.innerHTML = `
 
@@ -2591,7 +2428,6 @@ async function saveResult(
             </span>
 
         `;
-
 
         return false;
 
@@ -2637,77 +2473,6 @@ function escapeHtml(text) {
 
 
 /* =====================================================
-   ЗАКРИТТЯ / ПЕРЕЗАВАНТАЖЕННЯ
-===================================================== */
-
-/*
- * ВАЖЛИВО:
- *
- * Спроба вже списана в момент start_test_attempt.
- *
- * Тому навіть якщо браузер закриють і RPC interrupt
- * не встигне виконатися, наступна спроба все одно
- * буде №2.
- *
- * pagehide лише намагається змінити статус
- * "розпочато" -> "перервано".
- */
-
-window.addEventListener(
-    "pagehide",
-    function() {
-
-        if (
-            testActive &&
-            !finishing &&
-            attemptId
-        ) {
-
-            try {
-
-                fetch(
-                    SUPABASE_URL +
-                    "/rest/v1/rpc/interrupt_test_attempt",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "apikey":
-                                SUPABASE_ANON_KEY,
-
-                            "Authorization":
-                                "Bearer " +
-                                SUPABASE_ANON_KEY,
-
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body:
-                            JSON.stringify({
-                                p_attempt_id:
-                                    attemptId
-                            }),
-
-                        keepalive: true
-
-                    }
-                );
-
-            }
-            catch(error) {
-
-                console.warn(error);
-
-            }
-
-        }
-
-    }
-);
-
-
-/* =====================================================
    ПОПЕРЕДЖЕННЯ ПЕРЕД ЗАКРИТТЯМ
 ===================================================== */
 
@@ -2731,12 +2496,26 @@ window.addEventListener(
 
 
 /* =====================================================
+   ОНОВЛЕННЯ КІЛЬКОСТІ СПРОБ ПРИ ВВЕДЕННІ ПІБ
+===================================================== */
+
+studentNameInput.addEventListener(
+    "input",
+    function() {
+
+        startError.textContent = "";
+
+        updateAttemptInfo();
+
+    }
+);
+
+
+/* =====================================================
    ENTER У ПОЛІ ПІБ
 ===================================================== */
 
-document
-.getElementById("studentName")
-.addEventListener(
+studentNameInput.addEventListener(
     "keydown",
     function(event) {
 
@@ -2750,6 +2529,13 @@ document
 
     }
 );
+
+
+/* =====================================================
+   ПОЧАТКОВИЙ СТАН
+===================================================== */
+
+updateAttemptInfo();
 
 </script>
 
