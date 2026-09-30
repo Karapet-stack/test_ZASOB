@@ -79,6 +79,15 @@ input[type="text"] {
     border-radius: 8px;
 }
 
+.attempt-info {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
 button {
     border: none;
     border-radius: 8px;
@@ -123,7 +132,6 @@ button:disabled {
     background: white;
     border-radius: 10px;
     padding: 15px;
-    margin-bottom: 12px;
 
     display: flex;
     justify-content: space-between;
@@ -145,7 +153,7 @@ button:disabled {
     background: #dbe2e8;
     border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin: 12px 0 20px;
 }
 
 .progress-bar {
@@ -248,6 +256,23 @@ button:disabled {
     background: #f8fafc;
 }
 
+.warning-box {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #fff7ed;
+    color: #9a3412;
+}
+
+.fullscreen-info {
+    margin-top: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 14px;
+}
+
 @media (max-width: 650px) {
 
     .container {
@@ -281,10 +306,6 @@ button:disabled {
 <div class="container">
 
 
-<!-- =====================================================
-     ЗАГОЛОВОК
-===================================================== -->
-
 <header>
 
     <h1>
@@ -315,6 +336,7 @@ button:disabled {
             id="studentName"
             placeholder="Наприклад: Петренко Іван"
             maxlength="100"
+            autocomplete="name"
         >
 
     </label>
@@ -338,6 +360,10 @@ button:disabled {
             Максимальна оцінка: <b>12</b>
         </div>
 
+        <div class="info-item">
+            Спроб: <b>3</b>
+        </div>
+
     </div>
 
 
@@ -352,8 +378,36 @@ button:disabled {
         вибрати повний набір правильних відповідей.
     </p>
 
+    <p class="hint">
+        Якщо відповідь на питання не вибрана,
+        таке питання зараховується як неправильне.
+    </p>
+
+
+    <div class="warning-box">
+
+        <b>Увага!</b><br>
+        Після натискання «Розпочати тест» одна спроба
+        буде використана. Закриття сторінки або браузера
+        не повертає використану спробу.
+
+    </div>
+
+
+    <div class="fullscreen-info">
+
+        Під час тестування використовується повноекранний режим.
+        Вихід із повноекранного режиму під час тесту
+        призведе до його завершення.
+
+    </div>
+
+
+    <br>
+
 
     <button
+        id="startButton"
         class="primary"
         onclick="startTest()"
     >
@@ -378,12 +432,16 @@ button:disabled {
     class="hidden"
 >
 
-
     <div class="topbar">
 
         <div>
             Студент:
             <b id="studentLabel"></b>
+        </div>
+
+        <div>
+            Спроба:
+            <b id="attemptLabel"></b>
         </div>
 
         <div>
@@ -445,7 +503,6 @@ button:disabled {
 
     </div>
 
-
 </section>
 
 
@@ -471,14 +528,6 @@ button:disabled {
         class="save-status"
     ></div>
 
-
-    <button
-        class="secondary"
-        onclick="location.reload()"
-    >
-        Пройти ще раз
-    </button>
-
 </section>
 
 
@@ -487,7 +536,6 @@ button:disabled {
 
 <script>
 
-
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -495,13 +543,12 @@ button:disabled {
 const SUPABASE_URL =
     "https://egovkavyxtcztisropsf.supabase.co";
 
-
 const SUPABASE_ANON_KEY =
     "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
 
 
 /* =====================================================
-   НАЛАШТУВАННЯ ТЕСТУ
+   НАЛАШТУВАННЯ
 ===================================================== */
 
 const TEST_SUBJECT =
@@ -1250,16 +1297,51 @@ let answers = {};
 
 let studentName = "";
 
+let attemptNumber = 0;
+
 let timeLeft = TEST_TIME;
 
 let timer = null;
 
+let startTime = null;
+
+let testActive = false;
+
+let finishing = false;
+
+let fullscreenExitHandled = false;
+
 
 /* =====================================================
-   ПОЧАТОК
+   DOM
 ===================================================== */
 
-function startTest() {
+const startScreen =
+    document.getElementById("startScreen");
+
+const testScreen =
+    document.getElementById("testScreen");
+
+const resultScreen =
+    document.getElementById("resultScreen");
+
+const startError =
+    document.getElementById("startError");
+
+const startButton =
+    document.getElementById("startButton");
+
+
+/* =====================================================
+   ПОЧАТОК ТЕСТУ
+===================================================== */
+
+async function startTest() {
+
+    if (testActive) {
+        return;
+    }
+
 
     studentName =
         document
@@ -1268,41 +1350,232 @@ function startTest() {
         .trim();
 
 
-    if (!studentName) {
+    if (studentName.length < 2) {
 
-        document
-        .getElementById("startError")
-        .textContent =
-        "Введіть прізвище та ім’я.";
+        startError.textContent =
+            "Введіть прізвище та ім’я.";
 
         return;
     }
 
 
-    document
-    .getElementById("startScreen")
-    .classList
-    .add("hidden");
+    startError.textContent = "";
+
+    startButton.disabled = true;
+
+    startButton.textContent =
+        "Перевірка доступності спроби...";
 
 
-    document
-    .getElementById("testScreen")
-    .classList
-    .remove("hidden");
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/rpc/start_test_attempt",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "apikey":
+                            SUPABASE_ANON_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_ANON_KEY,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            p_student_name:
+                                studentName,
+
+                            p_subject:
+                                TEST_SUBJECT
+                        })
+                }
+            );
 
 
-    document
-    .getElementById("studentLabel")
-    .textContent =
-    studentName;
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            console.error(
+                "Supabase start error:",
+                errorText
+            );
 
 
-    showQuestion();
+            if (
+                errorText.includes(
+                    "Використано всі спроби"
+                )
+            ) {
+
+                throw new Error(
+                    "Ви вже використали всі 3 спроби."
+                );
+
+            }
+
+            throw new Error(
+                "Не вдалося отримати спробу."
+            );
+        }
 
 
-    timer =
-    setInterval(updateTimer, 1000);
+        attemptNumber =
+            await response.json();
+
+
+        if (
+            !Number.isInteger(attemptNumber) ||
+            attemptNumber < 1 ||
+            attemptNumber > 3
+        ) {
+
+            throw new Error(
+                "Сервер повернув некоректний номер спроби."
+            );
+        }
+
+
+        startTime =
+            new Date();
+
+
+        currentQuestion = 0;
+
+        answers = {};
+
+        timeLeft = TEST_TIME;
+
+        testActive = true;
+
+        finishing = false;
+
+        fullscreenExitHandled = false;
+
+
+        document
+        .getElementById("studentLabel")
+        .textContent =
+            studentName;
+
+
+        document
+        .getElementById("attemptLabel")
+        .textContent =
+            attemptNumber + " / 3";
+
+
+        startScreen
+        .classList
+        .add("hidden");
+
+
+        testScreen
+        .classList
+        .remove("hidden");
+
+
+        showQuestion();
+
+        updateTimerDisplay();
+
+
+        timer =
+            setInterval(
+                updateTimer,
+                1000
+            );
+
+
+        await enterFullscreen();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+
+        startError.textContent =
+            error.message ||
+            "Не вдалося розпочати тест.";
+
+
+        startButton.disabled = false;
+
+        startButton.textContent =
+            "Розпочати тест";
+    }
+
 }
+
+
+/* =====================================================
+   FULLSCREEN
+===================================================== */
+
+async function enterFullscreen() {
+
+    try {
+
+        if (
+            !document.fullscreenElement &&
+            document.documentElement.requestFullscreen
+        ) {
+
+            await document
+                .documentElement
+                .requestFullscreen();
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.warn(
+            "Fullscreen недоступний:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   ВИХІД ІЗ FULLSCREEN
+===================================================== */
+
+document.addEventListener(
+    "fullscreenchange",
+    function() {
+
+        if (
+            testActive &&
+            !document.fullscreenElement &&
+            !finishing &&
+            !fullscreenExitHandled
+        ) {
+
+            fullscreenExitHandled = true;
+
+            interruptTest(
+                "Ви вийшли з повноекранного режиму. Тест завершено."
+            );
+        }
+
+    }
+);
 
 
 /* =====================================================
@@ -1311,25 +1584,14 @@ function startTest() {
 
 function updateTimer() {
 
+    if (!testActive) {
+        return;
+    }
+
+
     timeLeft--;
 
-
-    const minutes =
-        Math.floor(timeLeft / 60);
-
-
-    const seconds =
-        timeLeft % 60;
-
-
-    document
-    .getElementById("timer")
-    .textContent =
-        String(minutes).padStart(2,"0")
-        +
-        ":"
-        +
-        String(seconds).padStart(2,"0");
+    updateTimerDisplay();
 
 
     if (timeLeft <= 60) {
@@ -1348,6 +1610,37 @@ function updateTimer() {
 
         finishTest(true);
     }
+
+}
+
+
+function updateTimerDisplay() {
+
+    const safeTime =
+        Math.max(
+            0,
+            timeLeft
+        );
+
+
+    const minutes =
+        Math.floor(
+            safeTime / 60
+        );
+
+
+    const seconds =
+        safeTime % 60;
+
+
+    document
+    .getElementById("timer")
+    .textContent =
+        String(minutes).padStart(2, "0")
+        +
+        ":"
+        +
+        String(seconds).padStart(2, "0");
 }
 
 
@@ -1370,8 +1663,13 @@ function showQuestion() {
     document
     .getElementById("progressBar")
     .style.width =
-        ((currentQuestion + 1)
-        / questions.length * 100)
+        (
+            (currentQuestion + 1)
+            /
+            questions.length
+            *
+            100
+        )
         + "%";
 
 
@@ -1388,7 +1686,7 @@ function showQuestion() {
 
     html += `
         <h2 class="question-title">
-            ${q.q}
+            ${escapeHtml(q.q)}
         </h2>
     `;
 
@@ -1401,7 +1699,9 @@ function showQuestion() {
             </p>
         `;
 
-    } else {
+    }
+
+    else {
 
         html += `
             <p class="hint">
@@ -1417,10 +1717,12 @@ function showQuestion() {
 
 
     q.a.forEach(
-        (answer,index) => {
+        (answer, index) => {
 
             const letter =
-                String.fromCharCode(65 + index);
+                String.fromCharCode(
+                    65 + index
+                );
 
 
             let checked = "";
@@ -1429,10 +1731,11 @@ function showQuestion() {
             if (
                 answers[currentQuestion] &&
                 answers[currentQuestion]
-                .includes(letter)
+                    .includes(letter)
             ) {
 
                 checked = "checked";
+
             }
 
 
@@ -1464,6 +1767,7 @@ function showQuestion() {
                 </label>
 
             `;
+
         }
     );
 
@@ -1501,7 +1805,9 @@ function showQuestion() {
         .classList
         .remove("hidden");
 
-    } else {
+    }
+
+    else {
 
         document
         .getElementById("nextButton")
@@ -1513,6 +1819,7 @@ function showQuestion() {
         .getElementById("finishButton")
         .classList
         .add("hidden");
+
     }
 
 }
@@ -1535,8 +1842,9 @@ function saveAnswer() {
         .from(selected)
         .map(
             input =>
-            input.value
+                input.value
         );
+
 }
 
 
@@ -1557,7 +1865,14 @@ function nextQuestion() {
         currentQuestion++;
 
         showQuestion();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
     }
+
 }
 
 
@@ -1575,7 +1890,14 @@ function previousQuestion() {
         currentQuestion--;
 
         showQuestion();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
     }
+
 }
 
 
@@ -1583,10 +1905,23 @@ function previousQuestion() {
    ПЕРЕВІРКА ВІДПОВІДІ
 ===================================================== */
 
-function checkAnswer(user, correct) {
+function checkAnswer(
+    user,
+    correct
+) {
 
-    if (!user) {
+    /*
+       Якщо студент нічого не вибрав,
+       питання автоматично неправильне.
+    */
+
+    if (
+        !Array.isArray(user) ||
+        user.length === 0
+    ) {
+
         return false;
+
     }
 
 
@@ -1596,6 +1931,7 @@ function checkAnswer(user, correct) {
     ) {
 
         return false;
+
     }
 
 
@@ -1608,9 +1944,10 @@ function checkAnswer(user, correct) {
 
 
     return u.every(
-        (value,index) =>
-        value === c[index]
+        (value, index) =>
+            value === c[index]
     );
+
 }
 
 
@@ -1660,6 +1997,43 @@ function calculateGrade(score) {
         return 11;
 
     return 12;
+
+}
+
+
+/* =====================================================
+   ПІДРАХУНОК БАЛІВ
+===================================================== */
+
+function calculateScore() {
+
+    let score = 0;
+
+
+    questions.forEach(
+        (q, index) => {
+
+            /*
+               Відсутня відповідь → false → 0 балів.
+            */
+
+            if (
+                checkAnswer(
+                    answers[index],
+                    q.correct
+                )
+            ) {
+
+                score++;
+
+            }
+
+        }
+    );
+
+
+    return score;
+
 }
 
 
@@ -1667,7 +2041,19 @@ function calculateGrade(score) {
    ЗАВЕРШЕННЯ ТЕСТУ
 ===================================================== */
 
-async function finishTest(auto = false) {
+async function finishTest(
+    auto = false
+) {
+
+    if (
+        !testActive ||
+        finishing
+    ) {
+
+        return;
+
+    }
+
 
     saveAnswer();
 
@@ -1681,31 +2067,24 @@ async function finishTest(auto = false) {
 
 
         if (!confirmFinish) {
+
             return;
+
         }
+
     }
+
+
+    finishing = true;
+
+    testActive = false;
 
 
     clearInterval(timer);
 
 
-    let score = 0;
-
-
-    questions.forEach(
-        (q,index) => {
-
-            if (
-                checkAnswer(
-                    answers[index],
-                    q.correct
-                )
-            ) {
-
-                score++;
-            }
-        }
-    );
+    const score =
+        calculateScore();
 
 
     const grade =
@@ -1720,14 +2099,33 @@ async function finishTest(auto = false) {
         );
 
 
-    document
-    .getElementById("testScreen")
+    const finishTime =
+        new Date();
+
+
+    try {
+
+        if (document.fullscreenElement) {
+
+            await document.exitFullscreen();
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.warn(error);
+
+    }
+
+
+    testScreen
     .classList
     .add("hidden");
 
 
-    document
-    .getElementById("resultScreen")
+    resultScreen
     .classList
     .remove("hidden");
 
@@ -1745,6 +2143,13 @@ async function finishTest(auto = false) {
             <p>
                 <b>
                     ${escapeHtml(studentName)}
+                </b>
+            </p>
+
+            <p>
+                Спроба:
+                <b>
+                    ${attemptNumber} із 3
                 </b>
             </p>
 
@@ -1779,18 +2184,155 @@ async function finishTest(auto = false) {
 
     await saveResult(
         score,
-        grade
+        grade,
+        "Завершено",
+        finishTime
     );
+
 }
 
 
 /* =====================================================
-   ЗБЕРЕЖЕННЯ В SUPABASE
+   ПЕРЕРВАННЯ ТЕСТУ
+===================================================== */
+
+async function interruptTest(
+    message
+) {
+
+    if (
+        !testActive ||
+        finishing
+    ) {
+
+        return;
+
+    }
+
+
+    finishing = true;
+
+    testActive = false;
+
+
+    clearInterval(timer);
+
+
+    const score =
+        calculateScore();
+
+
+    const finishTime =
+        new Date();
+
+
+    try {
+
+        await saveResult(
+            score,
+            calculateGrade(score),
+            "Перервано",
+            finishTime
+        );
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Помилка збереження перерваного тесту:",
+            error
+        );
+
+    }
+
+
+    try {
+
+        if (document.fullscreenElement) {
+
+            await document.exitFullscreen();
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.warn(error);
+
+    }
+
+
+    testScreen
+    .classList
+    .add("hidden");
+
+
+    resultScreen
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("resultContent")
+    .innerHTML = `
+
+        <div class="result-grade">
+            —
+        </div>
+
+        <div class="result-info">
+
+            <p>
+                <b>
+                    ${escapeHtml(studentName)}
+                </b>
+            </p>
+
+            <p>
+                Спроба:
+                <b>
+                    ${attemptNumber} із 3
+                </b>
+            </p>
+
+            <p class="error">
+                ${escapeHtml(message)}
+            </p>
+
+            <p>
+                Ця спроба використана
+                і не повертається.
+            </p>
+
+        </div>
+    `;
+
+
+    document
+    .getElementById("saveStatus")
+    .innerHTML = `
+
+        <span class="success">
+            ✓ Інформацію про перервану спробу
+            збережено в базу даних.
+        </span>
+
+    `;
+
+}
+
+
+/* =====================================================
+   ЗБЕРЕЖЕННЯ РЕЗУЛЬТАТУ В SUPABASE
 ===================================================== */
 
 async function saveResult(
     score,
-    grade
+    grade,
+    statusText,
+    finishTime
 ) {
 
     const status =
@@ -1807,7 +2349,7 @@ async function saveResult(
         const response =
             await fetch(
                 SUPABASE_URL +
-                "/rest/v1/test_results",
+                "/rest/v1/rpc/save_test_result",
                 {
 
                     method: "POST",
@@ -1822,31 +2364,44 @@ async function saveResult(
                             SUPABASE_ANON_KEY,
 
                         "Content-Type":
-                            "application/json",
+                            "application/json"
 
-                        "Prefer":
-                            "return=minimal"
                     },
-
 
                     body:
                         JSON.stringify({
 
-                            student_name:
+                            p_student_name:
                                 studentName,
 
-                            subject:
+                            p_subject:
                                 TEST_SUBJECT,
 
-                            score:
+                            p_attempt:
+                                attemptNumber,
+
+                            p_score:
                                 score,
 
-                            max_score:
+                            p_max_score:
                                 questions.length,
 
-                            grade:
-                                grade
+                            p_grade:
+                                grade,
+
+                            p_status:
+                                statusText,
+
+                            p_start_time:
+                                startTime
+                                .toISOString(),
+
+                            p_finish_time:
+                                finishTime
+                                .toISOString()
+
                         })
+
                 }
             );
 
@@ -1856,14 +2411,17 @@ async function saveResult(
             const errorText =
                 await response.text();
 
+
             console.error(
-                "Supabase error:",
+                "Supabase result error:",
                 errorText
             );
+
 
             throw new Error(
                 errorText
             );
+
         }
 
 
@@ -1894,13 +2452,16 @@ async function saveResult(
 
                 <br><br>
 
-                Перевірте налаштування
-                Supabase та RLS.
+                Результат залишився
+                на екрані, але не був
+                записаний у Supabase.
 
             </span>
 
         `;
+
     }
+
 }
 
 
@@ -1936,7 +2497,59 @@ function escapeHtml(text) {
             /'/g,
             "&#039;"
         );
+
 }
+
+
+/* =====================================================
+   ЗАБОРОНА ВИПАДКОВОГО ПЕРЕЗАВАНТАЖЕННЯ
+===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    function(event) {
+
+        if (
+            testActive &&
+            !finishing
+        ) {
+
+            event.preventDefault();
+
+            event.returnValue = "";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ЗАБОРОНА КЛАВІШІ ESC
+   ВАЖЛИВО:
+   браузер усе одно може дозволити ESC.
+   Тому fullscreenchange є основним контролем.
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            testActive &&
+            event.key === "Escape"
+        ) {
+
+            /*
+             * Не можна гарантовано заборонити
+             * браузеру вийти з fullscreen.
+             * Після виходу спрацює fullscreenchange.
+             */
+
+        }
+
+    }
+);
 
 </script>
 
