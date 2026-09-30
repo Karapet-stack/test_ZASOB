@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -19,7 +20,7 @@
     }
 
     .container {
-        max-width: 1000px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 40px 20px;
     }
@@ -42,7 +43,7 @@
 
     .tests {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
     }
 
@@ -53,6 +54,8 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         border: 1px solid #e5e7eb;
         transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
     }
 
     .test-card:hover {
@@ -75,12 +78,14 @@
     .test-card h2 {
         margin: 0 0 10px;
         font-size: 21px;
+        line-height: 1.3;
     }
 
     .test-card p {
         margin: 0 0 18px;
         color: #6b7280;
         line-height: 1.5;
+        flex-grow: 1;
     }
 
     .test-info {
@@ -130,6 +135,12 @@
         font-size: 14px;
     }
 
+    @media (max-width: 900px) {
+        .tests {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
     @media (max-width: 600px) {
         .container {
             padding: 25px 15px;
@@ -141,6 +152,10 @@
 
         .header p {
             font-size: 15px;
+        }
+
+        .tests {
+            grid-template-columns: 1fr;
         }
     }
 </style>
@@ -157,7 +172,7 @@
 
     <div class="tests">
 
-        <!-- КЦІС -->
+        <!-- 1. КЦІС -->
         <div class="test-card">
 
             <div class="test-icon">
@@ -185,7 +200,7 @@
         </div>
 
 
-        <!-- КОМП'ЮТЕРНІ МЕРЕЖІ -->
+        <!-- 2. КОМП'ЮТЕРНІ МЕРЕЖІ -->
         <div class="test-card">
 
             <div class="test-icon">
@@ -200,7 +215,7 @@
                 та принципів роботи мереж.
             </p>
 
-           <div class="test-info">
+            <div class="test-info">
                 <span class="badge">60 питань</span>
                 <span class="badge">30 хвилин</span>
                 <span class="badge">3 спроби</span>
@@ -210,11 +225,10 @@
                 Перейти до тесту
             </a>
 
-
         </div>
 
 
-        <!-- САПР -->
+        <!-- 3. САПР -->
         <div class="test-card">
 
             <div class="test-icon">
@@ -227,6 +241,162 @@
                 Тестування знань з основ САПР, комп'ютерної графіки,
                 креслення та використання програмних засобів
                 автоматизованого проєктування.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 4. КРЕСЛЕННЯ -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                📏
+            </div>
+
+            <h2>Креслення</h2>
+
+            <p>
+                Тестування знань з основ технічного креслення,
+                масштабів, ліній креслення, нанесення розмірів,
+                проєкцій, розрізів та перерізів.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 5. ІНФОРМАЦІЙНІ ТЕХНОЛОГІЇ -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                🖥️
+            </div>
+
+            <h2>Інформаційні технології</h2>
+
+            <p>
+                Тестування знань з основ інформаційних технологій,
+                програмного забезпечення, роботи з даними
+                та цифрових інструментів.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 6. КОМП'ЮТЕРНА ГРАФІКА -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                🎨
+            </div>
+
+            <h2>Комп'ютерна графіка</h2>
+
+            <p>
+                Тестування знань з основ комп'ютерної графіки,
+                растрової та векторної графіки, форматів зображень
+                і графічних редакторів.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 7. ВЕБТЕХНОЛОГІЇ -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                🌐
+            </div>
+
+            <h2>Вебтехнології</h2>
+
+            <p>
+                Тестування знань з основ HTML, CSS, JavaScript,
+                структури вебсторінок та принципів створення
+                сучасних вебресурсів.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 8. БАЗИ ДАНИХ -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                🗄️
+            </div>
+
+            <h2>Бази даних</h2>
+
+            <p>
+                Тестування знань з основ баз даних, таблиць,
+                записів, зв'язків між даними та принципів
+                роботи систем керування базами даних.
+            </p>
+
+            <div class="test-info">
+                <span class="badge">Очікується</span>
+            </div>
+
+            <div class="btn disabled">
+                Тест готується
+            </div>
+
+        </div>
+
+
+        <!-- 9. КОМП'ЮТЕРНІ СИСТЕМИ -->
+        <div class="test-card">
+
+            <div class="test-icon">
+                ⚙️
+            </div>
+
+            <h2>Комп'ютерні системи</h2>
+
+            <p>
+                Тестування знань з будови комп'ютерних систем,
+                апаратних компонентів, периферійних пристроїв
+                та принципів їхньої взаємодії.
             </p>
 
             <div class="test-info">
