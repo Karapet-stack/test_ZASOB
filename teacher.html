@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Кабінет викладача — Засоби комп'ютерних інформаційних систем</title>
+    <title>Кабінет викладача — Результати тесту</title>
 
     <style>
         * {
@@ -13,131 +13,90 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f2f4f7;
-            color: #222;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #172033;
         }
 
         .container {
-            width: min(1200px, calc(100% - 30px));
+            width: min(1400px, calc(100% - 30px));
             margin: 30px auto;
         }
 
-        .header {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        .login-box {
+            width: min(420px, 100%);
+            margin: 100px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
         }
 
-        .header h1 {
-            margin: 0 0 8px;
-            font-size: 27px;
-        }
-
-        .header p {
-            margin: 0;
-            color: #666;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        .login-card {
-            max-width: 450px;
-            margin: 80px auto;
-        }
-
-        .login-card h1 {
-            text-align: center;
+        .login-box h1 {
             margin-top: 0;
+            text-align: center;
+            font-size: 25px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
+        .login-box p {
+            text-align: center;
+            color: #64748b;
         }
 
-        input {
+        .login-box input {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #cfd4da;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 17px;
+            margin: 15px 0;
             outline: none;
         }
 
-        input:focus {
-            border-color: #4a90e2;
+        .login-box input:focus {
+            border-color: #2563eb;
         }
 
         button {
-            border: none;
-            border-radius: 8px;
-            padding: 11px 18px;
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 16px;
             font-size: 15px;
             cursor: pointer;
-            background: #1976d2;
+            background: #2563eb;
             color: white;
-            transition: 0.2s;
         }
 
         button:hover {
-            opacity: 0.9;
+            background: #1d4ed8;
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-secondary {
-            background: #555;
-        }
-
-        .btn-success {
-            background: #2e7d32;
-        }
-
-        .btn-danger {
-            background: #c62828;
-        }
-
-        .actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+        .login-button {
+            width: 100%;
+            font-size: 17px;
+            padding: 13px;
         }
 
         .error {
-            background: #ffebee;
-            color: #c62828;
-            border: 1px solid #ef9a9a;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
+            color: #dc2626;
+            text-align: center;
+            min-height: 22px;
+            margin-top: 10px;
+        }
+
+        #dashboard {
             display: none;
         }
 
-        .success {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #a5d6a7;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
-            display: none;
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 22px 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
 
-        .top-bar {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -145,108 +104,197 @@
             flex-wrap: wrap;
         }
 
-        .search-row {
+        .header h1 {
+            margin: 0;
+            font-size: 27px;
+        }
+
+        .subject {
+            margin-top: 7px;
+            color: #64748b;
+        }
+
+        .logout-button {
+            background: #64748b;
+        }
+
+        .logout-button:hover {
+            background: #475569;
+        }
+
+        .stats {
             display: grid;
-            grid-template-columns: 1fr auto;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .controls {
+            background: white;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
             gap: 10px;
-            margin-top: 20px;
+            flex-wrap: wrap;
         }
 
-        .student-info {
-            margin-top: 20px;
-            padding: 18px;
-            background: #f7f8fa;
-            border-radius: 10px;
-            display: none;
+        .search {
+            flex: 1;
+            min-width: 250px;
+            padding: 11px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
         }
 
-        .student-info strong {
-            display: inline-block;
-            margin-right: 5px;
+        .search:focus {
+            border-color: #2563eb;
+        }
+
+        .refresh-button {
+            background: #0f766e;
+        }
+
+        .refresh-button:hover {
+            background: #115e59;
+        }
+
+        .csv-button {
+            background: #7c3aed;
+        }
+
+        .csv-button:hover {
+            background: #6d28d9;
+        }
+
+        .table-box {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            overflow: hidden;
         }
 
         .table-wrapper {
-            width: 100%;
             overflow-x: auto;
-            margin-top: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 850px;
+            min-width: 900px;
         }
 
         th,
         td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #ddd;
+            padding: 13px 12px;
             text-align: left;
-            vertical-align: middle;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
         }
 
         th {
-            background: #f0f2f5;
-            font-weight: bold;
+            background: #f8fafc;
+            font-size: 13px;
+            color: #475569;
+            position: sticky;
+            top: 0;
+            z-index: 1;
         }
 
-        tr:hover td {
-            background: #fafafa;
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .score {
+            font-weight: bold;
         }
 
         .grade {
             font-weight: bold;
-            font-size: 18px;
+            text-align: center;
+        }
+
+        .grade-12,
+        .grade-11,
+        .grade-10 {
+            color: #15803d;
+        }
+
+        .grade-9,
+        .grade-8,
+        .grade-7 {
+            color: #2563eb;
+        }
+
+        .grade-6,
+        .grade-5,
+        .grade-4 {
+            color: #ca8a04;
+        }
+
+        .grade-low {
+            color: #dc2626;
         }
 
         .status {
             display: inline-block;
             padding: 5px 9px;
-            border-radius: 20px;
-            font-size: 13px;
+            border-radius: 999px;
+            font-size: 12px;
             font-weight: bold;
         }
 
         .status-completed {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: #dcfce7;
+            color: #166534;
         }
 
         .status-active {
-            background: #fff3e0;
-            color: #ef6c00;
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
         .status-interrupted {
-            background: #ffebee;
-            color: #c62828;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .empty {
             text-align: center;
-            padding: 30px;
-            color: #777;
+            padding: 40px 20px;
+            color: #64748b;
         }
 
         .loading {
             text-align: center;
-            padding: 25px;
-            color: #666;
-            display: none;
+            padding: 35px;
+            color: #64748b;
         }
 
-        .hint {
-            color: #777;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .logout {
-            background: #757575;
-        }
-
-        .hidden {
-            display: none !important;
+        .message {
+            margin: 10px 0;
+            color: #dc2626;
+            font-weight: bold;
         }
 
         @media (max-width: 700px) {
@@ -255,21 +303,25 @@
                 margin: 15px auto;
             }
 
-            .card,
-            .header {
-                padding: 18px;
+            .stats {
+                grid-template-columns: 1fr;
             }
 
             .header h1 {
                 font-size: 22px;
             }
 
-            .search-row {
-                grid-template-columns: 1fr;
+            .controls {
+                flex-direction: column;
             }
 
-            .top-bar {
-                align-items: flex-start;
+            .search {
+                min-width: 0;
+                width: 100%;
+            }
+
+            .controls button {
+                width: 100%;
             }
         }
     </style>
@@ -278,43 +330,30 @@
 <body>
 
 <!-- ============================= -->
-<!-- ВХІД ВИКЛАДАЧА -->
+<!-- ВХІД -->
 <!-- ============================= -->
 
-<div id="loginScreen" class="container">
+<div id="loginScreen" class="login-box">
 
-    <div class="card login-card">
+    <h1>Кабінет викладача</h1>
 
-        <h1>Кабінет викладача</h1>
+    <p>Результати тесту</p>
 
-        <p style="text-align:center;color:#666;">
-            Засоби комп'ютерних інформаційних систем
-        </p>
+    <input
+        type="password"
+        id="teacherPassword"
+        placeholder="Введіть пароль"
+        autocomplete="current-password"
+    >
 
-        <br>
+    <button
+        class="login-button"
+        id="loginButton"
+    >
+        Увійти
+    </button>
 
-        <label for="teacherPassword">
-            Пароль викладача:
-        </label>
-
-        <input
-            type="password"
-            id="teacherPassword"
-            placeholder="Введіть пароль"
-            autocomplete="current-password"
-        >
-
-        <div class="actions">
-            <button id="loginButton" style="width:100%;">
-                Увійти
-            </button>
-        </div>
-
-        <div id="loginError" class="error">
-            Неправильний пароль.
-        </div>
-
-    </div>
+    <div id="loginError" class="error"></div>
 
 </div>
 
@@ -323,156 +362,155 @@
 <!-- КАБІНЕТ -->
 <!-- ============================= -->
 
-<div id="teacherPanel" class="container hidden">
+<div id="dashboard">
 
-    <div class="header">
+    <div class="container">
 
-        <div class="top-bar">
+        <div class="header">
 
-            <div>
-                <h1>Кабінет викладача</h1>
+            <div class="header-top">
 
-                <p>
-                    Засоби комп'ютерних інформаційних систем
-                </p>
+                <div>
+                    <h1>Результати тесту</h1>
+
+                    <div class="subject">
+                        Засоби комп'ютерних інформаційних систем
+                    </div>
+                </div>
+
+                <button
+                    class="logout-button"
+                    id="logoutButton"
+                >
+                    Вийти
+                </button>
+
             </div>
-
-            <button
-                id="logoutButton"
-                class="logout"
-            >
-                Вийти
-            </button>
 
         </div>
 
-    </div>
+
+        <!-- СТАТИСТИКА -->
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-title">
+                    Усього студентів
+                </div>
+
+                <div
+                    class="stat-value"
+                    id="studentsCount"
+                >
+                    0
+                </div>
+            </div>
 
 
-    <!-- ПОШУК СТУДЕНТА -->
+            <div class="stat">
+                <div class="stat-title">
+                    Усього спроб
+                </div>
 
-    <div class="card">
+                <div
+                    class="stat-value"
+                    id="attemptsCount"
+                >
+                    0
+                </div>
+            </div>
 
-        <h2 style="margin-top:0;">
-            Результати студента
-        </h2>
 
-        <label for="studentCodeSearch">
-            Код студента
-        </label>
+            <div class="stat">
+                <div class="stat-title">
+                    Завершено
+                </div>
 
-        <div class="search-row">
+                <div
+                    class="stat-value"
+                    id="completedCount"
+                >
+                    0
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- КЕРУВАННЯ -->
+
+        <div class="controls">
 
             <input
                 type="text"
-                id="studentCodeSearch"
-                placeholder="Наприклад: 12345"
-                maxlength="50"
-                autocomplete="off"
+                id="searchInput"
+                class="search"
+                placeholder="Пошук за кодом або ПІБ..."
             >
 
-            <button id="searchButton">
-                Знайти
+            <button
+                class="refresh-button"
+                id="refreshButton"
+            >
+                🔄 Оновити
+            </button>
+
+            <button
+                class="csv-button"
+                id="csvButton"
+            >
+                📥 CSV
             </button>
 
         </div>
 
-        <div class="hint">
-            Введіть код студента, щоб переглянути всі його спроби.
-        </div>
 
-        <div id="teacherError" class="error"></div>
-
-        <div id="teacherSuccess" class="success"></div>
-
-    </div>
+        <div
+            id="message"
+            class="message"
+        ></div>
 
 
-    <!-- ІНФОРМАЦІЯ ПРО СТУДЕНТА -->
+        <!-- ТАБЛИЦЯ -->
 
-    <div
-        id="studentInfo"
-        class="card student-info"
-    >
+        <div class="table-box">
 
-        <div>
-            <strong>Код:</strong>
-            <span id="infoCode">—</span>
-        </div>
+            <div class="table-wrapper">
 
-        <div style="margin-top:8px;">
-            <strong>ПІБ:</strong>
-            <span id="infoName">—</span>
-        </div>
+                <table>
 
-        <div style="margin-top:8px;">
-            <strong>Кількість спроб:</strong>
-            <span id="infoAttempts">—</span>
-        </div>
+                    <thead>
 
-    </div>
+                        <tr>
+                            <th>Код</th>
+                            <th>ПІБ</th>
+                            <th>Спроба</th>
+                            <th>Бал</th>
+                            <th>Оцінка</th>
+                            <th>Статус</th>
+                            <th>Початок</th>
+                            <th>Завершення</th>
+                        </tr>
 
+                    </thead>
 
-    <!-- РЕЗУЛЬТАТИ -->
+                    <tbody id="resultsBody">
 
-    <div id="resultsCard" class="card hidden">
+                        <tr>
+                            <td
+                                colspan="8"
+                                class="loading"
+                            >
+                                Завантаження...
+                            </td>
+                        </tr>
 
-        <div class="top-bar">
+                    </tbody>
 
-            <h2 style="margin:0;">
-                Результати
-            </h2>
-
-            <div class="actions" style="margin-top:0;">
-
-                <button
-                    id="refreshButton"
-                    class="btn-secondary"
-                >
-                    Оновити
-                </button>
-
-                <button
-                    id="csvButton"
-                    class="btn-success"
-                >
-                    Завантажити CSV
-                </button>
+                </table>
 
             </div>
-
-        </div>
-
-
-        <div id="loading" class="loading">
-            Завантаження результатів...
-        </div>
-
-
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>№</th>
-                        <th>Спроба</th>
-                        <th>Бали</th>
-                        <th>Оцінка</th>
-                        <th>Статус</th>
-                        <th>Початок</th>
-                        <th>Завершення</th>
-                        <th>IP</th>
-                    </tr>
-
-                </thead>
-
-                <tbody id="resultsBody">
-
-                </tbody>
-
-            </table>
 
         </div>
 
@@ -482,8 +520,9 @@
 
 
 <script>
+
 /* =========================================================
-   НАЛАШТУВАННЯ
+   SUPABASE
    ========================================================= */
 
 const SUPABASE_URL =
@@ -493,15 +532,20 @@ const SUPABASE_ANON_KEY =
     "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
 
 
-/*
-    ПРОСТИЙ ПАРОЛЬ ВИКЛАДАЧА
+/* =========================================================
+   НАЛАШТУВАННЯ
+   ========================================================= */
 
-    ЗМІНИ ЙОГО НА СВІЙ.
+const TEACHER_PASSWORD = "1234";
 
-    Наприклад:
-    Teacher2026!
-*/
-const TEACHER_PASSWORD = "Teacher2026!";
+const SESSION_KEY = "cis_teacher_logged_in_v1";
+
+
+/* =========================================================
+   ЗМІННІ
+   ========================================================= */
+
+let allResults = [];
 
 
 /* =========================================================
@@ -511,8 +555,8 @@ const TEACHER_PASSWORD = "Teacher2026!";
 const loginScreen =
     document.getElementById("loginScreen");
 
-const teacherPanel =
-    document.getElementById("teacherPanel");
+const dashboard =
+    document.getElementById("dashboard");
 
 const teacherPassword =
     document.getElementById("teacherPassword");
@@ -526,49 +570,29 @@ const loginError =
 const logoutButton =
     document.getElementById("logoutButton");
 
-const studentCodeSearch =
-    document.getElementById("studentCodeSearch");
-
-const searchButton =
-    document.getElementById("searchButton");
-
 const refreshButton =
     document.getElementById("refreshButton");
 
 const csvButton =
     document.getElementById("csvButton");
 
-const teacherError =
-    document.getElementById("teacherError");
-
-const teacherSuccess =
-    document.getElementById("teacherSuccess");
-
-const studentInfo =
-    document.getElementById("studentInfo");
-
-const resultsCard =
-    document.getElementById("resultsCard");
+const searchInput =
+    document.getElementById("searchInput");
 
 const resultsBody =
     document.getElementById("resultsBody");
 
-const loading =
-    document.getElementById("loading");
+const studentsCount =
+    document.getElementById("studentsCount");
 
-const infoCode =
-    document.getElementById("infoCode");
+const attemptsCount =
+    document.getElementById("attemptsCount");
 
-const infoName =
-    document.getElementById("infoName");
+const completedCount =
+    document.getElementById("completedCount");
 
-const infoAttempts =
-    document.getElementById("infoAttempts");
-
-
-let currentStudentCode = "";
-
-let currentResults = [];
+const message =
+    document.getElementById("message");
 
 
 /* =========================================================
@@ -577,11 +601,7 @@ let currentResults = [];
 
 function escapeHtml(value) {
 
-    if (value === null || value === undefined) {
-        return "";
-    }
-
-    return String(value)
+    return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -591,7 +611,7 @@ function escapeHtml(value) {
 
 
 /* =========================================================
-   ФОРМАТ ДАТИ
+   ДАТА
    ========================================================= */
 
 function formatDate(value) {
@@ -602,14 +622,14 @@ function formatDate(value) {
 
     const date = new Date(value);
 
-    if (isNaN(date.getTime())) {
-        return escapeHtml(value);
+    if (Number.isNaN(date.getTime())) {
+        return "—";
     }
 
     return date.toLocaleString("uk-UA", {
-        year: "numeric",
-        month: "2-digit",
         day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
         hour: "2-digit",
         minute: "2-digit"
     });
@@ -617,491 +637,315 @@ function formatDate(value) {
 
 
 /* =========================================================
+   СТАТУС
+   ========================================================= */
+
+function getStatusHtml(status) {
+
+    if (status === "completed") {
+
+        return `
+            <span class="status status-completed">
+                Завершено
+            </span>
+        `;
+    }
+
+    if (status === "active") {
+
+        return `
+            <span class="status status-active">
+                Активна
+            </span>
+        `;
+    }
+
+    if (status === "interrupted") {
+
+        return `
+            <span class="status status-interrupted">
+                Перервано
+            </span>
+        `;
+    }
+
+    return escapeHtml(status || "—");
+}
+
+
+/* =========================================================
+   КЛАС ОЦІНКИ
+   ========================================================= */
+
+function getGradeClass(grade) {
+
+    const value = Number(grade);
+
+    if (value >= 10) {
+        return "grade-12";
+    }
+
+    if (value >= 7) {
+        return "grade-9";
+    }
+
+    if (value >= 4) {
+        return "grade-6";
+    }
+
+    return "grade-low";
+}
+
+
+/* =========================================================
    ПОКАЗ ПОМИЛКИ
    ========================================================= */
 
-function showError(message) {
+function showMessage(text) {
 
-    teacherError.textContent = message;
-    teacherError.style.display = "block";
-
-    teacherSuccess.style.display = "none";
+    message.textContent = text || "";
 }
 
 
 /* =========================================================
-   ПОКАЗ УСПІХУ
+   SUPABASE RPC
    ========================================================= */
 
-function showSuccess(message) {
+async function supabaseRpc(functionName, body = {}) {
 
-    teacherSuccess.textContent = message;
-    teacherSuccess.style.display = "block";
+    const response = await fetch(
+        `${SUPABASE_URL}/rest/v1/rpc/${functionName}`,
+        {
+            method: "POST",
 
-    teacherError.style.display = "none";
-}
+            headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization":
+                    `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json"
+            },
 
-
-/* =========================================================
-   ОЧИЩЕННЯ ПОВІДОМЛЕНЬ
-   ========================================================= */
-
-function clearMessages() {
-
-    teacherError.style.display = "none";
-    teacherSuccess.style.display = "none";
-
-}
-
-
-/* =========================================================
-   ВХІД
-   ========================================================= */
-
-function loginTeacher() {
-
-    const password =
-        teacherPassword.value;
-
-    if (password === TEACHER_PASSWORD) {
-
-        sessionStorage.setItem(
-            "teacher_logged_in",
-            "true"
-        );
-
-        loginScreen.classList.add("hidden");
-
-        teacherPanel.classList.remove("hidden");
-
-        loginError.style.display = "none";
-
-        teacherPassword.value = "";
-
-        studentCodeSearch.focus();
-
-    } else {
-
-        loginError.textContent =
-            "Неправильний пароль.";
-
-        loginError.style.display =
-            "block";
-
-    }
-}
-
-
-/* =========================================================
-   ВИХІД
-   ========================================================= */
-
-function logoutTeacher() {
-
-    sessionStorage.removeItem(
-        "teacher_logged_in"
+            body: JSON.stringify(body)
+        }
     );
 
-    teacherPanel.classList.add("hidden");
+    const text = await response.text();
 
-    loginScreen.classList.remove("hidden");
+    let data = null;
 
-    studentCodeSearch.value = "";
+    try {
+        data = text ? JSON.parse(text) : null;
+    } catch {
+        data = text;
+    }
 
-    resultsBody.innerHTML = "";
+    if (!response.ok) {
 
-    resultsCard.classList.add("hidden");
+        let errorText = "Помилка Supabase";
 
-    studentInfo.style.display = "none";
+        if (data?.message) {
+            errorText = data.message;
+        } else if (data?.error) {
+            errorText = data.error;
+        } else if (typeof data === "string" && data) {
+            errorText = data;
+        }
 
-    currentResults = [];
+        throw new Error(errorText);
+    }
 
-    currentStudentCode = "";
-
+    return data;
 }
 
 
 /* =========================================================
-   ПЕРЕВІРКА СЕСІЇ
+   ЗАВАНТАЖЕННЯ ВСІХ РЕЗУЛЬТАТІВ
    ========================================================= */
 
-function checkTeacherSession() {
+async function loadResults() {
 
-    const loggedIn =
-        sessionStorage.getItem(
-            "teacher_logged_in"
-        );
+    showMessage("");
 
-    if (loggedIn === "true") {
-
-        loginScreen.classList.add("hidden");
-
-        teacherPanel.classList.remove("hidden");
-
-    } else {
-
-        loginScreen.classList.remove("hidden");
-
-        teacherPanel.classList.add("hidden");
-
-    }
-
-}
-
-
-/* =========================================================
-   ОТРИМАННЯ РЕЗУЛЬТАТІВ
-   ========================================================= */
-
-async function loadStudentResults(code) {
-
-    code = String(code || "").trim();
-
-    if (code.length < 2) {
-
-        showError(
-            "Введіть код студента."
-        );
-
-        return;
-
-    }
-
-
-    clearMessages();
-
-    loading.style.display = "block";
-
-    resultsCard.classList.remove("hidden");
-
-    resultsBody.innerHTML = "";
-
-    studentInfo.style.display = "none";
-
-    currentResults = [];
-
-    currentStudentCode = code;
-
+    resultsBody.innerHTML = `
+        <tr>
+            <td colspan="8" class="loading">
+                Завантаження результатів...
+            </td>
+        </tr>
+    `;
 
     try {
 
-        const response = await fetch(
-
-            SUPABASE_URL +
-            "/rest/v1/rpc/get_test_attempts",
-
-            {
-
-                method: "POST",
-
-                headers: {
-
-                    "apikey":
-                        SUPABASE_ANON_KEY,
-
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_ANON_KEY,
-
-                    "Content-Type":
-                        "application/json"
-
-                },
-
-                body: JSON.stringify({
-
-                    p_student_code: code
-
-                })
-
-            }
-
-        );
-
-
-        let raw = null;
-
-        try {
-
-            raw = await response.json();
-
-        } catch (e) {
-
-            raw = null;
-
-        }
-
-
-        if (!response.ok) {
-
-            console.error(
-                "Supabase error:",
-                raw
+        const data =
+            await supabaseRpc(
+                "get_all_test_attempts"
             );
 
-            throw new Error(
-                raw?.message ||
-                raw?.error_description ||
-                raw?.hint ||
-                "Помилка отримання даних."
-            );
-
-        }
-
-
-        /*
-            RPC може повернути:
-            - масив
-            - один JSON-об'єкт
-        */
-
-        let data = raw;
-
-
-        if (!Array.isArray(data)) {
-
-            if (
-                data &&
-                Array.isArray(data.data)
-            ) {
-
-                data = data.data;
-
-            } else {
-
-                data = [data];
-
-            }
-
-        }
-
-
-        /*
-            Якщо повернувся порожній масив
-        */
-
-        if (
-            !data ||
-            data.length === 0
-        ) {
-
-            resultsBody.innerHTML =
-                '<tr><td colspan="8" class="empty">' +
-                'Для цього коду результатів не знайдено.' +
-                '</td></tr>';
-
-            resultsCard.classList.remove(
-                "hidden"
-            );
-
-            showError(
-                "Студента з таким кодом не знайдено або він ще не проходив тест."
-            );
-
-            return;
-
-        }
-
-
-        currentResults = data;
-
-
-        /*
-            Визначаємо дані студента
-        */
-
-        const first = data[0];
-
-
-        const studentName =
-            first.student_name ||
-            first.name ||
-            "—";
-
-
-        infoCode.textContent =
-            code;
-
-        infoName.textContent =
-            studentName;
-
-        infoAttempts.textContent =
-            data.length;
-
-
-        studentInfo.style.display =
-            "block";
-
-
-        /*
-            Виводимо результати
-        */
-
-        resultsBody.innerHTML = "";
-
-
-        data.forEach(
-            (attempt, index) => {
-
-                const tr =
-                    document.createElement("tr");
-
-
-                const status =
-                    attempt.status ||
-                    "—";
-
-
-                let statusClass =
-                    "";
-
-
-                if (
-                    status === "completed"
-                ) {
-
-                    statusClass =
-                        "status-completed";
-
-                } else if (
-                    status === "active"
-                ) {
-
-                    statusClass =
-                        "status-active";
-
-                } else if (
-                    status === "interrupted"
-                ) {
-
-                    statusClass =
-                        "status-interrupted";
-
-                }
-
-
-                const score =
-                    attempt.score !== null &&
-                    attempt.score !== undefined
-                        ? attempt.score + " / " +
-                          (attempt.max_score || 60)
-                        : "—";
-
-
-                const grade =
-                    attempt.grade !== null &&
-                    attempt.grade !== undefined
-                        ? attempt.grade
-                        : "—";
-
-
-                tr.innerHTML = `
-
-                    <td>
-                        ${index + 1}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            attempt.attempt_number ?? "—"
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(score)}
-                    </td>
-
-                    <td class="grade">
-                        ${escapeHtml(grade)}
-                    </td>
-
-                    <td>
-                        <span class="status ${statusClass}">
-                            ${escapeHtml(
-                                getStatusText(status)
-                            )}
-                        </span>
-                    </td>
-
-                    <td>
-                        ${formatDate(
-                            attempt.started_at
-                        )}
-                    </td>
-
-                    <td>
-                        ${formatDate(
-                            attempt.finished_at
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            attempt.ip_address || "—"
-                        )}
-                    </td>
-
-                `;
-
-
-                resultsBody.appendChild(tr);
-
-            }
-        );
-
-
-        showSuccess(
-            "Результати успішно завантажено."
-        );
-
+        allResults =
+            Array.isArray(data)
+                ? data
+                : [];
+
+        renderResults();
 
     } catch (error) {
 
         console.error(error);
 
-        resultsBody.innerHTML =
-            '<tr><td colspan="8" class="empty">' +
-            'Не вдалося завантажити результати.' +
-            '</td></tr>';
+        resultsBody.innerHTML = `
+            <tr>
+                <td colspan="8" class="empty">
+                    Не вдалося завантажити результати.
+                </td>
+            </tr>
+        `;
 
-
-        showError(
-            error.message ||
-            "Помилка підключення до Supabase."
+        showMessage(
+            "Помилка: " + error.message
         );
-
-
-    } finally {
-
-        loading.style.display = "none";
-
     }
-
 }
 
 
 /* =========================================================
-   СТАТУС
+   ВІДОБРАЖЕННЯ
    ========================================================= */
 
-function getStatusText(status) {
+function renderResults() {
 
-    switch (status) {
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
 
-        case "completed":
-            return "Завершена";
 
-        case "active":
-            return "Активна";
+    const filtered =
+        allResults.filter(row => {
 
-        case "interrupted":
-            return "Перервана";
+            if (!search) {
+                return true;
+            }
 
-        default:
-            return status || "Невідомо";
+            const code =
+                String(row.student_code || "")
+                    .toLowerCase();
 
+            const name =
+                String(row.student_name || "")
+                    .toLowerCase();
+
+            return (
+                code.includes(search) ||
+                name.includes(search)
+            );
+        });
+
+
+    /* =========================
+       СТАТИСТИКА
+       ========================= */
+
+    const uniqueStudents =
+        new Set(
+            allResults.map(
+                row => row.student_code
+            )
+        );
+
+    const completed =
+        allResults.filter(
+            row => row.status === "completed"
+        );
+
+
+    studentsCount.textContent =
+        uniqueStudents.size;
+
+    attemptsCount.textContent =
+        allResults.length;
+
+    completedCount.textContent =
+        completed.length;
+
+
+    /* =========================
+       ПУСТО
+       ========================= */
+
+    if (filtered.length === 0) {
+
+        resultsBody.innerHTML = `
+            <tr>
+                <td colspan="8" class="empty">
+                    Результатів не знайдено.
+                </td>
+            </tr>
+        `;
+
+        return;
     }
 
+
+    /* =========================
+       ТАБЛИЦЯ
+       ========================= */
+
+    resultsBody.innerHTML =
+        filtered.map(row => {
+
+            const grade =
+                row.grade ?? "—";
+
+            const score =
+                row.score !== null &&
+                row.score !== undefined
+                    ? `${row.score}/${row.max_score ?? 60}`
+                    : "—";
+
+
+            return `
+                <tr>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(row.student_code)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(row.student_name)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(row.attempt_number)}
+                    </td>
+
+                    <td class="score">
+                        ${escapeHtml(score)}
+                    </td>
+
+                    <td
+                        class="grade ${getGradeClass(grade)}"
+                    >
+                        ${escapeHtml(grade)}
+                    </td>
+
+                    <td>
+                        ${getStatusHtml(row.status)}
+                    </td>
+
+                    <td>
+                        ${formatDate(row.started_at)}
+                    </td>
+
+                    <td>
+                        ${formatDate(row.finished_at)}
+                    </td>
+
+                </tr>
+            `;
+
+        }).join("");
 }
 
 
@@ -1109,101 +953,111 @@ function getStatusText(status) {
    CSV
    ========================================================= */
 
-function downloadCSV() {
+function csvEscape(value) {
 
-    if (
-        !currentResults ||
-        currentResults.length === 0
-    ) {
+    const text =
+        String(value ?? "");
 
-        showError(
-            "Немає даних для експорту."
+    return `"${text.replace(/"/g, '""')}"`;
+}
+
+
+function exportCSV() {
+
+    const search =
+        searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+    const filtered =
+        allResults.filter(row => {
+
+            if (!search) {
+                return true;
+            }
+
+            const code =
+                String(row.student_code || "")
+                    .toLowerCase();
+
+            const name =
+                String(row.student_name || "")
+                    .toLowerCase();
+
+            return (
+                code.includes(search) ||
+                name.includes(search)
+            );
+        });
+
+
+    if (filtered.length === 0) {
+
+        alert(
+            "Немає результатів для експорту."
         );
 
         return;
-
     }
 
 
-    const rows = [];
-
-
-    rows.push([
-        "Код студента",
+    const headers = [
+        "Код",
         "ПІБ",
-        "№ спроби",
-        "Бали",
-        "Максимум",
+        "Спроба",
+        "Бал",
+        "Максимальний бал",
         "Оцінка",
         "Статус",
         "Початок",
         "Завершення",
         "IP"
-    ]);
+    ];
 
 
-    currentResults.forEach(
-        attempt => {
+    const rows =
+        filtered.map(row => [
 
-            rows.push([
+            row.student_code,
 
-                attempt.student_code ||
-                    currentStudentCode,
+            row.student_name,
 
-                attempt.student_name ||
-                    "",
+            row.attempt_number,
 
-                attempt.attempt_number ??
-                    "",
+            row.score,
 
-                attempt.score ??
-                    "",
+            row.max_score,
 
-                attempt.max_score ??
-                    60,
+            row.grade,
 
-                attempt.grade ??
-                    "",
+            row.status,
 
-                getStatusText(
-                    attempt.status
-                ),
+            formatDate(row.started_at),
 
-                formatDate(
-                    attempt.started_at
-                ),
+            formatDate(row.finished_at),
 
-                formatDate(
-                    attempt.finished_at
-                ),
+            row.ip_address
 
-                attempt.ip_address ||
-                    ""
-
-            ]);
-
-        }
-    );
+        ]);
 
 
-    const csv = rows
-        .map(row =>
-            row
-                .map(value =>
-                    '"' +
-                    String(value)
-                        .replace(/"/g, '""') +
-                    '"'
-                )
-                .join(";")
+    const csv = [
+
+        headers.map(csvEscape).join(";"),
+
+        ...rows.map(
+            row =>
+                row
+                    .map(csvEscape)
+                    .join(";")
         )
-        .join("\r\n");
+
+    ].join("\r\n");
 
 
-    /*
-        BOM потрібен, щоб Excel
-        правильно показував українську.
-    */
+    /* BOM для нормального відкриття
+       українських символів у Excel */
 
     const blob =
         new Blob(
@@ -1222,24 +1076,113 @@ function downloadCSV() {
     const link =
         document.createElement("a");
 
-
     link.href = url;
 
-
     link.download =
-        "rezultaty_" +
-        currentStudentCode +
-        ".csv";
-
+        "rezultaty_testu.csv";
 
     document.body.appendChild(link);
 
     link.click();
 
-    document.body.removeChild(link);
+    link.remove();
 
     URL.revokeObjectURL(url);
+}
 
+
+/* =========================================================
+   ВХІД
+   ========================================================= */
+
+function login() {
+
+    const password =
+        teacherPassword.value;
+
+
+    if (password !== TEACHER_PASSWORD) {
+
+        loginError.textContent =
+            "Неправильний пароль.";
+
+        teacherPassword.select();
+
+        return;
+    }
+
+
+    loginError.textContent = "";
+
+    sessionStorage.setItem(
+        SESSION_KEY,
+        "true"
+    );
+
+
+    loginScreen.style.display =
+        "none";
+
+    dashboard.style.display =
+        "block";
+
+
+    loadResults();
+}
+
+
+/* =========================================================
+   ВИХІД
+   ========================================================= */
+
+function logout() {
+
+    sessionStorage.removeItem(
+        SESSION_KEY
+    );
+
+    dashboard.style.display =
+        "none";
+
+    loginScreen.style.display =
+        "block";
+
+    teacherPassword.value = "";
+
+    loginError.textContent = "";
+}
+
+
+/* =========================================================
+   ПЕРЕВІРКА СЕСІЇ
+   ========================================================= */
+
+function checkSession() {
+
+    const loggedIn =
+        sessionStorage.getItem(
+            SESSION_KEY
+        );
+
+
+    if (loggedIn === "true") {
+
+        loginScreen.style.display =
+            "none";
+
+        dashboard.style.display =
+            "block";
+
+        loadResults();
+
+    } else {
+
+        loginScreen.style.display =
+            "block";
+
+        dashboard.style.display =
+            "none";
+    }
 }
 
 
@@ -1249,93 +1192,51 @@ function downloadCSV() {
 
 loginButton.addEventListener(
     "click",
-    loginTeacher
+    login
 );
 
-
-logoutButton.addEventListener(
-    "click",
-    logoutTeacher
-);
-
-
-searchButton.addEventListener(
-    "click",
-    () => {
-
-        loadStudentResults(
-            studentCodeSearch.value
-        );
-
-    }
-);
-
-
-refreshButton.addEventListener(
-    "click",
-    () => {
-
-        if (currentStudentCode) {
-
-            loadStudentResults(
-                currentStudentCode
-            );
-
-        }
-
-    }
-);
-
-
-csvButton.addEventListener(
-    "click",
-    downloadCSV
-);
-
-
-/*
-    Enter у полі пароля
-*/
 
 teacherPassword.addEventListener(
     "keydown",
     event => {
 
         if (event.key === "Enter") {
-
-            loginTeacher();
-
+            login();
         }
 
     }
 );
 
 
-/*
-    Enter у полі коду
-*/
+logoutButton.addEventListener(
+    "click",
+    logout
+);
 
-studentCodeSearch.addEventListener(
-    "keydown",
-    event => {
 
-        if (event.key === "Enter") {
+refreshButton.addEventListener(
+    "click",
+    loadResults
+);
 
-            loadStudentResults(
-                studentCodeSearch.value
-            );
 
-        }
+csvButton.addEventListener(
+    "click",
+    exportCSV
+);
 
-    }
+
+searchInput.addEventListener(
+    "input",
+    renderResults
 );
 
 
 /* =========================================================
-   ЗАПУСК
+   СТАРТ
    ========================================================= */
 
-checkTeacherSession();
+checkSession();
 
 </script>
 
