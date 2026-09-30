@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Результати тестування</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #eef2f7;
+
+    color: #1e293b;
+}
+
+.container {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+    padding: 20px;
+}
+
+.card {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 3px 12px rgba(0,0,0,.08);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+.login {
+
+    max-width: 450px;
+
+    margin: 70px auto;
+}
+
+input {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 7px;
+
+    margin-bottom: 15px;
+
+    border:
+        1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+}
+
+button {
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 20px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.primary {
+
+    background: #2563eb;
+
+    color: white;
+}
+
+.primary:hover {
+
+    background: #1d4ed8;
+}
+
+.danger {
+
+    background: #dc2626;
+
+    color: white;
+}
+
+.secondary {
+
+    background: #e2e8f0;
+
+    color: #1e293b;
+}
+
+.topbar {
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.filters {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.filters input {
+
+    max-width: 300px;
+
+    margin: 0;
+}
+
+.table-wrapper {
+
+    overflow-x: auto;
+
+    margin-top: 20px;
+}
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 700px;
+}
+
+th,
+td {
+
+    padding: 12px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+
+    text-align: left;
+}
+
+th {
+
+    background: #f8fafc;
+
+    font-weight: bold;
+}
+
+tr:hover td {
+
+    background: #f8fafc;
+}
+
+.grade {
+
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.grade-good {
+
+    color: #15803d;
+}
+
+.grade-normal {
+
+    color: #ca8a04;
+}
+
+.grade-bad {
+
+    color: #dc2626;
+}
+
+.error {
+
+    color: #dc2626;
+
+    margin-top: 10px;
+}
+
+.success {
+
+    color: #15803d;
+}
+
+.stats {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}
+
+.stat {
+
+    background: #f1f5f9;
+
+    padding: 15px 20px;
+
+    border-radius: 10px;
+}
+
+.stat-number {
+
+    display: block;
+
+    font-size: 25px;
+
+    font-weight: bold;
+}
+
+.hidden {
+
+    display: none !important;
+}
+
+.empty {
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #64748b;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ВХІД
+===================================================== -->
+
+<div
+    id="loginScreen"
+    class="container"
+>
+
+    <div class="card login">
+
+        <h1>
+            Кабінет викладача
+        </h1>
+
+        <p>
+            Увійдіть для перегляду
+            результатів тестування.
+        </p>
+
+
+        <label>
+
+            Електронна пошта
+
+            <input
+                type="email"
+                id="email"
+                placeholder="teacher@example.com"
+            >
+
+        </label>
+
+
+        <label>
+
+            Пароль
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Пароль"
+            >
+
+        </label>
+
+
+        <button
+            class="primary"
+            onclick="login()"
+        >
+            Увійти
+        </button>
+
+
+        <p
+            id="loginError"
+            class="error"
+        ></p>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     РЕЗУЛЬТАТИ
+===================================================== -->
+
+<div
+    id="resultsScreen"
+    class="container hidden"
+>
+
+    <div class="card">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    Результати тестування
+                </h1>
+
+                <p>
+                    Засоби комп'ютерних
+                    інформаційних систем
+                </p>
+
+            </div>
+
+
+            <button
+                class="danger"
+                onclick="logout()"
+            >
+                Вийти
+            </button>
+
+        </div>
+
+
+        <!-- СТАТИСТИКА -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <span>
+                    Усього результатів
+                </span>
+
+                <span
+                    id="totalResults"
+                    class="stat-number"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Середній бал
+                </span>
+
+                <span
+                    id="averageScore"
+                    class="stat-number"
+                >
+                    0
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Середня оцінка
+                </span>
+
+                <span
+                    id="averageGrade"
+                    class="stat-number"
+                >
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ФІЛЬТР -->
+
+        <div class="filters">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Пошук за прізвищем..."
+                oninput="filterResults()"
+            >
+
+
+            <button
+                class="secondary"
+                onclick="loadResults()"
+            >
+                🔄 Оновити
+            </button>
+
+
+            <button
+                class="secondary"
+                onclick="exportCSV()"
+            >
+                📥 Excel / CSV
+            </button>
+
+        </div>
+
+
+        <p id="status"></p>
+
+
+        <!-- ТАБЛИЦЯ -->
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            №
+                        </th>
+
+                        <th>
+                            Прізвище та ім'я
+                        </th>
+
+                        <th>
+                            Предмет
+                        </th>
+
+                        <th>
+                            Бал
+                        </th>
+
+                        <th>
+                            Оцінка
+                        </th>
+
+                        <th>
+                            Дата
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody
+                    id="resultsTable"
+                >
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://egovkavyxtcztisropsf.supabase.co";
+
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
+
+
+/* =====================================================
+   ДАНІ
+===================================================== */
+
+let allResults = [];
+
+
+/* =====================================================
+   ПЕРЕВІРКА АВТОРИЗАЦІЇ
+===================================================== */
+
+async function checkSession() {
+
+    const session =
+        localStorage.getItem(
+            "teacher_session"
+        );
+
+
+    if (session) {
+
+        try {
+
+            const data =
+                JSON.parse(session);
+
+
+            if (
+                data.access_token &&
+                data.refresh_token
+            ) {
+
+                showResultsScreen();
+
+                await loadResults();
+
+                return;
+            }
+
+        }
+
+        catch(e) {
+
+            console.error(e);
+
+        }
+
+    }
+
+
+    showLoginScreen();
+}
+
+
+/* =====================================================
+   ВХІД
+===================================================== */
+
+async function login() {
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    const password =
+        document
+        .getElementById("password")
+        .value;
+
+
+    const error =
+        document
+        .getElementById("loginError");
+
+
+    error.textContent = "";
+
+
+    if (!email || !password) {
+
+        error.textContent =
+            "Введіть email та пароль.";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/auth/v1/token?grant_type=password",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_ANON_KEY,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            email:
+                                email,
+
+                            password:
+                                password
+
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error_description ||
+                data.msg ||
+                "Помилка входу"
+            );
+        }
+
+
+        localStorage.setItem(
+
+            "teacher_session",
+
+            JSON.stringify({
+
+                access_token:
+                    data.access_token,
+
+                refresh_token:
+                    data.refresh_token
+
+            })
+
+        );
+
+
+        showResultsScreen();
+
+        await loadResults();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        error =
+            error.message ||
+            "Не вдалося виконати вхід.";
+
+        document
+        .getElementById("loginError")
+        .textContent =
+            error;
+    }
+}
+
+
+/* =====================================================
+   ПОКАЗ РЕЗУЛЬТАТІВ
+===================================================== */
+
+function showResultsScreen() {
+
+    document
+    .getElementById("loginScreen")
+    .classList
+    .add("hidden");
+
+
+    document
+    .getElementById("resultsScreen")
+    .classList
+    .remove("hidden");
+}
+
+
+/* =====================================================
+   ПОКАЗ ЕКРАНУ ВХОДУ
+===================================================== */
+
+function showLoginScreen() {
+
+    document
+    .getElementById("loginScreen")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("resultsScreen")
+    .classList
+    .add("hidden");
+}
+
+
+/* =====================================================
+   ЗАВАНТАЖЕННЯ РЕЗУЛЬТАТІВ
+===================================================== */
+
+async function loadResults() {
+
+    const status =
+        document
+        .getElementById("status");
+
+
+    status.textContent =
+        "Завантаження результатів...";
+
+
+    try {
+
+        const session =
+            JSON.parse(
+                localStorage.getItem(
+                    "teacher_session"
+                )
+            );
+
+
+        if (!session) {
+
+            showLoginScreen();
+
+            return;
+        }
+
+
+        const response =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/test_results" +
+                "?select=*" +
+                "&order=created_at.desc",
+
+                {
+
+                    method: "GET",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_ANON_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            session.access_token
+
+                    }
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                data.error ||
+                "Помилка завантаження"
+            );
+        }
+
+
+        allResults = data;
+
+
+        renderResults(
+            allResults
+        );
+
+
+        updateStatistics(
+            allResults
+        );
+
+
+        status.textContent =
+            "Результати оновлено.";
+
+        status.className =
+            "success";
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+
+        status.textContent =
+            "Не вдалося завантажити результати: "
+            +
+            error.message;
+
+        status.className =
+            "error";
+    }
+}
+
+
+/* =====================================================
+   ВІДОБРАЖЕННЯ ТАБЛИЦІ
+===================================================== */
+
+function renderResults(results) {
+
+    const table =
+        document
+        .getElementById("resultsTable");
+
+
+    table.innerHTML = "";
+
+
+    if (!results.length) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    class="empty"
+                >
+                    Результатів поки немає.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+    }
+
+
+    results.forEach(
+        (item,index) => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const gradeClass =
+                getGradeClass(
+                    item.grade
+                );
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    <b>
+                        ${escapeHtml(
+                            item.student_name
+                        )}
+                    </b>
+                </td>
+
+                <td>
+                    ${escapeHtml(
+                        item.subject
+                    )}
+                </td>
+
+                <td>
+                    ${item.score}
+                    /
+                    ${item.max_score}
+                </td>
+
+                <td
+                    class="grade ${gradeClass}"
+                >
+                    ${item.grade}
+                </td>
+
+                <td>
+                    ${formatDate(
+                        item.created_at
+                    )}
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        }
+    );
+}
+
+
+/* =====================================================
+   ПОШУК
+===================================================== */
+
+function filterResults() {
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    if (!search) {
+
+        renderResults(
+            allResults
+        );
+
+        return;
+    }
+
+
+    const filtered =
+        allResults.filter(
+            item =>
+
+            String(
+                item.student_name
+            )
+            .toLowerCase()
+            .includes(search)
+
+        );
+
+
+    renderResults(
+        filtered
+    );
+}
+
+
+/* =====================================================
+   СТАТИСТИКА
+===================================================== */
+
+function updateStatistics(results) {
+
+    const total =
+        results.length;
+
+
+    document
+    .getElementById("totalResults")
+    .textContent =
+        total;
+
+
+    if (!total) {
+
+        document
+        .getElementById("averageScore")
+        .textContent =
+            "0";
+
+
+        document
+        .getElementById("averageGrade")
+        .textContent =
+            "0";
+
+        return;
+    }
+
+
+    const scoreSum =
+        results.reduce(
+            (sum,item) =>
+                sum +
+                Number(item.score || 0),
+            0
+        );
+
+
+    const gradeSum =
+        results.reduce(
+            (sum,item) =>
+                sum +
+                Number(item.grade || 0),
+            0
+        );
+
+
+    document
+    .getElementById("averageScore")
+    .textContent =
+        (
+            scoreSum / total
+        )
+        .toFixed(1);
+
+
+    document
+    .getElementById("averageGrade")
+    .textContent =
+        (
+            gradeSum / total
+        )
+        .toFixed(1);
+}
+
+
+/* =====================================================
+   КЛАС ОЦІНКИ
+===================================================== */
+
+function getGradeClass(grade) {
+
+    grade =
+        Number(grade);
+
+
+    if (grade >= 10)
+        return "grade-good";
+
+
+    if (grade >= 7)
+        return "grade-normal";
+
+
+    return "grade-bad";
+}
+
+
+/* =====================================================
+   ДАТА
+===================================================== */
+
+function formatDate(date) {
+
+    if (!date)
+        return "";
+
+
+    return new Date(date)
+        .toLocaleString(
+            "uk-UA",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+}
+
+
+/* =====================================================
+   CSV
+===================================================== */
+
+function exportCSV() {
+
+    if (!allResults.length) {
+
+        alert(
+            "Немає результатів для експорту."
+        );
+
+        return;
+    }
+
+
+    let csv =
+        "№;Прізвище та ім'я;Предмет;Бал;Максимум;Оцінка;Дата\n";
+
+
+    allResults.forEach(
+        (item,index) => {
+
+            csv +=
+                `${index + 1};` +
+                `"${item.student_name}";` +
+                `"${item.subject}";` +
+                `${item.score};` +
+                `${item.max_score};` +
+                `${item.grade};` +
+                `"${formatDate(
+                    item.created_at
+                )}"\n`;
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            ["\ufeff" + csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href = url;
+
+    link.download =
+        "rezultaty_testuvannya.csv";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+}
+
+
+/* =====================================================
+   ВИХІД
+===================================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "teacher_session"
+    );
+
+
+    showLoginScreen();
+}
+
+
+/* =====================================================
+   ЗАХИСТ HTML
+===================================================== */
+
+function escapeHtml(text) {
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =====================================================
+   ЗАПУСК
+===================================================== */
+
+checkSession();
+
+</script>
+
+</body>
+
+</html>
