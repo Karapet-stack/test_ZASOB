@@ -1,18 +1,28 @@
 ```html
 <!DOCTYPE html>
 <html lang="uk">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Тест: Креслення</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Панель викладача</title>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
 
 *{
     box-sizing:border-box;
 }
+
 
 body{
     margin:0;
@@ -21,30 +31,51 @@ body{
     color:#17202a;
 }
 
+
 header{
     background:#173b63;
     color:#fff;
     padding:18px 20px;
 }
 
+
+header .header-inner{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+
 header h1{
     margin:0;
     font-size:24px;
 }
 
+
 .container{
-    max-width:980px;
+    max-width:1200px;
     margin:20px auto;
     padding:0 14px;
 }
 
+
 .card{
     background:#fff;
     border-radius:14px;
-    padding:22px;
+    padding:20px;
     box-shadow:0 5px 20px rgba(0,0,0,.08);
     margin-bottom:18px;
 }
+
+
+.hidden{
+    display:none!important;
+}
+
 
 label{
     display:block;
@@ -52,147 +83,284 @@ label{
     margin:12px 0 6px;
 }
 
-input{
+
+input,
+select{
     width:100%;
-    padding:12px;
+    padding:11px 12px;
     border:1px solid #cbd5e1;
-    border-radius:9px;
-    font-size:16px;
+    border-radius:8px;
+    font-size:15px;
+    background:#fff;
 }
+
 
 button{
     border:0;
-    border-radius:9px;
-    padding:12px 18px;
-    font-size:16px;
+    border-radius:8px;
+    padding:11px 16px;
+    font-size:15px;
     font-weight:700;
     cursor:pointer;
     background:#173b63;
     color:#fff;
 }
 
+
+button:hover{
+    opacity:.92;
+}
+
+
 button:disabled{
     opacity:.5;
     cursor:not-allowed;
 }
 
+
 .secondary{
     background:#64748b;
 }
 
-.hidden{
-    display:none!important;
+
+.logout{
+    background:#475569;
 }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
+
+.login-box{
+    max-width:450px;
+    margin:70px auto;
 }
 
-.timer{
-    font-size:22px;
-    font-weight:800;
-}
 
-.progress{
-    height:10px;
-    background:#e2e8f0;
-    border-radius:20px;
-    overflow:hidden;
-    margin:12px 0 20px;
-}
-
-.progress>div{
-    height:100%;
-    width:0;
-    background:#173b63;
-    transition:.2s;
-}
-
-.question-title{
-    font-size:20px;
-    font-weight:800;
-    margin-bottom:15px;
-}
-
-.option{
-    display:block;
-    border:1px solid #d5dce5;
-    border-radius:10px;
+.error{
+    background:#fef2f2;
+    border:1px solid #fecaca;
+    color:#991b1b;
     padding:12px;
-    margin:9px 0;
-    cursor:pointer;
-    font-weight:normal;
+    border-radius:8px;
+    margin-top:12px;
 }
 
-.option:hover{
+
+.success{
+    background:#ecfdf5;
+    border:1px solid #a7f3d0;
+    color:#065f46;
+    padding:12px;
+    border-radius:8px;
+    margin-top:12px;
+}
+
+
+.warning{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#9a3412;
+    padding:12px;
+    border-radius:8px;
+    margin-top:12px;
+}
+
+
+.controls{
+    display:grid;
+    grid-template-columns:
+        minmax(220px,1fr)
+        minmax(220px,1fr)
+        auto
+        auto;
+
+    gap:10px;
+
+    align-items:end;
+}
+
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:12px;
+
+    margin-top:18px;
+}
+
+
+.stat{
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    padding:15px;
+}
+
+
+.stat-title{
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:5px;
+}
+
+
+.stat-value{
+    font-size:24px;
+    font-weight:800;
+}
+
+
+.table-wrap{
+    overflow-x:auto;
+    margin-top:18px;
+}
+
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+}
+
+
+th,
+td{
+    border-bottom:1px solid #e2e8f0;
+    padding:10px;
+    text-align:left;
+    vertical-align:middle;
+}
+
+
+th{
+    background:#f8fafc;
+    font-size:14px;
+}
+
+
+tr:hover td{
     background:#f8fafc;
 }
 
-.option input{
-    width:auto;
-    margin-right:9px;
+
+.badge{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
 }
 
-.question-image{
-    display:block;
-    max-width:100%;
-    max-height:430px;
-    object-fit:contain;
-    margin:12px auto 18px;
-    border:1px solid #dbe3ec;
-    border-radius:10px;
-    background:#fff;
+
+.badge-completed{
+    background:#dcfce7;
+    color:#166534;
 }
 
-.image-error{
-    padding:12px;
-    border:1px solid #fecaca;
-    background:#fef2f2;
+
+.badge-interrupted{
+    background:#fee2e2;
     color:#991b1b;
-    border-radius:10px;
-    margin:12px 0 18px;
-    text-align:center;
 }
 
-.nav{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:18px;
+
+.badge-active{
+    background:#fef3c7;
+    color:#92400e;
 }
 
-.small{
+
+.danger-actions{
+    border-top:1px solid #e2e8f0;
+    margin-top:22px;
+    padding-top:18px;
+}
+
+
+.danger-actions h3{
+    margin:0 0 8px;
+    color:#991b1b;
+}
+
+
+.danger-actions p{
+    margin:0 0 14px;
+    color:#64748b;
     font-size:14px;
+}
+
+
+.danger-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+
+.danger-btn{
+    background:#dc2626;
+}
+
+
+.danger-btn:hover{
+    background:#b91c1c;
+}
+
+
+.danger-all{
+    background:#991b1b;
+}
+
+
+.danger-all:hover{
+    background:#7f1d1d;
+}
+
+
+.empty{
+    padding:30px;
+    text-align:center;
     color:#64748b;
 }
 
-.result{
-    font-size:22px;
-    font-weight:800;
+
+.loading{
+    padding:20px;
+    text-align:center;
+    color:#64748b;
 }
 
-.warn{
-    padding:12px;
-    background:#fff7ed;
-    border:1px solid #fed7aa;
-    border-radius:10px;
-    margin-top:12px;
+
+@media(max-width:900px){
+
+    .controls{
+        grid-template-columns:1fr 1fr;
+    }
+
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
 }
 
-.good{
-    padding:12px;
-    background:#ecfdf5;
-    border:1px solid #a7f3d0;
-    border-radius:10px;
-    margin-top:12px;
-}
 
-.return-button{
-    margin-top:18px;
+@media(max-width:600px){
+
+    .controls{
+        grid-template-columns:1fr;
+    }
+
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+
+    header h1{
+        font-size:20px;
+    }
+
 }
 
 </style>
@@ -203,179 +371,368 @@ button:disabled{
 <body>
 
 
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
 <header>
 
-<div class="container">
+    <div class="header-inner">
 
-    <h1>Тест: Креслення</h1>
+        <h1>
+            Панель викладача
+        </h1>
 
-    <div
-        class="small"
-        style="color:#dbeafe"
-    >
-        32 питання · 30 хвилин · до 3 спроб
+
+        <button
+            id="logoutBtn"
+            class="logout hidden"
+        >
+            Вийти
+        </button>
+
     </div>
-
-</div>
 
 </header>
 
 
+
 <div class="container">
 
 
 <!-- =========================================================
-     ПОЧАТОК
+     LOGIN
 ========================================================= -->
 
 <section
-    id="startCard"
-    class="card"
+    id="loginCard"
+    class="card login-box"
 >
 
-    <h2>Початок тестування</h2>
+    <h2>
+        Вхід для викладача
+    </h2>
+
 
     <p>
-        Тест містить 32 питання з креслення.
-        Частина завдань містить графічні зображення.
+        Увійдіть за допомогою облікового запису викладача.
     </p>
 
 
-    <label for="studentCode">
-        Код здобувача
+    <label for="email">
+        Email
     </label>
 
     <input
-        id="studentCode"
-        maxlength="50"
-        autocomplete="off"
+        id="email"
+        type="email"
+        autocomplete="username"
+        placeholder="Введіть email"
     >
 
 
-    <label for="studentName">
-        ПІБ
+    <label for="password">
+        Пароль
     </label>
 
     <input
-        id="studentName"
-        maxlength="100"
-        autocomplete="name"
+        id="password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Введіть пароль"
     >
-
-
-    <label for="studentGroup">
-        Група
-    </label>
-
-    <input
-        id="studentGroup"
-        maxlength="50"
-        autocomplete="off"
-    >
-
-
-    <div
-        id="attemptInfo"
-        class="small"
-        style="margin-top:12px"
-    ></div>
 
 
     <button
-        id="startBtn"
-        style="margin-top:16px"
+        id="loginBtn"
+        style="margin-top:16px;width:100%"
     >
-        Розпочати тест
+        Увійти
     </button>
 
 
     <div
-        id="startError"
-        class="warn hidden"
+        id="loginError"
+        class="error hidden"
     ></div>
 
 </section>
 
 
+
 <!-- =========================================================
-     ТЕСТ
+     DASHBOARD
 ========================================================= -->
 
 <section
-    id="testCard"
-    class="card hidden"
+    id="dashboard"
+    class="hidden"
 >
 
-    <div class="topbar">
+
+<!-- =========================================================
+     КЕРУВАННЯ
+========================================================= -->
+
+<div class="card">
+
+    <h2>
+        Результати тестування
+    </h2>
+
+
+    <div class="controls">
+
 
         <div>
-            <b id="qCounter"></b>
+
+            <label for="testSelect">
+                Тест
+            </label>
+
+            <select id="testSelect">
+
+                <option value="kcis_2026">
+                    КЦІС
+                </option>
+
+                <option value="km_2026">
+                    Комп'ютерні мережі
+                </option>
+
+                <option value="kreslennia_2026">
+                    Креслення
+                </option>
+
+                <option value="sapr_2026">
+                    САПР
+                </option>
+
+                <option value="it_2026">
+                    Інформаційні технології
+                </option>
+
+                <option value="komp_graph_2026">
+                    Комп'ютерна графіка
+                </option>
+
+                <option value="web_2026">
+                    Вебтехнології
+                </option>
+
+                <option value="db_2026">
+                    Бази даних
+                </option>
+
+                <option value="ks_2026">
+                    Комп'ютерні системи
+                </option>
+
+            </select>
+
         </div>
 
-        <div
-            class="timer"
-            id="timer"
-        >
-            30:00
+
+        <div>
+
+            <label for="searchInput">
+                Пошук
+            </label>
+
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Код або ПІБ"
+            >
+
         </div>
 
-    </div>
-
-
-    <div class="progress">
-
-        <div id="progressBar"></div>
-
-    </div>
-
-
-    <div id="questionBox"></div>
-
-
-    <div class="nav">
 
         <button
-            id="prevBtn"
+            id="refreshBtn"
+        >
+            🔄 Оновити
+        </button>
+
+
+        <button
+            id="exportBtn"
             class="secondary"
         >
-            ← Назад
+            📥 CSV
         </button>
 
-
-        <button id="nextBtn">
-            Далі →
-        </button>
 
     </div>
 
-</section>
+
+    <!-- =====================================================
+         НЕБЕЗПЕЧНІ ОПЕРАЦІЇ
+    ====================================================== -->
+
+    <div class="danger-actions">
+
+        <h3>
+            Керування результатами
+        </h3>
+
+
+        <p>
+            Видалення результатів є незворотною операцією.
+            Перед видаленням буде потрібне додаткове підтвердження.
+        </p>
+
+
+        <div class="danger-buttons">
+
+
+            <button
+                id="clearTestBtn"
+                class="danger-btn"
+            >
+                🗑️ Очистити результати цього тесту
+            </button>
+
+
+            <button
+                id="clearAllBtn"
+                class="danger-btn danger-all"
+            >
+                ⚠️ Очистити всю базу результатів
+            </button>
+
+
+        </div>
+
+
+        <div
+            id="deleteMessage"
+            class="hidden"
+            style="margin-top:12px"
+        ></div>
+
+    </div>
+
+</div>
+
 
 
 <!-- =========================================================
-     РЕЗУЛЬТАТ
+     СТАТИСТИКА
 ========================================================= -->
 
-<section
-    id="resultCard"
-    class="card hidden"
->
+<div class="card">
 
-    <h2>Результат</h2>
-
-    <div id="resultBox"></div>
+    <h2>
+        Статистика
+    </h2>
 
 
-    <button
-        id="returnStartBtn"
-        class="return-button"
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Усього спроб
+            </div>
+
+            <div
+                id="statTotal"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Завершено
+            </div>
+
+            <div
+                id="statCompleted"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Перервано
+            </div>
+
+            <div
+                id="statInterrupted"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-title">
+                Середній результат
+            </div>
+
+            <div
+                id="statAverage"
+                class="stat-value"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     ТАБЛИЦЯ
+========================================================= -->
+
+<div class="card">
+
+    <h2>
+        Список результатів
+    </h2>
+
+
+    <div
+        id="tableLoading"
+        class="loading hidden"
     >
-        ← Повернутися на початок
-    </button>
+        Завантаження...
+    </div>
+
+
+    <div
+        id="tableContainer"
+        class="table-wrap"
+    ></div>
+
+</div>
+
 
 </section>
 
 
 </div>
+
 
 
 <script>
@@ -393,564 +750,56 @@ const SUPABASE_ANON_KEY =
 "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
 
 
-/* =========================================================
-   НАЛАШТУВАННЯ ТЕСТУ
-========================================================= */
-
-const TEST_ID =
-"kreslennia_2026";
-
-
-const TEST_SUBJECT =
-"Креслення";
-
-
-const TEST_TIME =
-30 * 60;
-
-
-const MAX_ATTEMPTS =
-3;
-
-
-const MAX_SCORE =
-32;
-
-
-const STORAGE_KEY =
-"kreslennia_test_" + TEST_ID;
-
-
-/* =========================================================
-   КАРТИНКИ
-========================================================= */
-
-const IMG_LINES =
-"https://commons.wikimedia.org/wiki/Special:FilePath/Line_types.png";
-
-
-const IMG_DIMENSIONS =
-"https://commons.wikimedia.org/wiki/Special:FilePath/Dimensioning%20example-tech%20drawing.png";
-
-
-const IMG_PROJECTION =
-"https://commons.wikimedia.org/wiki/Special:FilePath/OrthographicProjection.png";
-
-
-const IMG_SECTION =
-"https://commons.wikimedia.org/wiki/Special:FilePath/Radial%20sealing%20CAD%20sectional%20view.PNG";
-
-
-/* =========================================================
-   ПИТАННЯ
-========================================================= */
-
-const Q = [
-
-{
-    q:"Що називають кресленням?",
-
-    a:[
-        "Графічний конструкторський документ із зображенням виробу та необхідними даними",
-        "Текстовий опис виробу без графіки",
-        "Фотографію готового виробу",
-        "Таблицю технічних характеристик"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Який формат аркуша має розміри 210 × 297 мм?",
-
-    a:[
-        "А3",
-        "А4",
-        "А2",
-        "А5"
-    ],
-
-    c:[1]
-},
-
-
-{
-    q:"Який масштаб відповідає натуральній величині?",
-
-    a:[
-        "1:2",
-        "2:1",
-        "1:1",
-        "1:5"
-    ],
-
-    c:[2]
-},
-
-
-{
-    q:"Що означає масштаб 2:1?",
-
-    a:[
-        "Зображення зменшене вдвічі",
-        "Зображення збільшене вдвічі",
-        "Предмет показаний у натуральну величину",
-        "Зображення збільшене у п'ять разів"
-    ],
-
-    c:[1]
-},
-
-
-{
-    q:"Яка лінія використовується для зображення видимого контуру деталі?",
-
-    a:[
-        "Суцільна товста основна",
-        "Штрихова",
-        "Штрихпунктирна тонка",
-        "Суцільна хвиляста"
-    ],
-
-    c:[0],
-    img:IMG_LINES
-},
-
-
-{
-    q:"Яка лінія використовується для невидимого контуру?",
-
-    a:[
-        "Суцільна тонка",
-        "Штрихова",
-        "Суцільна товста",
-        "Розімкнута"
-    ],
-
-    c:[1],
-    img:IMG_LINES
-},
-
-
-{
-    q:"Для чого застосовують штрихпунктирну тонку лінію?",
-
-    a:[
-        "Для видимого контуру",
-        "Для розмірних ліній",
-        "Для осьових і центрових ліній",
-        "Для лінії обриву"
-    ],
-
-    c:[2],
-    img:IMG_LINES
-},
-
-
-{
-    q:"Яка лінія використовується для нанесення розмірів?",
-
-    a:[
-        "Суцільна тонка",
-        "Штрихова",
-        "Суцільна товста",
-        "Штрихпунктирна товста"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Який принцип правильного розташування розмірних ліній?",
-
-    a:[
-        "Менший розмір розміщують ближче до контуру, більший — далі",
-        "Усі розміри повинні лежати на одному місці",
-        "Більший розмір завжди розміщують ближче до контуру",
-        "Розміри можна ставити без виносних ліній у будь-якому місці"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Що показує розмірна лінія?",
-
-    a:[
-        "Межі вимірюваного елемента",
-        "Колір матеріалу",
-        "Напрямок штрихування",
-        "Номер деталі"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Якими лініями зазвичай виконують штрихування в розрізі?",
-
-    a:[
-        "Суцільними тонкими",
-        "Суцільними товстими",
-        "Штриховими",
-        "Розімкнутими"
-    ],
-
-    c:[0],
-    img:IMG_SECTION
-},
-
-
-{
-    q:"Що показує штрихування на розрізі?",
-
-    a:[
-        "Місце, де січна площина перетинає матеріал деталі",
-        "Лише невидимі контури",
-        "Тільки осьову лінію",
-        "Місце нанесення розмірів"
-    ],
-
-    c:[0],
-    img:IMG_SECTION
-},
-
-
-{
-    q:"Яке зображення деталі отримують при проєціюванні на фронтальну площину?",
-
-    a:[
-        "Головний або фронтальний вид",
-        "План",
-        "Розгортку",
-        "Аксонометрію"
-    ],
-
-    c:[0],
-    img:IMG_PROJECTION
-},
-
-
-{
-    q:"Що таке головний вид?",
-
-    a:[
-        "Вид спереду, який найповніше розкриває форму та розміри деталі",
-        "Вид лише зверху",
-        "Вид лише знизу",
-        "Будь-який випадковий вид"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Скільки основних видів передбачено в системі прямокутного проєціювання?",
-
-    a:[
-        "3",
-        "4",
-        "6",
-        "8"
-    ],
-
-    c:[2],
-    img:IMG_PROJECTION
-},
-
-
-{
-    q:"Що називають розрізом?",
-
-    a:[
-        "Зображення предмета, уявно розсіченого площиною, з показом того, що лежить у січній площині та за нею",
-        "Зображення лише зовнішнього контуру",
-        "Фотографію деталі",
-        "Тільки її аксонометричне зображення"
-    ],
-
-    c:[0],
-    img:IMG_SECTION
-},
-
-
-{
-    q:"Що називають перерізом?",
-
-    a:[
-        "Зображення фігури, що утворюється безпосередньо в січній площині",
-        "Повний вигляд деталі",
-        "Текстовий опис деталі",
-        "Вид ззаду"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Який тип розрізу отримують горизонтальною січною площиною?",
-
-    a:[
-        "Горизонтальний",
-        "Фронтальний",
-        "Профільний",
-        "Місцевий"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Який тип розрізу отримують фронтальною січною площиною?",
-
-    a:[
-        "Профільний",
-        "Фронтальний",
-        "Горизонтальний",
-        "Ступінчастий"
-    ],
-
-    c:[1]
-},
-
-
-{
-    q:"Яке позначення використовують для діаметра?",
-
-    a:[
-        "R",
-        "Ø",
-        "L",
-        "S"
-    ],
-
-    c:[1]
-},
-
-
-{
-    q:"Що означає літера R перед числом на кресленні?",
-
-    a:[
-        "Радіус",
-        "Діаметр",
-        "Масштаб",
-        "Розріз"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Як записують лінійні розміри на кресленні?",
-
-    a:[
-        "У міліметрах без зазначення одиниці",
-        "У сантиметрах із написом «см»",
-        "У метрах із написом «м»",
-        "Лише у дюймах"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Якою має бути розмірна лінія для прямолінійного розміру?",
-
-    a:[
-        "Паралельною вимірюваному відрізку",
-        "Перпендикулярною до нього завжди",
-        "Хвилястою",
-        "Штриховою"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Що таке виносна лінія?",
-
-    a:[
-        "Лінія, яка відводить межі вимірюваного елемента до розмірної лінії",
-        "Лінія невидимого контуру",
-        "Лінія осі симетрії",
-        "Лінія перерізу"
-    ],
-
-    c:[0],
-    img:IMG_DIMENSIONS
-},
-
-
-{
-    q:"Яке призначення основного напису?",
-
-    a:[
-        "Містить основні відомості про креслення, виріб, масштаб та виконавця",
-        "Показує лише колір деталі",
-        "Замінює всі розміри",
-        "Використовується тільки для штрихування"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Де на кресленні формату А4 зазвичай розміщують основний напис?",
-
-    a:[
-        "У правому нижньому куті",
-        "У лівому верхньому куті",
-        "У центрі аркуша",
-        "У правому верхньому куті"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Який масштаб є масштабом зменшення?",
-
-    a:[
-        "2:1",
-        "5:1",
-        "1:2",
-        "1:1"
-    ],
-
-    c:[2]
-},
-
-
-{
-    q:"Який масштаб є масштабом збільшення?",
-
-    a:[
-        "1:5",
-        "1:2",
-        "1:1",
-        "5:1"
-    ],
-
-    c:[3]
-},
-
-
-{
-    q:"Що таке осьова лінія?",
-
-    a:[
-        "Лінія, яка показує вісь симетрії або центр елемента",
-        "Лінія видимого контуру",
-        "Лінія розміру",
-        "Лінія обриву"
-    ],
-
-    c:[0],
-    img:IMG_LINES
-},
-
-
-{
-    q:"Що потрібно враховувати під час вибору кількості видів деталі?",
-
-    a:[
-        "Кількість має бути мінімальною, але достатньою для повного визначення форми",
-        "Потрібно завжди виконувати всі шість видів",
-        "Достатньо одного виду для будь-якої деталі",
-        "Кількість видів залежить тільки від формату аркуша"
-    ],
-
-    c:[0]
-},
-
-
-{
-    q:"Яке призначення креслярського шрифту?",
-
-    a:[
-        "Забезпечити однакове та читабельне виконання написів на кресленнях",
-        "Змінити масштаб деталі",
-        "Показати матеріал деталі",
-        "Позначити невидимий контур"
-    ],
-
-    c:[0]
-}
-
-];
-
-
-/* =========================================================
-   ПЕРЕВІРКА
-========================================================= */
-
-if(Q.length !== MAX_SCORE){
-
-    console.error(
-        "Кількість питань не відповідає MAX_SCORE",
-        Q.length,
-        MAX_SCORE
+const {
+    createClient
+} =
+    supabase;
+
+
+const supabaseClient =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
     );
-}
 
 
 /* =========================================================
-   СТАН
+   НАЛАШТУВАННЯ
 ========================================================= */
 
-let state={
+const TEST_NAMES = {
 
-    active:false,
+    kcis_2026:
+        "КЦІС",
 
-    finished:false,
+    km_2026:
+        "Комп'ютерні мережі",
 
-    attemptId:null,
+    kreslennia_2026:
+        "Креслення",
 
-    attemptNumber:null,
+    sapr_2026:
+        "САПР",
 
-    studentCode:"",
+    it_2026:
+        "Інформаційні технології",
 
-    studentName:"",
+    komp_graph_2026:
+        "Комп'ютерна графіка",
 
-    studentGroup:"",
+    web_2026:
+        "Вебтехнології",
 
-    current:0,
+    db_2026:
+        "Бази даних",
 
-    answers:[],
+    ks_2026:
+        "Комп'ютерні системи"
 
-    startTime:null,
-
-    endTime:null,
-
-    finishReason:"",
-
-    score:null,
-
-    grade:null
 };
 
 
-let timerHandle=null;
-
-let finishing=false;
+let allResults=[];
 
 
 /* =========================================================
@@ -958,102 +807,11 @@ let finishing=false;
 ========================================================= */
 
 const $ =
-id => document.getElementById(id);
+    id => document.getElementById(id);
 
 
 /* =========================================================
-   LOCAL STORAGE ID
-========================================================= */
-
-function makeId(prefix){
-
-    const key =
-        prefix + "_id";
-
-
-    let id =
-        localStorage.getItem(key);
-
-
-    if(!id){
-
-        id =
-            crypto.randomUUID
-            ? crypto.randomUUID()
-            : prefix +
-              "_" +
-              Date.now() +
-              "_" +
-              Math.random()
-                  .toString(36)
-                  .slice(2);
-
-
-        localStorage.setItem(
-            key,
-            id
-        );
-    }
-
-
-    return id;
-}
-
-
-function browserId(){
-
-    return makeId(
-        "test_browser"
-    );
-}
-
-
-function deviceId(){
-
-    return makeId(
-        "test_device"
-    );
-}
-
-
-/* =========================================================
-   IP
-========================================================= */
-
-async function getIP(){
-
-    try{
-
-        const r =
-            await fetch(
-                "https://api.ipify.org?format=json",
-                {
-                    cache:"no-store"
-                }
-            );
-
-
-        if(!r.ok){
-
-            return null;
-        }
-
-
-        const j =
-            await r.json();
-
-
-        return j.ip || null;
-
-    }catch(e){
-
-        return null;
-    }
-}
-
-
-/* =========================================================
-   SUPABASE RPC
+   RPC
 ========================================================= */
 
 async function supabaseRPC(
@@ -1061,65 +819,22 @@ async function supabaseRPC(
     body
 ){
 
-    const r =
-        await fetch(
-            SUPABASE_URL +
-            "/rest/v1/rpc/" +
+    const {
+
+        data,
+
+        error
+
+    } =
+        await supabaseClient.rpc(
             name,
-            {
-
-                method:"POST",
-
-                headers:{
-
-                    apikey:
-                        SUPABASE_ANON_KEY,
-
-                    Authorization:
-                        "Bearer " +
-                        SUPABASE_ANON_KEY,
-
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body:
-                    JSON.stringify(body)
-            }
+            body
         );
 
 
-    const text =
-        await r.text();
+    if(error){
 
-
-    let data=null;
-
-
-    try{
-
-        data =
-            text
-            ? JSON.parse(text)
-            : null;
-
-    }catch(e){
-
-        data=text;
-    }
-
-
-    if(!r.ok){
-
-        throw new Error(
-
-            (data && data.message)
-            ||
-            text
-            ||
-            ("HTTP " + r.status)
-
-        );
+        throw error;
     }
 
 
@@ -1128,1046 +843,255 @@ async function supabaseRPC(
 
 
 /* =========================================================
-   SAVE / LOAD
+   ПОКАЗ ПОМИЛКИ
 ========================================================= */
 
-function saveState(){
+function showLoginError(
+    message
+){
 
-    try{
+    $("loginError").textContent =
+        message;
 
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(state)
-        );
-
-    }catch(e){
-
-        console.error(
-            "Помилка localStorage:",
-            e
-        );
-    }
-}
-
-
-function loadState(){
-
-    try{
-
-        const s =
-            JSON.parse(
-                localStorage.getItem(
-                    STORAGE_KEY
-                ) || "null"
-            );
-
-
-        if(
-            s &&
-            typeof s === "object"
-        ){
-
-            state={
-
-                ...state,
-
-                ...s
-
-            };
-        }
-
-    }catch(e){
-
-        console.error(
-            "Помилка завантаження стану:",
-            e
-        );
-    }
+    $("loginError")
+        .classList
+        .remove("hidden");
 }
 
 
 /* =========================================================
-   ОЦІНКА
+   LOGIN
 ========================================================= */
 
-function gradeFromPercent(p){
+async function login(){
 
-    if(p>=1)return 12;
-
-    if(p>=.94)return 11;
-
-    if(p>=.86)return 10;
-
-    if(p>=.78)return 9;
-
-    if(p>=.70)return 8;
-
-    if(p>=.62)return 7;
-
-    if(p>=.54)return 6;
-
-    if(p>=.46)return 5;
-
-    if(p>=.38)return 4;
-
-    if(p>=.20)return 3;
-
-    if(p>0)return 2;
-
-    return 1;
-}
+    $("loginError")
+        .classList
+        .add("hidden");
 
 
-/* =========================================================
-   ПЕРЕВІРКА СПРОБ
-========================================================= */
-
-async function checkAttempts(){
-
-    const code =
-        $("studentCode")
+    const email =
+        $("email")
         .value
         .trim();
 
 
-    if(!code){
+    const password =
+        $("password")
+        .value;
 
-        $("attemptInfo").textContent =
-            "";
+
+    if(!email || !password){
+
+        showLoginError(
+            "Введіть email та пароль."
+        );
 
         return;
     }
 
 
+    $("loginBtn").disabled=true;
+
+    $("loginBtn").textContent =
+        "Вхід...";
+
+
     try{
 
-        const data =
-            await supabaseRPC(
-                "get_student_test_info",
-                {
-                    p_test_id:
-                        TEST_ID,
+        const {
 
-                    p_student_code:
-                        code
-                }
-            );
+            data,
 
+            error
 
-        const info =
-            Array.isArray(data)
-            ? data[0]
-            : data;
+        } =
+            await supabaseClient.auth
+            .signInWithPassword({
+
+                email,
+
+                password
+
+            });
 
 
-        if(!info){
+        if(error){
 
-            return;
+            throw error;
         }
 
 
-        const used =
-            Number(
-                info.attempts_used || 0
+        if(!data?.user){
+
+            throw new Error(
+                "Не вдалося отримати користувача."
             );
+        }
 
 
-        $("attemptInfo").textContent =
+        /*
+           Перевіряємо роль.
+        */
 
-            `Використано спроб: ${used} із ${MAX_ATTEMPTS}. ` +
+        const {
 
-            `Залишилось: ${
-                Math.max(
-                    0,
-                    MAX_ATTEMPTS-used
-                )
-            }.`;
+            data:profile,
 
+            error:profileError
 
-        $("startBtn").disabled =
-            used >= MAX_ATTEMPTS;
+        } =
+            await supabaseClient
+            .from("teacher_profiles")
+            .select("id, role")
+            .eq(
+                "id",
+                data.user.id
+            )
+            .maybeSingle();
 
 
-    }catch(e){
+        if(profileError){
 
-        $("attemptInfo").textContent =
-            "Не вдалося перевірити кількість спроб.";
-
-        console.error(e);
-    }
-}
-
-
-/* =========================================================
-   HTML ESCAPE
-========================================================= */
-
-function escapeHtml(s){
-
-    return String(s).replace(
-
-        /[&<>"']/g,
-
-        ch => ({
-
-            "&":"&amp;",
-
-            "<":"&lt;",
-
-            ">":"&gt;",
-
-            '"':"&quot;",
-
-            "'":"&#039;"
-
-        }[ch])
-
-    );
-}
-
-
-/* =========================================================
-   РЕНДЕР ПИТАННЯ
-========================================================= */
-
-function renderQuestion(){
-
-    const q =
-        Q[state.current];
-
-
-    $("qCounter").textContent =
-
-        `Питання ${
-            state.current + 1
-        } із ${Q.length}`;
-
-
-    $("progressBar").style.width =
-
-        (
-            (state.current + 1)
-            /
-            Q.length
-            *
-            100
-        ) + "%";
-
-
-    let html =
-
-        `<div class="question-title">
-
-            ${
-                state.current + 1
-            }.
-
-            ${
-                escapeHtml(q.q)
-            }
-
-        </div>`;
-
-
-    if(q.img){
-
-        html +=
-
-            `<img
-
-                class="question-image"
-
-                src="${q.img}"
-
-                alt="Ілюстрація до питання"
-
-                loading="eager"
-
-                onerror="
-                    this.style.display='none';
-                    this.nextElementSibling.style.display='block';
-                "
-
-            >
-
-            <div
-                class="image-error"
-                style="display:none"
-            >
-                Не вдалося завантажити ілюстрацію.
-            </div>`;
-    }
-
-
-    html +=
-
-        q.a.map(
-            (ans,i) => {
-
-                const checked =
-
-                    state.answers[
-                        state.current
-                    ] === i
-
-                    ? "checked"
-
-                    : "";
-
-
-                return `
-
-                    <label class="option">
-
-                        <input
-
-                            type="radio"
-
-                            name="answer"
-
-                            value="${i}"
-
-                            ${checked}
-
-                        >
-
-                        ${
-                            escapeHtml(ans)
-                        }
-
-                    </label>
-
-                `;
-
-            }
-        ).join("");
-
-
-    $("questionBox").innerHTML =
-        html;
-
-
-    document
-        .querySelectorAll(
-            'input[name="answer"]'
-        )
-        .forEach(
-            el => {
-
-                el.addEventListener(
-                    "change",
-                    () => {
-
-                        state.answers[
-                            state.current
-                        ] =
-                            Number(
-                                el.value
-                            );
-
-
-                        saveState();
-
-                    }
-                );
-
-            }
-        );
-
-
-    $("prevBtn").disabled =
-        state.current === 0;
-
-
-    $("nextBtn").textContent =
-
-        state.current ===
-        Q.length - 1
-
-        ? "Завершити тест"
-
-        : "Далі →";
-}
-
-
-/* =========================================================
-   ТАЙМЕР
-========================================================= */
-
-function formatTime(sec){
-
-    sec =
-        Math.max(
-            0,
-            Math.floor(sec)
-        );
-
-
-    return String(
-        Math.floor(sec / 60)
-    ).padStart(2,"0")
-
-    +
-
-    ":"
-
-    +
-
-    String(
-        sec % 60
-    ).padStart(2,"0");
-}
-
-
-function startTimer(){
-
-    clearInterval(
-        timerHandle
-    );
-
-
-    timerHandle =
-
-        setInterval(
-            () => {
-
-                if(
-                    !state.active ||
-                    state.finished
-                ){
-
-                    return;
-                }
-
-
-                const left =
-
-                    Math.max(
-                        0,
-                        Math.floor(
-                            (
-                                state.endTime -
-                                Date.now()
-                            ) / 1000
-                        )
-                    );
-
-
-                $("timer").textContent =
-                    formatTime(left);
-
-
-                if(left <= 0){
-
-                    clearInterval(
-                        timerHandle
-                    );
-
-
-                    finishTest(
-                        "Час вичерпано"
-                    );
-                }
-
-            },
-
-            250
-        );
-}
-
-
-/* =========================================================
-   РОЗРАХУНОК
-========================================================= */
-
-function calculateResult(){
-
-    let correct=0;
-
-
-    for(
-        let i=0;
-        i<Q.length;
-        i++
-    ){
-
-        const selected =
-            state.answers[i];
+            throw profileError;
+        }
 
 
         if(
-
-            Q[i].c.length === 1 &&
-
-            selected ===
-            Q[i].c[0]
-
+            !profile ||
+            profile.role !== "teacher"
         ){
 
-            correct++;
-        }
-    }
+            await supabaseClient.auth
+                .signOut();
 
 
-    const percent =
-        correct / Q.length;
-
-
-    return{
-
-        correct,
-
-        max:Q.length,
-
-        percent,
-
-        grade:
-            gradeFromPercent(
-                percent
-            )
-    };
-}
-
-
-/* =========================================================
-   ЗАВЕРШЕННЯ ТЕСТУ
-========================================================= */
-
-async function finishTest(
-    reason
-){
-
-    if(
-        finishing ||
-        state.finished
-    ){
-
-        return;
-    }
-
-
-    finishing=true;
-
-
-    clearInterval(
-        timerHandle
-    );
-
-
-    const result =
-        calculateResult();
-
-
-    state.active=false;
-
-    state.finished=true;
-
-    state.finishReason =
-        reason ||
-        "Завершено";
-
-
-    state.score =
-        result.correct;
-
-
-    state.grade =
-        result.grade;
-
-
-    saveState();
-
-
-    let serverSaved=false;
-
-
-    try{
-
-        if(state.attemptId){
-
-            await supabaseRPC(
-
-                "finish_test_attempt",
-
-                {
-
-                    p_test_id:
-                        TEST_ID,
-
-                    p_attempt_id:
-                        Number(
-                            state.attemptId
-                        ),
-
-                    p_score:
-                        result.correct
-
-                }
+            throw new Error(
+                "Цей обліковий запис не має прав викладача."
             );
-
-
-            serverSaved=true;
         }
 
-    }catch(e){
 
-        console.error(
-            "Помилка збереження результату:",
-            e
-        );
-    }
+        showDashboard();
 
-
-    showResult(
-        result,
-        serverSaved
-    );
-
-
-    finishing=false;
-}
-
-
-/* =========================================================
-   ПЕРЕРИВАННЯ СПРОБИ
-========================================================= */
-
-function interruptAttemptOnClose(){
-
-    if(
-
-        !state.active ||
-
-        state.finished ||
-
-        finishing ||
-
-        !state.attemptId ||
-
-        !state.studentCode
-
-    ){
-
-        return;
-    }
-
-
-    const body =
-
-        JSON.stringify({
-
-            p_test_id:
-                TEST_ID,
-
-            p_attempt_id:
-                Number(
-                    state.attemptId
-                ),
-
-            p_student_code:
-                state.studentCode,
-
-            p_browser_id:
-                browserId(),
-
-            p_device_id:
-                deviceId()
-
-        });
-
-
-    try{
-
-        fetch(
-
-            SUPABASE_URL +
-            "/rest/v1/rpc/interrupt_test_attempt",
-
-            {
-
-                method:"POST",
-
-                headers:{
-
-                    "Content-Type":
-                        "application/json",
-
-                    "apikey":
-                        SUPABASE_ANON_KEY,
-
-                    "Authorization":
-                        "Bearer " +
-                        SUPABASE_ANON_KEY
-
-                },
-
-                body:body,
-
-                keepalive:true,
-
-                credentials:"omit"
-
-            }
-
-        );
-
-    }catch(e){
-
-        console.error(
-            "Не вдалося перервати спробу:",
-            e
-        );
-    }
-
-
-    /*
-       Видаляємо локальний стан,
-       щоб тест не відновився.
-    */
-
-    try{
-
-        localStorage.removeItem(
-            STORAGE_KEY
-        );
 
     }catch(e){
 
         console.error(e);
+
+
+        showLoginError(
+            e.message ||
+            "Не вдалося виконати вхід."
+        );
+
+
+    }finally{
+
+        $("loginBtn").disabled=false;
+
+        $("loginBtn").textContent =
+            "Увійти";
     }
-
-
-    state={
-
-        active:false,
-
-        finished:false,
-
-        attemptId:null,
-
-        attemptNumber:null,
-
-        studentCode:"",
-
-        studentName:"",
-
-        studentGroup:"",
-
-        current:0,
-
-        answers:[],
-
-        startTime:null,
-
-        endTime:null,
-
-        finishReason:"",
-
-        score:null,
-
-        grade:null
-    };
 }
 
 
 /* =========================================================
-   РЕЗУЛЬТАТ
+   ПОКАЗ DASHBOARD
 ========================================================= */
 
-function showResult(
-    result,
-    serverSaved=true
-){
+function showDashboard(){
 
-    $("startCard")
+    $("loginCard")
         .classList
         .add("hidden");
 
 
-    $("testCard")
-        .classList
-        .add("hidden");
-
-
-    $("resultCard")
+    $("dashboard")
         .classList
         .remove("hidden");
 
 
-    $("resultBox").innerHTML = `
-
-        <div class="result">
-
-            ${result.correct}
-            /
-            ${result.max}
-            балів
-
-        </div>
+    $("logoutBtn")
+        .classList
+        .remove("hidden");
 
 
-        <p>
-
-            Оцінка:
-            <b>
-                ${result.grade}
-            </b>
-
-        </p>
-
-
-        <p>
-
-            Результат:
-            <b>
-
-                ${
-                    Math.round(
-                        result.percent * 100
-                    )
-                }%
-
-            </b>
-
-        </p>
-
-
-        <p class="small">
-
-            Причина завершення:
-
-            ${
-                escapeHtml(
-                    state.finishReason ||
-                    "Завершено"
-                )
-            }
-
-        </p>
-
-
-        ${
-            serverSaved
-
-            ?
-
-            `<div class="good">
-
-                Результат збережено в системі.
-
-            </div>`
-
-            :
-
-            `<div class="warn">
-
-                Сервер не підтвердив
-                збереження результату.
-
-            </div>`
-
-        }
-
-    `;
+    loadResults();
 }
 
 
 /* =========================================================
-   ПОЧАТОК ТЕСТУ
+   ВИХІД
 ========================================================= */
 
-async function startTest(){
+async function logout(){
 
-    $("startError")
+    await supabaseClient.auth
+        .signOut();
+
+
+    allResults=[];
+
+
+    $("dashboard")
         .classList
         .add("hidden");
 
 
-    const code =
-        $("studentCode")
-        .value
-        .trim();
+    $("logoutBtn")
+        .classList
+        .add("hidden");
 
 
-    const name =
-        $("studentName")
-        .value
-        .trim();
+    $("loginCard")
+        .classList
+        .remove("hidden");
 
 
-    const group =
-        $("studentGroup")
-        .value
-        .trim();
+    $("password").value="";
+
+}
 
 
-    if(
+/* =========================================================
+   ЗАВАНТАЖЕННЯ РЕЗУЛЬТАТІВ
+========================================================= */
 
-        code.length < 2 ||
+async function loadResults(){
 
-        name.length < 2 ||
-
-        group.length < 1
-
-    ){
-
-        $("startError").textContent =
-
-            "Заповніть код здобувача, ПІБ та групу.";
+    const testId =
+        $("testSelect").value;
 
 
-        $("startError")
-            .classList
-            .remove("hidden");
+    $("tableLoading")
+        .classList
+        .remove("hidden");
 
 
-        return;
-    }
-
-
-    $("startBtn").disabled=true;
+    $("tableContainer")
+        .innerHTML="";
 
 
     try{
 
-        const ip =
-            await getIP();
-
-
         const data =
             await supabaseRPC(
-
-                "start_test_attempt",
-
+                "get_all_test_attempts",
                 {
-
                     p_test_id:
-                        TEST_ID,
-
-                    p_student_code:
-                        code,
-
-                    p_student_name:
-                        name,
-
-                    p_browser_id:
-                        browserId(),
-
-                    p_device_id:
-                        deviceId(),
-
-                    p_ip_address:
-                        ip,
-
-                    p_max_score:
-                        MAX_SCORE
-
+                        testId
                 }
-
             );
 
 
-        const info =
+        allResults =
             Array.isArray(data)
-            ? data[0]
-            : data;
+            ? data
+            : [];
 
 
-        if(
-
-            !info ||
-
-            info.allowed !== true
-
-        ){
-
-            throw new Error(
-
-                info?.message ||
-                "Ця спроба недоступна."
-
-            );
-        }
-
-
-        state={
-
-            active:true,
-
-            finished:false,
-
-            attemptId:
-                info.attempt_id,
-
-            attemptNumber:
-                info.attempt_number,
-
-            studentCode:
-                code,
-
-            studentName:
-                name,
-
-            studentGroup:
-                group,
-
-            current:0,
-
-            answers:
-                Array(
-                    Q.length
-                ).fill(null),
-
-            startTime:
-                Date.now(),
-
-            endTime:
-                Date.now() +
-                TEST_TIME * 1000,
-
-            finishReason:"",
-
-            score:null,
-
-            grade:null
-
-        };
-
-
-        saveState();
-
-
-        $("startCard")
-            .classList
-            .add("hidden");
-
-
-        $("testCard")
-            .classList
-            .remove("hidden");
-
-
-        renderQuestion();
-
-
-        startTimer();
-
-
-        if(
-
-            document
-                .documentElement
-                .requestFullscreen
-
-        ){
-
-            document
-                .documentElement
-                .requestFullscreen()
-                .catch(
-                    ()=>{}
-                );
-        }
+        renderResults();
 
 
     }catch(e){
@@ -2175,422 +1099,1140 @@ async function startTest(){
         console.error(e);
 
 
-        $("startError").textContent =
+        $("tableContainer")
+            .innerHTML = `
 
-            "Не вдалося розпочати тест: " +
-            e.message;
+                <div class="error">
+
+                    Не вдалося завантажити результати:
+
+                    <br><br>
+
+                    ${escapeHtml(
+                        e.message ||
+                        String(e)
+                    )}
+
+                </div>
+
+            `;
 
 
-        $("startError")
+    }finally{
+
+        $("tableLoading")
             .classList
-            .remove("hidden");
-
-
-        $("startBtn").disabled=false;
+            .add("hidden");
     }
 }
 
 
 /* =========================================================
-   НАЗАД
+   ФІЛЬТРАЦІЯ
 ========================================================= */
 
-$("prevBtn")
-.addEventListener(
+function getFilteredResults(){
 
-    "click",
+    const query =
+        $("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
 
-    () => {
 
-        if(
-            state.current > 0
-        ){
+    if(!query){
 
-            state.current--;
-
-            saveState();
-
-            renderQuestion();
-        }
-
+        return allResults;
     }
 
-);
 
+    return allResults.filter(
+        row => {
 
-/* =========================================================
-   ДАЛІ / ЗАВЕРШЕННЯ
-========================================================= */
-
-$("nextBtn")
-.addEventListener(
-
-    "click",
-
-    () => {
-
-        if(
-
-            state.current <
-            Q.length - 1
-
-        ){
-
-            state.current++;
-
-            saveState();
-
-            renderQuestion();
-
-        }else{
-
-            if(
-
-                confirm(
-                    "Завершити тестування?"
+            const code =
+                String(
+                    row.student_code || ""
                 )
+                .toLowerCase();
 
-            ){
 
-                finishTest(
-                    "Завершено здобувачем"
-                );
+            const name =
+                String(
+                    row.student_name || ""
+                )
+                .toLowerCase();
+
+
+            return (
+
+                code.includes(query) ||
+
+                name.includes(query)
+
+            );
+
+        }
+    );
+}
+
+
+/* =========================================================
+   РЕНДЕР
+========================================================= */
+
+function renderResults(){
+
+    const rows =
+        getFilteredResults();
+
+
+    updateStats(rows);
+
+
+    if(!rows.length){
+
+        $("tableContainer").innerHTML = `
+
+            <div class="empty">
+
+                Результатів не знайдено.
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const sorted =
+        [...rows].sort(
+            (a,b) => {
+
+                const da =
+                    new Date(
+                        a.started_at || 0
+                    );
+
+
+                const db =
+                    new Date(
+                        b.started_at || 0
+                    );
+
+
+                return db - da;
             }
-        }
-
-    }
-
-);
-
-
-/* =========================================================
-   ПОВЕРНУТИСЯ НА ПОЧАТОК
-========================================================= */
-
-$("returnStartBtn")
-.addEventListener(
-
-    "click",
-
-    () => {
-
-        /*
-           Зупиняємо таймер.
-        */
-
-        clearInterval(
-            timerHandle
         );
 
 
-        /*
-           Видаляємо локальний стан
-           завершеної спроби.
-        */
+    let html = `
 
-        localStorage.removeItem(
-            STORAGE_KEY
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>№</th>
+
+                    <th>Код</th>
+
+                    <th>ПІБ</th>
+
+                    <th>Група</th>
+
+                    <th>Спроба</th>
+
+                    <th>Статус</th>
+
+                    <th>Бал</th>
+
+                    <th>Оцінка</th>
+
+                    <th>Початок</th>
+
+                    <th>Завершення</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    sorted.forEach(
+        (row,index) => {
+
+            const status =
+                String(
+                    row.status || ""
+                );
+
+
+            let statusHtml =
+                escapeHtml(status);
+
+
+            if(status === "completed"){
+
+                statusHtml = `
+
+                    <span class="badge badge-completed">
+
+                        Завершено
+
+                    </span>
+
+                `;
+
+            }
+
+
+            if(status === "interrupted"){
+
+                statusHtml = `
+
+                    <span class="badge badge-interrupted">
+
+                        Перервано
+
+                    </span>
+
+                `;
+
+            }
+
+
+            if(status === "active"){
+
+                statusHtml = `
+
+                    <span class="badge badge-active">
+
+                        Активна
+
+                    </span>
+
+                `;
+
+            }
+
+
+            const started =
+                formatDate(
+                    row.started_at
+                );
+
+
+            const finished =
+                formatDate(
+                    row.finished_at
+                );
+
+
+            const score =
+
+                row.score !== null &&
+                row.score !== undefined
+
+                ? `${row.score} / ${row.max_score ?? ""}`
+
+                : "—";
+
+
+            const grade =
+
+                row.grade !== null &&
+                row.grade !== undefined
+
+                ? row.grade
+
+                : "—";
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            row.student_code || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            row.student_name || ""
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            row.student_group || "—"
+                        )}
+                    </td>
+
+                    <td>
+                        ${row.attempt_number ?? "—"}
+                    </td>
+
+                    <td>
+                        ${statusHtml}
+                    </td>
+
+                    <td>
+                        ${score}
+                    </td>
+
+                    <td>
+                        ${grade}
+                    </td>
+
+                    <td>
+                        ${started}
+                    </td>
+
+                    <td>
+                        ${finished}
+                    </td>
+
+                </tr>
+
+            `;
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    $("tableContainer").innerHTML =
+        html;
+}
+
+
+/* =========================================================
+   СТАТИСТИКА
+========================================================= */
+
+function updateStats(rows){
+
+    const total =
+        rows.length;
+
+
+    const completed =
+        rows.filter(
+            r =>
+                r.status ===
+                "completed"
+        ).length;
+
+
+    const interrupted =
+        rows.filter(
+            r =>
+                r.status ===
+                "interrupted"
+        ).length;
+
+
+    const completedRows =
+        rows.filter(
+            r =>
+                r.status ===
+                    "completed" &&
+                r.score !== null &&
+                r.max_score
         );
 
 
-        /*
-           Повністю очищаємо стан.
-        */
+    let average=0;
 
-        state={
 
-            active:false,
+    if(completedRows.length){
 
-            finished:false,
+        const sum =
+            completedRows.reduce(
 
-            attemptId:null,
+                (acc,row) =>
 
-            attemptNumber:null,
+                    acc +
 
-            studentCode:"",
-
-            studentName:"",
-
-            studentGroup:"",
-
-            current:0,
-
-            answers:[],
-
-            startTime:null,
-
-            endTime:null,
-
-            finishReason:"",
-
-            score:null,
-
-            grade:null
-
-        };
-
-
-        /*
-           Показуємо початкову форму.
-        */
-
-        $("resultCard")
-            .classList
-            .add("hidden");
-
-
-        $("testCard")
-            .classList
-            .add("hidden");
-
-
-        $("startCard")
-            .classList
-            .remove("hidden");
-
-
-        /*
-           Очищаємо поля.
-        */
-
-        $("studentCode").value="";
-
-        $("studentName").value="";
-
-        $("studentGroup").value="";
-
-
-        $("attemptInfo").textContent="";
-
-
-        $("startError")
-            .classList
-            .add("hidden");
-
-
-        $("startBtn").disabled=false;
-
-
-        /*
-           Оновлюємо кількість доступних спроб.
-        */
-
-        checkAttempts();
-
-
-        /*
-           Повертаємо сторінку догори.
-        */
-
-        window.scrollTo({
-
-            top:0,
-
-            behavior:"smooth"
-
-        });
-
-    }
-
-);
-
-
-/* =========================================================
-   ПЕРЕВІРКА КОДУ
-========================================================= */
-
-$("studentCode")
-.addEventListener(
-
-    "blur",
-
-    checkAttempts
-
-);
-
-
-/* =========================================================
-   ЗАКРИТТЯ ВКЛАДКИ / ВІКНА
-========================================================= */
-
-window.addEventListener(
-
-    "pagehide",
-
-    function(event){
-
-        /*
-           Не обробляємо bfcache.
-        */
-
-        if(event.persisted){
-
-            return;
-        }
-
-
-        interruptAttemptOnClose();
-
-    }
-
-);
-
-
-/* =========================================================
-   ЗАПУСК
-========================================================= */
-
-async function init(){
-
-    loadState();
-
-
-    /*
-       Якщо залишилася активна спроба
-       після закриття/перезавантаження,
-       позначаємо її interrupted.
-    */
-
-    if(
-
-        state.active &&
-
-        state.attemptId
-
-    ){
-
-        try{
-
-            await supabaseRPC(
-
-                "interrupt_test_attempt",
-
-                {
-
-                    p_test_id:
-                        TEST_ID,
-
-                    p_attempt_id:
+                    (
                         Number(
-                            state.attemptId
-                        ),
-
-                    p_student_code:
-                        state.studentCode,
-
-                    p_browser_id:
-                        browserId(),
-
-                    p_device_id:
-                        deviceId()
-
-                }
-
-            );
-
-        }catch(e){
-
-            console.error(
-                "Помилка переривання попередньої спроби:",
-                e
-            );
-        }
-
-
-        localStorage.removeItem(
-            STORAGE_KEY
-        );
-
-
-        state={
-
-            active:false,
-
-            finished:false,
-
-            attemptId:null,
-
-            attemptNumber:null,
-
-            studentCode:"",
-
-            studentName:"",
-
-            studentGroup:"",
-
-            current:0,
-
-            answers:[],
-
-            startTime:null,
-
-            endTime:null,
-
-            finishReason:"",
-
-            score:null,
-
-            grade:null
-
-        };
-    }
-
-
-    /*
-       Якщо тест був нормально завершений,
-       показуємо результат.
-    */
-
-    if(state.finished){
-
-        showResult(
-
-            {
-
-                correct:
-                    Number(
-                        state.score || 0
+                            row.score
+                        )
+                        /
+                        Number(
+                            row.max_score
+                        )
+                        *
+                        100
                     ),
 
-                max:
-                    Q.length,
+                0
+            );
 
-                percent:
-                    Number(
-                        state.score || 0
-                    )
-                    /
-                    Q.length,
 
-                grade:
-                    Number(
-                        state.grade ||
-                        gradeFromPercent(
-                            Number(
-                                state.score || 0
-                            )
-                            /
-                            Q.length
-                        )
-                    )
+        average =
+            sum /
+            completedRows.length;
+    }
 
-            },
 
-            false
+    $("statTotal").textContent =
+        total;
+
+
+    $("statCompleted").textContent =
+        completed;
+
+
+    $("statInterrupted").textContent =
+        interrupted;
+
+
+    $("statAverage").textContent =
+        average.toFixed(1) + "%";
+}
+
+
+/* =========================================================
+   ДАТА
+========================================================= */
+
+function formatDate(
+    value
+){
+
+    if(!value){
+
+        return "—";
+    }
+
+
+    const d =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            d.getTime()
+        )
+    ){
+
+        return "—";
+    }
+
+
+    return d.toLocaleString(
+        "uk-UA",
+        {
+            dateStyle:"short",
+            timeStyle:"short"
+        }
+    );
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(s){
+
+    return String(s)
+        .replace(
+            /[&<>"']/g,
+            ch => ({
+
+                "&":"&amp;",
+
+                "<":"&lt;",
+
+                ">":"&gt;",
+
+                '"':"&quot;",
+
+                "'":"&#039;"
+
+            }[ch])
+        );
+}
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
+function csvCell(value){
+
+    const s =
+        String(
+            value ?? ""
+        );
+
+
+    return '"' +
+        s.replace(
+            /"/g,
+            '""'
+        ) +
+        '"';
+}
+
+
+function exportCSV(){
+
+    const rows =
+        getFilteredResults();
+
+
+    if(!rows.length){
+
+        alert(
+            "Немає результатів для експорту."
         );
 
         return;
     }
 
 
-    checkAttempts();
+    const headers = [
+
+        "Тест",
+
+        "Код",
+
+        "ПІБ",
+
+        "Група",
+
+        "Спроба",
+
+        "Статус",
+
+        "Бал",
+
+        "Максимум",
+
+        "Оцінка",
+
+        "Початок",
+
+        "Завершення"
+
+    ];
+
+
+    const lines=[
+
+        headers.map(
+            csvCell
+        ).join(";")
+
+    ];
+
+
+    rows.forEach(
+        row => {
+
+            lines.push(
+
+                [
+
+                    TEST_NAMES[
+                        row.test_id
+                    ] ||
+                    row.test_id ||
+                    "",
+
+                    row.student_code ||
+                    "",
+
+                    row.student_name ||
+                    "",
+
+                    row.student_group ||
+                    "",
+
+                    row.attempt_number ||
+                    "",
+
+                    row.status ||
+                    "",
+
+                    row.score ??
+                    "",
+
+                    row.max_score ??
+                    "",
+
+                    row.grade ??
+                    "",
+
+                    row.started_at ||
+                    "",
+
+                    row.finished_at ||
+                    ""
+
+                ]
+                .map(
+                    csvCell
+                )
+                .join(";")
+
+            );
+        }
+    );
+
+
+    const csv =
+        "\uFEFF" +
+        lines.join("\n");
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const a =
+        document.createElement(
+            "a"
+        );
+
+
+    a.href=url;
+
+
+    const testId =
+        $("testSelect").value;
+
+
+    a.download =
+        (
+            TEST_NAMES[testId] ||
+            testId
+        )
+        .replace(
+            /[^а-яА-ЯіІїЇєЄa-zA-Z0-9]+/g,
+            "_"
+        )
+        +
+        "_results.csv";
+
+
+    document.body.appendChild(a);
+
+
+    a.click();
+
+
+    a.remove();
+
+
+    URL.revokeObjectURL(
+        url
+    );
 }
+
+
+/* =========================================================
+   ОЧИЩЕННЯ РЕЗУЛЬТАТІВ ВИБРАНОГО ТЕСТУ
+========================================================= */
+
+async function clearSelectedTest(){
+
+    const testId =
+        $("testSelect").value;
+
+
+    if(!testId){
+
+        alert(
+            "Спочатку виберіть тест."
+        );
+
+        return;
+    }
+
+
+    const testName =
+        TEST_NAMES[testId] ||
+        testId;
+
+
+    const confirmed =
+        confirm(
+
+            "УВАГА!\n\n" +
+
+            `Буде видалено ВСІ результати тесту:\n` +
+
+            `${testName}\n\n` +
+
+            "Цю дію неможливо скасувати.\n\n" +
+
+            "Продовжити?"
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+    }
+
+
+    const secondConfirm =
+        prompt(
+
+            "Для остаточного підтвердження введіть:\n\n" +
+
+            "ОЧИСТИТИ"
+
+        );
+
+
+    if(
+        secondConfirm !==
+        "ОЧИСТИТИ"
+    ){
+
+        alert(
+            "Очищення скасовано."
+        );
+
+        return;
+    }
+
+
+    $("clearTestBtn").disabled=true;
+
+
+    try{
+
+        const result =
+            await supabaseRPC(
+
+                "clear_test_attempts",
+
+                {
+
+                    p_test_id:
+                        testId
+
+                }
+
+            );
+
+
+        showDeleteMessage(
+
+            `Готово. Видалено результатів: ${
+                result?.deleted || 0
+            }`,
+
+            true
+
+        );
+
+
+        await loadResults();
+
+
+    }catch(e){
+
+        console.error(e);
+
+
+        showDeleteMessage(
+
+            "Не вдалося очистити результати: " +
+            (
+                e.message ||
+                String(e)
+            ),
+
+            false
+
+        );
+
+    }finally{
+
+        $("clearTestBtn").disabled=false;
+    }
+}
+
+
+/* =========================================================
+   ОЧИЩЕННЯ ВСІЄЇ БАЗИ
+========================================================= */
+
+async function clearAllTests(){
+
+    const confirmed =
+        confirm(
+
+            "УВАГА!\n\n" +
+
+            "Буде видалено результати ВСІХ тестів.\n\n" +
+
+            "КЦІС, Комп'ютерні мережі, Креслення " +
+            "та всі інші результати будуть видалені.\n\n" +
+
+            "Цю дію неможливо скасувати.\n\n" +
+
+            "Продовжити?"
+
+        );
+
+
+    if(!confirmed){
+
+        return;
+    }
+
+
+    const secondConfirm =
+        prompt(
+
+            "Для остаточного підтвердження введіть:\n\n" +
+
+            "ВИДАЛИТИ ВСЕ"
+
+        );
+
+
+    if(
+        secondConfirm !==
+        "ВИДАЛИТИ ВСЕ"
+    ){
+
+        alert(
+            "Очищення скасовано."
+        );
+
+        return;
+    }
+
+
+    $("clearAllBtn").disabled=true;
+
+
+    try{
+
+        const result =
+            await supabaseRPC(
+
+                "clear_all_test_attempts",
+
+                {}
+
+            );
+
+
+        showDeleteMessage(
+
+            `Готово. Видалено результатів: ${
+                result?.deleted || 0
+            }`,
+
+            true
+
+        );
+
+
+        await loadResults();
+
+
+    }catch(e){
+
+        console.error(e);
+
+
+        showDeleteMessage(
+
+            "Не вдалося очистити базу: " +
+            (
+                e.message ||
+                String(e)
+            ),
+
+            false
+
+        );
+
+    }finally{
+
+        $("clearAllBtn").disabled=false;
+    }
+}
+
+
+/* =========================================================
+   ПОВІДОМЛЕННЯ ПРО ВИДАЛЕННЯ
+========================================================= */
+
+function showDeleteMessage(
+    message,
+    success
+){
+
+    const box =
+        $("deleteMessage");
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        success
+        ? "success"
+        : "error";
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+$("loginBtn")
+.addEventListener(
+    "click",
+    login
+);
+
+
+$("password")
+.addEventListener(
+
+    "keydown",
+
+    e => {
+
+        if(
+            e.key ===
+            "Enter"
+        ){
+
+            login();
+        }
+
+    }
+
+);
+
+
+$("logoutBtn")
+.addEventListener(
+    "click",
+    logout
+);
+
+
+$("testSelect")
+.addEventListener(
+
+    "change",
+
+    () => {
+
+        $("searchInput").value="";
+
+        loadResults();
+
+    }
+
+);
+
+
+$("searchInput")
+.addEventListener(
+
+    "input",
+
+    renderResults
+
+);
+
+
+$("refreshBtn")
+.addEventListener(
+
+    "click",
+
+    loadResults
+
+);
+
+
+$("exportBtn")
+.addEventListener(
+
+    "click",
+
+    exportCSV
+
+);
+
+
+$("clearTestBtn")
+.addEventListener(
+
+    "click",
+
+    clearSelectedTest
+
+);
+
+
+$("clearAllBtn")
+.addEventListener(
+
+    "click",
+
+    clearAllTests
+
+);
+
+
+/* =========================================================
+   ПЕРЕВІРКА ПОТОЧНОЇ СЕСІЇ
+========================================================= */
+
+async function init(){
+
+    try{
+
+        const {
+
+            data:{
+                session
+            }
+
+        } =
+            await supabaseClient
+            .auth
+            .getSession();
+
+
+        if(session?.user){
+
+            /*
+               Перевіряємо, що це саме викладач.
+            */
+
+            const {
+
+                data:profile,
+
+                error
+
+            } =
+                await supabaseClient
+                .from("teacher_profiles")
+                .select("id, role")
+                .eq(
+                    "id",
+                    session.user.id
+                )
+                .maybeSingle();
+
+
+            if(
+                !error &&
+                profile &&
+                profile.role ===
+                    "teacher"
+            ){
+
+                showDashboard();
+
+            }else{
+
+                await supabaseClient.auth
+                    .signOut();
+
+            }
+
+        }
+
+    }catch(e){
+
+        console.error(
+            "Помилка перевірки сесії:",
+            e
+        );
+    }
+}
+
+
+supabaseClient.auth
+.onAuthStateChange(
+
+    (event, session) => {
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            $("dashboard")
+                .classList
+                .add("hidden");
+
+
+            $("logoutBtn")
+                .classList
+                .add("hidden");
+
+
+            $("loginCard")
+                .classList
+                .remove("hidden");
+
+        }
+
+    }
+
+);
 
 
 init();
 
 </script>
 
+
 </body>
+
 </html>
 ```
