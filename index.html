@@ -3,30 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Засоби комп'ютерних інформаційних систем</title>
+
+<title>Засоби комп'ютерних інформаційних систем — тест</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f1f5f9;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #eef2f7;
     color: #1e293b;
 }
 
 .container {
-    max-width: 900px;
+    max-width: 950px;
     margin: auto;
-    padding: 25px 15px;
+    padding: 20px;
 }
 
 header {
     background: white;
-    padding: 25px;
     border-radius: 14px;
+    padding: 25px;
     margin-bottom: 20px;
     text-align: center;
     box-shadow: 0 3px 12px rgba(0,0,0,.08);
@@ -34,6 +36,12 @@ header {
 
 header h1 {
     margin: 0 0 10px;
+    font-size: 28px;
+}
+
+header p {
+    margin: 0;
+    color: #64748b;
 }
 
 .card {
@@ -42,6 +50,11 @@ header h1 {
     padding: 25px;
     margin-bottom: 20px;
     box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+label.main-label {
+    display: block;
+    font-weight: bold;
 }
 
 input[type="text"] {
@@ -55,9 +68,15 @@ input[type="text"] {
 
 .info {
     display: flex;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 15px;
     margin: 20px 0;
+}
+
+.info-item {
+    background: #f1f5f9;
+    padding: 10px 15px;
+    border-radius: 8px;
 }
 
 button {
@@ -66,6 +85,11 @@ button {
     padding: 12px 20px;
     font-size: 16px;
     cursor: pointer;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
 }
 
 .primary {
@@ -82,23 +106,41 @@ button {
     color: #1e293b;
 }
 
+.secondary:hover {
+    background: #cbd5e1;
+}
+
 .danger {
     background: #dc2626;
     color: white;
 }
 
+.danger:hover {
+    background: #b91c1c;
+}
+
 .topbar {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    flex-wrap: wrap;
-    padding: 15px;
     background: white;
     border-radius: 10px;
+    padding: 15px;
     margin-bottom: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+    flex-wrap: wrap;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.timer-warning {
+    color: #dc2626;
 }
 
 .progress {
+    width: 100%;
     height: 8px;
     background: #dbe2e8;
     border-radius: 10px;
@@ -108,9 +150,9 @@ button {
 
 .progress-bar {
     height: 100%;
-    background: #2563eb;
     width: 0%;
-    transition: .2s;
+    background: #2563eb;
+    transition: width .2s;
 }
 
 .question-number {
@@ -121,6 +163,7 @@ button {
 
 .question-title {
     line-height: 1.5;
+    margin-top: 5px;
 }
 
 .hint {
@@ -138,19 +181,29 @@ button {
     display: flex;
     align-items: flex-start;
     gap: 12px;
+
     border: 1px solid #d8dee7;
     border-radius: 9px;
+
     padding: 14px;
+
     cursor: pointer;
+
     transition: .15s;
 }
 
 .option:hover {
     background: #f8fafc;
+    border-color: #94a3b8;
 }
 
 .option input {
     margin-top: 4px;
+    transform: scale(1.1);
+}
+
+.option span {
+    line-height: 1.45;
 }
 
 .navigation {
@@ -162,94 +215,169 @@ button {
     flex: 1;
 }
 
-.big-result {
-    font-size: 55px;
-    font-weight: bold;
-    text-align: center;
-    margin: 20px;
-}
-
-.success {
-    color: #15803d;
+.hidden {
+    display: none !important;
 }
 
 .error {
     color: #dc2626;
 }
 
-.hidden {
-    display: none !important;
+.success {
+    color: #15803d;
 }
 
-.timer-warning {
-    color: #dc2626;
+.result-grade {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
 }
 
-@media(max-width:600px) {
+.result-info {
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.7;
+}
+
+.save-status {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    background: #f8fafc;
+}
+
+@media (max-width: 650px) {
+
     .container {
         padding: 10px;
     }
 
     .card {
-        padding: 17px;
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 22px;
     }
 
     .topbar {
         font-size: 14px;
     }
+
+    .navigation {
+        flex-direction: column;
+    }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
+
+<!-- =====================================================
+     ЗАГОЛОВОК
+===================================================== -->
+
 <header>
-    <h1>Засоби комп'ютерних інформаційних систем</h1>
-    <p>Підсумковий тест</p>
+
+    <h1>
+        Засоби комп'ютерних інформаційних систем
+    </h1>
+
+    <p>
+        Підсумковий тест
+    </p>
+
 </header>
 
 
-<!-- ПОЧАТОК -->
+<!-- =====================================================
+     ПОЧАТОК ТЕСТУ
+===================================================== -->
 
 <section id="startScreen" class="card">
 
     <h2>Початок тестування</h2>
 
-    <label>
+    <label class="main-label">
+
         Прізвище та ім'я:
+
         <input
             type="text"
             id="studentName"
             placeholder="Наприклад: Петренко Іван"
             maxlength="100"
         >
+
     </label>
 
+
     <div class="info">
-        <span>Питань: <b>60</b></span>
-        <span>Час: <b>30 хв</b></span>
-        <span>Максимум: <b>60 балів</b></span>
+
+        <div class="info-item">
+            Питань: <b>60</b>
+        </div>
+
+        <div class="info-item">
+            Час: <b>30 хв</b>
+        </div>
+
+        <div class="info-item">
+            Максимум: <b>60 балів</b>
+        </div>
+
+        <div class="info-item">
+            Максимальна оцінка: <b>12</b>
+        </div>
+
     </div>
+
 
     <p>
         У питаннях із кількома правильними відповідями
         необхідно вибрати всі правильні варіанти.
     </p>
 
-    <button class="primary" onclick="startTest()">
+    <p class="hint">
+        За кожне питання нараховується 1 бал.
+        Для питання з кількома відповідями необхідно
+        вибрати повний набір правильних відповідей.
+    </p>
+
+
+    <button
+        class="primary"
+        onclick="startTest()"
+    >
         Розпочати тест
     </button>
 
-    <p id="startError" class="error"></p>
+
+    <p
+        id="startError"
+        class="error"
+    ></p>
 
 </section>
 
 
-<!-- ТЕСТ -->
+<!-- =====================================================
+     ТЕСТ
+===================================================== -->
 
-<section id="testScreen" class="hidden">
+<section
+    id="testScreen"
+    class="hidden"
+>
+
 
     <div class="topbar">
 
@@ -270,11 +398,22 @@ button {
 
     </div>
 
+
     <div class="progress">
-        <div id="progressBar" class="progress-bar"></div>
+
+        <div
+            id="progressBar"
+            class="progress-bar"
+        ></div>
+
     </div>
 
-    <div id="questionContainer" class="card"></div>
+
+    <div
+        id="questionContainer"
+        class="card"
+    ></div>
+
 
     <div class="navigation">
 
@@ -286,6 +425,7 @@ button {
             ← Назад
         </button>
 
+
         <button
             id="nextButton"
             class="primary"
@@ -293,6 +433,7 @@ button {
         >
             Далі →
         </button>
+
 
         <button
             id="finishButton"
@@ -304,18 +445,32 @@ button {
 
     </div>
 
+
 </section>
 
 
-<!-- РЕЗУЛЬТАТ -->
+<!-- =====================================================
+     РЕЗУЛЬТАТ
+===================================================== -->
 
-<section id="resultScreen" class="card hidden">
+<section
+    id="resultScreen"
+    class="card hidden"
+>
 
-    <h2>Результат тестування</h2>
+    <h2>
+        Результат тестування
+    </h2>
+
 
     <div id="resultContent"></div>
 
-    <p id="saveStatus"></p>
+
+    <div
+        id="saveStatus"
+        class="save-status"
+    ></div>
+
 
     <button
         class="secondary"
@@ -326,30 +481,39 @@ button {
 
 </section>
 
+
 </div>
 
 
 <script>
 
-/* =========================================================
-   НАЛАШТУВАННЯ SUPABASE
-   =========================================================
 
-   Після створення Supabase вставте сюди:
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-   const SUPABASE_URL = "https://xxxxx.supabase.co";
-   const SUPABASE_ANON_KEY = "ваш_anon_ключ";
-
-   Не вставляйте service_role key!
-*/
-
-const SUPABASE_URL = "";
-const SUPABASE_ANON_KEY = "";
+const SUPABASE_URL =
+    "https://egovkavyxtcztisropsf.supabase.co";
 
 
-/* =========================================================
+const SUPABASE_ANON_KEY =
+    "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
+
+
+/* =====================================================
+   НАЛАШТУВАННЯ ТЕСТУ
+===================================================== */
+
+const TEST_SUBJECT =
+    "Засоби комп'ютерних інформаційних систем";
+
+const TEST_TIME =
+    30 * 60;
+
+
+/* =====================================================
    ПИТАННЯ
-   ========================================================= */
+===================================================== */
 
 const questions = [
 
@@ -1076,9 +1240,9 @@ correct:["A","B","C","D"]
 ];
 
 
-/* =========================================================
+/* =====================================================
    ЗМІННІ
-   ========================================================= */
+===================================================== */
 
 let currentQuestion = 0;
 
@@ -1086,70 +1250,97 @@ let answers = {};
 
 let studentName = "";
 
-let timeLeft = 30 * 60;
+let timeLeft = TEST_TIME;
 
-let timer;
+let timer = null;
 
 
-/* =========================================================
-   ПОЧАТОК ТЕСТУ
-   ========================================================= */
+/* =====================================================
+   ПОЧАТОК
+===================================================== */
 
 function startTest() {
 
     studentName =
-        document.getElementById("studentName").value.trim();
+        document
+        .getElementById("studentName")
+        .value
+        .trim();
+
 
     if (!studentName) {
 
-        document.getElementById("startError").textContent =
-            "Введіть прізвище та ім’я.";
+        document
+        .getElementById("startError")
+        .textContent =
+        "Введіть прізвище та ім’я.";
 
         return;
     }
 
-    document.getElementById("startScreen")
-        .classList.add("hidden");
 
-    document.getElementById("testScreen")
-        .classList.remove("hidden");
+    document
+    .getElementById("startScreen")
+    .classList
+    .add("hidden");
 
-    document.getElementById("studentLabel")
-        .textContent = studentName;
+
+    document
+    .getElementById("testScreen")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("studentLabel")
+    .textContent =
+    studentName;
+
 
     showQuestion();
 
-    timer = setInterval(updateTimer, 1000);
+
+    timer =
+    setInterval(updateTimer, 1000);
 }
 
 
-/* =========================================================
+/* =====================================================
    ТАЙМЕР
-   ========================================================= */
+===================================================== */
 
 function updateTimer() {
 
     timeLeft--;
 
-    let minutes =
+
+    const minutes =
         Math.floor(timeLeft / 60);
 
-    let seconds =
+
+    const seconds =
         timeLeft % 60;
 
-    document.getElementById("timer")
-        .textContent =
+
+    document
+    .getElementById("timer")
+    .textContent =
         String(minutes).padStart(2,"0")
-        + ":"
+        +
+        ":"
         +
         String(seconds).padStart(2,"0");
 
+
     if (timeLeft <= 60) {
 
-        document.getElementById("timer")
-            .classList.add("timer-warning");
+        document
+        .getElementById("timer")
+        .classList
+        .add("timer-warning");
 
     }
+
 
     if (timeLeft <= 0) {
 
@@ -1160,36 +1351,47 @@ function updateTimer() {
 }
 
 
-/* =========================================================
-   ПОКАЗ ПИТАННЯ
-   ========================================================= */
+/* =====================================================
+   ВІДОБРАЖЕННЯ ПИТАННЯ
+===================================================== */
 
 function showQuestion() {
 
-    const q = questions[currentQuestion];
+    const q =
+        questions[currentQuestion];
 
-    document.getElementById("questionNumber")
-        .textContent =
+
+    document
+    .getElementById("questionNumber")
+    .textContent =
         currentQuestion + 1;
 
-    document.getElementById("progressBar")
-        .style.width =
-        ((currentQuestion + 1) / questions.length * 100)
+
+    document
+    .getElementById("progressBar")
+    .style.width =
+        ((currentQuestion + 1)
+        / questions.length * 100)
         + "%";
+
 
     let html = "";
 
+
     html += `
         <div class="question-number">
-            Питання ${currentQuestion + 1} із ${questions.length}
+            Питання ${currentQuestion + 1}
+            із ${questions.length}
         </div>
     `;
+
 
     html += `
         <h2 class="question-title">
             ${q.q}
         </h2>
     `;
+
 
     if (q.type === "multi") {
 
@@ -1208,76 +1410,117 @@ function showQuestion() {
         `;
     }
 
-    html += `<div class="options">`;
 
-    q.a.forEach((answer,index) => {
+    html += `
+        <div class="options">
+    `;
 
-        const letter =
-            String.fromCharCode(65 + index);
 
-        let checked = "";
+    q.a.forEach(
+        (answer,index) => {
 
-        if (
-            answers[currentQuestion] &&
-            answers[currentQuestion].includes(letter)
-        ) {
-            checked = "checked";
+            const letter =
+                String.fromCharCode(65 + index);
+
+
+            let checked = "";
+
+
+            if (
+                answers[currentQuestion] &&
+                answers[currentQuestion]
+                .includes(letter)
+            ) {
+
+                checked = "checked";
+            }
+
+
+            html += `
+
+                <label class="option">
+
+                    <input
+                        type="${
+                            q.type === "multi"
+                            ? "checkbox"
+                            : "radio"
+                        }"
+
+                        name="question"
+
+                        value="${letter}"
+
+                        ${checked}
+
+                        onchange="saveAnswer()"
+                    >
+
+                    <span>
+                        <b>${letter}.</b>
+                        ${escapeHtml(answer)}
+                    </span>
+
+                </label>
+
+            `;
         }
+    );
 
-        html += `
-            <label class="option">
 
-                <input
-                    type="${q.type === "multi" ? "checkbox" : "radio"}"
-                    name="question"
-                    value="${letter}"
-                    ${checked}
-                    onchange="saveAnswer()"
-                >
+    html += `
+        </div>
+    `;
 
-                <span>
-                    <b>${letter}.</b>
-                    ${answer}
-                </span>
 
-            </label>
-        `;
+    document
+    .getElementById("questionContainer")
+    .innerHTML =
+        html;
 
-    });
 
-    html += `</div>`;
-
-    document.getElementById("questionContainer")
-        .innerHTML = html;
-
-    document.getElementById("prevButton")
-        .disabled =
+    document
+    .getElementById("prevButton")
+    .disabled =
         currentQuestion === 0;
 
+
     if (
-        currentQuestion === questions.length - 1
+        currentQuestion ===
+        questions.length - 1
     ) {
 
-        document.getElementById("nextButton")
-            .classList.add("hidden");
+        document
+        .getElementById("nextButton")
+        .classList
+        .add("hidden");
 
-        document.getElementById("finishButton")
-            .classList.remove("hidden");
+
+        document
+        .getElementById("finishButton")
+        .classList
+        .remove("hidden");
 
     } else {
 
-        document.getElementById("nextButton")
-            .classList.remove("hidden");
+        document
+        .getElementById("nextButton")
+        .classList
+        .remove("hidden");
 
-        document.getElementById("finishButton")
-            .classList.add("hidden");
+
+        document
+        .getElementById("finishButton")
+        .classList
+        .add("hidden");
     }
+
 }
 
 
-/* =========================================================
-   ЗБЕРЕЖЕННЯ ВІДПОВІДІ
-   ========================================================= */
+/* =====================================================
+   ЗБЕРІГАННЯ ВІДПОВІДІ
+===================================================== */
 
 function saveAnswer() {
 
@@ -1286,19 +1529,25 @@ function saveAnswer() {
             'input[name="question"]:checked'
         );
 
+
     answers[currentQuestion] =
-        Array.from(selected)
-        .map(input => input.value);
+        Array
+        .from(selected)
+        .map(
+            input =>
+            input.value
+        );
 }
 
 
-/* =========================================================
-   НАСТУПНЕ ПИТАННЯ
-   ========================================================= */
+/* =====================================================
+   ДАЛІ
+===================================================== */
 
 function nextQuestion() {
 
     saveAnswer();
+
 
     if (
         currentQuestion <
@@ -1312,13 +1561,14 @@ function nextQuestion() {
 }
 
 
-/* =========================================================
-   ПОПЕРЕДНЄ ПИТАННЯ
-   ========================================================= */
+/* =====================================================
+   НАЗАД
+===================================================== */
 
 function previousQuestion() {
 
     saveAnswer();
+
 
     if (currentQuestion > 0) {
 
@@ -1329,9 +1579,9 @@ function previousQuestion() {
 }
 
 
-/* =========================================================
-   ПЕРЕВІРКА
-   ========================================================= */
+/* =====================================================
+   ПЕРЕВІРКА ВІДПОВІДІ
+===================================================== */
 
 function checkAnswer(user, correct) {
 
@@ -1339,15 +1589,23 @@ function checkAnswer(user, correct) {
         return false;
     }
 
-    if (user.length !== correct.length) {
+
+    if (
+        user.length !==
+        correct.length
+    ) {
+
         return false;
     }
 
-    let u =
+
+    const u =
         [...user].sort();
 
-    let c =
+
+    const c =
         [...correct].sort();
+
 
     return u.every(
         (value,index) =>
@@ -1356,14 +1614,17 @@ function checkAnswer(user, correct) {
 }
 
 
-/* =========================================================
-   ОЦІНКА
-   ========================================================= */
+/* =====================================================
+   ОЦІНКА 1–12
+===================================================== */
 
 function calculateGrade(score) {
 
     const percent =
-        score / questions.length * 100;
+        score /
+        questions.length *
+        100;
+
 
     if (percent < 35)
         return 1;
@@ -1402,13 +1663,14 @@ function calculateGrade(score) {
 }
 
 
-/* =========================================================
-   ЗАВЕРШЕННЯ
-   ========================================================= */
+/* =====================================================
+   ЗАВЕРШЕННЯ ТЕСТУ
+===================================================== */
 
 async function finishTest(auto = false) {
 
     saveAnswer();
+
 
     if (!auto) {
 
@@ -1417,99 +1679,128 @@ async function finishTest(auto = false) {
                 "Ви впевнені, що хочете завершити тест?"
             );
 
+
         if (!confirmFinish) {
             return;
         }
     }
 
+
     clearInterval(timer);
+
 
     let score = 0;
 
-    questions.forEach((q,index) => {
 
-        if (
-            checkAnswer(
-                answers[index],
-                q.correct
-            )
-        ) {
+    questions.forEach(
+        (q,index) => {
 
-            score++;
+            if (
+                checkAnswer(
+                    answers[index],
+                    q.correct
+                )
+            ) {
+
+                score++;
+            }
         }
-    });
+    );
+
 
     const grade =
         calculateGrade(score);
 
+
     const percent =
         Math.round(
-            score / questions.length * 100
+            score /
+            questions.length *
+            100
         );
 
-    document.getElementById("testScreen")
-        .classList.add("hidden");
 
-    document.getElementById("resultScreen")
-        .classList.remove("hidden");
+    document
+    .getElementById("testScreen")
+    .classList
+    .add("hidden");
 
-    document.getElementById("resultContent")
-        .innerHTML = `
 
-        <div class="big-result">
+    document
+    .getElementById("resultScreen")
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById("resultContent")
+    .innerHTML = `
+
+        <div class="result-grade">
             ${grade} / 12
         </div>
 
-        <p style="text-align:center">
-            <b>${escapeHtml(studentName)}</b>
-        </p>
+        <div class="result-info">
 
-        <p style="text-align:center">
-            Правильних відповідей:
-            <b>${score}</b> із ${questions.length}
-        </p>
+            <p>
+                <b>
+                    ${escapeHtml(studentName)}
+                </b>
+            </p>
 
-        <p style="text-align:center">
-            Результат: <b>${percent}%</b>
-        </p>
+            <p>
+                Правильних відповідей:
+                <b>${score}</b>
+                із
+                <b>${questions.length}</b>
+            </p>
 
-        ${
-            auto
-            ?
-            "<p class='error'>Час тестування завершився. Тест завершено автоматично.</p>"
-            :
-            ""
-        }
+            <p>
+                Результат:
+                <b>${percent}%</b>
+            </p>
 
+            ${
+                auto
+                ?
+                `
+                <p class="error">
+                    Час тестування завершився.
+                    Тест завершено автоматично.
+                </p>
+                `
+                :
+                ""
+            }
+
+        </div>
     `;
 
-    await saveResult(score,grade);
+
+    await saveResult(
+        score,
+        grade
+    );
 }
 
 
-/* =========================================================
+/* =====================================================
    ЗБЕРЕЖЕННЯ В SUPABASE
-   ========================================================= */
+===================================================== */
 
-async function saveResult(score,grade) {
+async function saveResult(
+    score,
+    grade
+) {
 
     const status =
-        document.getElementById("saveStatus");
+        document
+        .getElementById("saveStatus");
 
-    if (
-        !SUPABASE_URL ||
-        !SUPABASE_ANON_KEY
-    ) {
 
-        status.innerHTML = `
-            <span class="error">
-                Результат не збережено в базу:
-                Supabase ще не налаштований.
-            </span>
-        `;
+    status.innerHTML =
+        "Збереження результату...";
 
-        return;
-    }
 
     try {
 
@@ -1518,9 +1809,11 @@ async function saveResult(score,grade) {
                 SUPABASE_URL +
                 "/rest/v1/test_results",
                 {
-                    method:"POST",
 
-                    headers:{
+                    method: "POST",
+
+                    headers: {
+
                         "apikey":
                             SUPABASE_ANON_KEY,
 
@@ -1535,38 +1828,54 @@ async function saveResult(score,grade) {
                             "return=minimal"
                     },
 
-                    body:JSON.stringify({
 
-                        student_name:
-                            studentName,
+                    body:
+                        JSON.stringify({
 
-                        subject:
-                            "Засоби комп'ютерних інформаційних систем",
+                            student_name:
+                                studentName,
 
-                        score:
-                            score,
+                            subject:
+                                TEST_SUBJECT,
 
-                        max_score:
-                            questions.length,
+                            score:
+                                score,
 
-                        grade:
-                            grade
+                            max_score:
+                                questions.length,
 
-                    })
+                            grade:
+                                grade
+                        })
                 }
             );
 
+
         if (!response.ok) {
 
+            const errorText =
+                await response.text();
+
+            console.error(
+                "Supabase error:",
+                errorText
+            );
+
             throw new Error(
-                "Помилка збереження"
+                errorText
             );
         }
 
+
         status.innerHTML = `
+
             <span class="success">
-                ✓ Результат успішно збережено в базу даних.
+
+                ✓ Результат успішно
+                збережено в базу даних.
+
             </span>
+
         `;
 
     }
@@ -1575,27 +1884,58 @@ async function saveResult(score,grade) {
 
         console.error(error);
 
+
         status.innerHTML = `
+
             <span class="error">
-                ✗ Не вдалося зберегти результат у базу даних.
+
+                ✗ Не вдалося зберегти
+                результат у базу даних.
+
+                <br><br>
+
+                Перевірте налаштування
+                Supabase та RLS.
+
             </span>
+
         `;
     }
 }
 
 
-/* =========================================================
+/* =====================================================
    ЗАХИСТ ВІД HTML
-   ========================================================= */
+===================================================== */
 
 function escapeHtml(text) {
 
-    return text
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
 
 </script>
