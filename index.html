@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Засоби комп'ютерних інформаційних систем</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 25px 15px;
+}
+
+header {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+header h1 {
+    margin: 0 0 10px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 13px;
+    margin-top: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.info {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.primary:hover {
+    background: #1d4ed8;
+}
+
+.secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.danger {
+    background: #dc2626;
+    color: white;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.progress {
+    height: 8px;
+    background: #dbe2e8;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #2563eb;
+    width: 0%;
+    transition: .2s;
+}
+
+.question-number {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.question-title {
+    line-height: 1.5;
+}
+
+.hint {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid #d8dee7;
+    border-radius: 9px;
+    padding: 14px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.option:hover {
+    background: #f8fafc;
+}
+
+.option input {
+    margin-top: 4px;
+}
+
+.navigation {
+    display: flex;
+    gap: 10px;
+}
+
+.navigation button {
+    flex: 1;
+}
+
+.big-result {
+    font-size: 55px;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px;
+}
+
+.success {
+    color: #15803d;
+}
+
+.error {
+    color: #dc2626;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.timer-warning {
+    color: #dc2626;
+}
+
+@media(max-width:600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 17px;
+    }
+
+    .topbar {
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>Засоби комп'ютерних інформаційних систем</h1>
+    <p>Підсумковий тест</p>
+</header>
+
+
+<!-- ПОЧАТОК -->
+
+<section id="startScreen" class="card">
+
+    <h2>Початок тестування</h2>
+
+    <label>
+        Прізвище та ім'я:
+        <input
+            type="text"
+            id="studentName"
+            placeholder="Наприклад: Петренко Іван"
+            maxlength="100"
+        >
+    </label>
+
+    <div class="info">
+        <span>Питань: <b>60</b></span>
+        <span>Час: <b>30 хв</b></span>
+        <span>Максимум: <b>60 балів</b></span>
+    </div>
+
+    <p>
+        У питаннях із кількома правильними відповідями
+        необхідно вибрати всі правильні варіанти.
+    </p>
+
+    <button class="primary" onclick="startTest()">
+        Розпочати тест
+    </button>
+
+    <p id="startError" class="error"></p>
+
+</section>
+
+
+<!-- ТЕСТ -->
+
+<section id="testScreen" class="hidden">
+
+    <div class="topbar">
+
+        <div>
+            Студент:
+            <b id="studentLabel"></b>
+        </div>
+
+        <div>
+            Питання:
+            <b id="questionNumber">1</b>/60
+        </div>
+
+        <div>
+            Час:
+            <b id="timer">30:00</b>
+        </div>
+
+    </div>
+
+    <div class="progress">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div id="questionContainer" class="card"></div>
+
+    <div class="navigation">
+
+        <button
+            id="prevButton"
+            class="secondary"
+            onclick="previousQuestion()"
+        >
+            ← Назад
+        </button>
+
+        <button
+            id="nextButton"
+            class="primary"
+            onclick="nextQuestion()"
+        >
+            Далі →
+        </button>
+
+        <button
+            id="finishButton"
+            class="danger hidden"
+            onclick="finishTest()"
+        >
+            Завершити тест
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- РЕЗУЛЬТАТ -->
+
+<section id="resultScreen" class="card hidden">
+
+    <h2>Результат тестування</h2>
+
+    <div id="resultContent"></div>
+
+    <p id="saveStatus"></p>
+
+    <button
+        class="secondary"
+        onclick="location.reload()"
+    >
+        Пройти ще раз
+    </button>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   НАЛАШТУВАННЯ SUPABASE
+   =========================================================
+
+   Після створення Supabase вставте сюди:
+
+   const SUPABASE_URL = "https://xxxxx.supabase.co";
+   const SUPABASE_ANON_KEY = "ваш_anon_ключ";
+
+   Не вставляйте service_role key!
+*/
+
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
+
+
+/* =========================================================
+   ПИТАННЯ
+   ========================================================= */
+
+const questions = [
+
+{
+q:"Які компоненти належать до основних апаратних засобів комп’ютера?",
+type:"single",
+a:[
+"Процесор, оперативна пам’ять, накопичувач",
+"Windows, Word, Excel",
+"Інтернет, браузер, електронна пошта",
+"Документи, папки, файли"
+],
+correct:["A"]
+},
+
+{
+q:"Які основні функції виконує процесор?",
+type:"multi",
+a:[
+"Виконує арифметичні та логічні операції",
+"Виконує програмні інструкції",
+"Постійно зберігає файли користувача",
+"Виводить зображення безпосередньо на папір"
+],
+correct:["A","B"]
+},
+
+{
+q:"Що відбувається з даними, які знаходяться в оперативній пам’яті, після вимкнення живлення?",
+type:"single",
+a:[
+"Вони зберігаються на SSD",
+"Вони автоматично копіюються в BIOS",
+"Вони втрачаються",
+"Вони переходять у кеш процесора"
+],
+correct:["C"]
+},
+
+{
+q:"Які характеристики можуть впливати на продуктивність процесора?",
+type:"multi",
+a:[
+"Тактова частота",
+"Кількість ядер",
+"Обсяг кеш-пам’яті",
+"Роздільна здатність монітора"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"У чому полягає основна перевага SSD перед HDD?",
+type:"single",
+a:[
+"SSD має магнітні пластини більшої ємності",
+"SSD не має рухомих механічних частин і забезпечує швидший доступ до даних",
+"SSD використовується тільки для операційної системи",
+"SSD не потребує електроживлення"
+],
+correct:["B"]
+},
+
+{
+q:"Які пристрої належать до пристроїв введення інформації?",
+type:"multi",
+a:[
+"Клавіатура",
+"Миша",
+"Сканер",
+"Монітор"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Яке призначення материнської плати?",
+type:"single",
+a:[
+"Зберігання всіх файлів користувача",
+"З'єднання та забезпечення взаємодії основних компонентів комп’ютера",
+"Захист комп’ютера від вірусів",
+"Виведення звуку"
+],
+correct:["B"]
+},
+
+{
+q:"Які компоненти можуть бути встановлені безпосередньо на материнській платі?",
+type:"multi",
+a:[
+"Процесор",
+"Оперативна пам’ять",
+"Відеокарта",
+"Монітор"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого призначений блок живлення комп’ютера?",
+type:"single",
+a:[
+"Для перетворення та подавання електроенергії компонентам ПК",
+"Для зберігання резервних копій",
+"Для обробки графіки",
+"Для підключення до Інтернету"
+],
+correct:["A"]
+},
+
+{
+q:"Які пристрої можуть використовуватися для довготривалого зберігання інформації?",
+type:"multi",
+a:[
+"SSD",
+"HDD",
+"USB-флеш-накопичувач",
+"Оперативна пам’ять"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Яке основне призначення відеокарти?",
+type:"single",
+a:[
+"Обробка мережевих пакетів",
+"Обробка та формування графічної інформації",
+"Зберігання документів",
+"Керування клавіатурою"
+],
+correct:["B"]
+},
+
+{
+q:"У яких випадках потужна відеокарта може бути особливо корисною?",
+type:"multi",
+a:[
+"Робота з 3D-графікою",
+"Сучасні комп’ютерні ігри",
+"Монтаж та обробка відео",
+"Набір тексту в Блокноті"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого використовується система охолодження комп’ютера?",
+type:"single",
+a:[
+"Для збільшення обсягу накопичувача",
+"Для підтримання допустимої температури компонентів",
+"Для захисту від шкідливих програм",
+"Для збільшення швидкості Інтернету"
+],
+correct:["B"]
+},
+
+{
+q:"До яких пристроїв належить принтер?",
+type:"single",
+a:[
+"Введення інформації",
+"Виведення інформації",
+"Обробки інформації",
+"Зберігання інформації"
+],
+correct:["B"]
+},
+
+{
+q:"Які пристрої можуть бути віднесені до периферійних?",
+type:"multi",
+a:[
+"Принтер",
+"Сканер",
+"Вебкамера",
+"Клавіатура"
+],
+correct:["A","B","C","D"]
+},
+
+{
+q:"Яке призначення драйвера пристрою?",
+type:"single",
+a:[
+"Забезпечити взаємодію операційної системи з апаратним пристроєм",
+"Зберігати резервні копії",
+"Підвищувати ємність SSD",
+"Захищати комп’ютер від перегрівання"
+],
+correct:["A"]
+},
+
+{
+q:"Які пристрої можуть підключатися до комп’ютера через USB?",
+type:"multi",
+a:[
+"Флеш-накопичувач",
+"Клавіатура",
+"Принтер",
+"Процесор"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого переважно використовується HDMI?",
+type:"single",
+a:[
+"Для підключення накопичувачів",
+"Для передавання цифрового відео та звуку",
+"Для підключення оперативної пам’яті",
+"Для передавання електроенергії до процесора"
+],
+correct:["B"]
+},
+
+{
+q:"Що є основним призначенням операційної системи?",
+type:"single",
+a:[
+"Тільки запуск браузера",
+"Керування апаратними та програмними ресурсами комп’ютера",
+"Лише робота з текстовими документами",
+"Збільшення фізичного обсягу пам’яті"
+],
+correct:["B"]
+},
+
+{
+q:"Які завдання виконує операційна система?",
+type:"multi",
+a:[
+"Керує файлами та папками",
+"Керує пам’яттю та ресурсами комп’ютера",
+"Забезпечує взаємодію користувача з комп’ютером",
+"Фізично ремонтує несправні компоненти"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке файл?",
+type:"single",
+a:[
+"Фізична частина комп’ютера",
+"Іменована сукупність даних, що зберігається на носії",
+"Мережевий пристрій",
+"Команда процесора"
+],
+correct:["B"]
+},
+
+{
+q:"Які розширення можуть належати графічним файлам?",
+type:"multi",
+a:[
+".jpg",
+".png",
+".gif",
+".exe"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого використовуються архіватори?",
+type:"single",
+a:[
+"Для створення та розпакування архівів",
+"Для ремонту жорсткого диска",
+"Для встановлення оперативної пам’яті",
+"Для підключення монітора"
+],
+correct:["A"]
+},
+
+{
+q:"Які переваги може давати архівування файлів?",
+type:"multi",
+a:[
+"Зменшення розміру деяких даних",
+"Об’єднання декількох файлів в один архів",
+"Автоматичне збільшення оперативної пам’яті",
+"Підвищення тактової частоти процесора"
+],
+correct:["A","B"]
+},
+
+{
+q:"Що таке комп’ютерна мережа?",
+type:"single",
+a:[
+"Один комп’ютер із кількома програмами",
+"Сукупність пристроїв, з’єднаних для обміну даними та використання ресурсів",
+"Лише підключення до Wi-Fi",
+"Операційна система"
+],
+correct:["B"]
+},
+
+{
+q:"Які пристрої можуть використовуватися в комп’ютерній мережі?",
+type:"multi",
+a:[
+"Маршрутизатор",
+"Комутатор",
+"Точка доступу",
+"Сканер без мережевого підключення"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Яке основне призначення комутатора (Switch)?",
+type:"single",
+a:[
+"З'єднання пристроїв у локальній мережі та передавання даних між ними",
+"Перетворення електроенергії",
+"Зберігання файлів",
+"Виведення зображення"
+],
+correct:["A"]
+},
+
+{
+q:"Яке основне завдання маршрутизатора?",
+type:"single",
+a:[
+"Передавання мережевого трафіку між різними мережами",
+"Друк документів",
+"Зберігання операційної системи",
+"Охолодження мережевого обладнання"
+],
+correct:["A"]
+},
+
+{
+q:"Що таке IP-адреса?",
+type:"single",
+a:[
+"Унікальний ідентифікатор мережевого інтерфейсу в IP-мережі",
+"Пароль від Wi-Fi",
+"Назва комп’ютера",
+"Фізичний розмір мережевого кабелю"
+],
+correct:["A"]
+},
+
+{
+q:"Які твердження щодо локальної мережі є правильними?",
+type:"multi",
+a:[
+"Вона може об’єднувати комп’ютери в одному приміщенні або будівлі",
+"Через неї можна організувати спільний доступ до файлів",
+"Через неї можна використовувати спільний мережевий принтер",
+"Вона обов’язково повинна використовувати лише Wi-Fi"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого використовується DNS?",
+type:"single",
+a:[
+"Для автоматичного резервного копіювання",
+"Для перетворення доменних імен на IP-адреси",
+"Для перевірки температури процесора",
+"Для стиснення файлів"
+],
+correct:["B"]
+},
+
+{
+q:"Які характеристики належать до параметрів мережевого з’єднання?",
+type:"multi",
+a:[
+"Швидкість передавання даних",
+"Затримка",
+"Тип підключення",
+"Розмір монітора"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке Wi-Fi?",
+type:"single",
+a:[
+"Стандарт технологій бездротового мережевого зв’язку",
+"Тип оперативної пам’яті",
+"Формат файлу",
+"Тип процесора"
+],
+correct:["A"]
+},
+
+{
+q:"Які фактори можуть погіршувати якість Wi-Fi-з’єднання?",
+type:"multi",
+a:[
+"Великі відстані до точки доступу",
+"Перешкоди та стіни",
+"Радіоперешкоди від інших пристроїв",
+"Колір корпусу ноутбука"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке сервер?",
+type:"single",
+a:[
+"Комп’ютер або програмна система, яка надає мережеві ресурси чи послуги",
+"Будь-який монітор",
+"Тип мережевого кабелю",
+"Пристрій введення"
+],
+correct:["A"]
+},
+
+{
+q:"Які ресурси може надавати сервер у мережі?",
+type:"multi",
+a:[
+"Файли",
+"Вебсторінки",
+"Мережеві служби",
+"Фізичну клавіатуру кожного користувача"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке хмарне сховище?",
+type:"single",
+a:[
+"Фізичний накопичувач усередині ПК",
+"Сервіс для зберігання даних на віддалених серверах із доступом через мережу",
+"Вид оперативної пам’яті",
+"Локальна папка Windows"
+],
+correct:["B"]
+},
+
+{
+q:"Які переваги можуть мати хмарні сервіси?",
+type:"multi",
+a:[
+"Доступ до даних із різних пристроїв",
+"Можливість спільної роботи з документами",
+"Зберігання даних на віддалених серверах",
+"Повна незалежність від мережевого з’єднання"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке резервне копіювання?",
+type:"single",
+a:[
+"Видалення непотрібних файлів",
+"Створення додаткової копії даних для можливого відновлення",
+"Форматування диска",
+"Очищення оперативної пам’яті"
+],
+correct:["B"]
+},
+
+{
+q:"Які дані доцільно регулярно резервувати?",
+type:"multi",
+a:[
+"Важливі документи",
+"Фотографії та відео",
+"Робочі проєкти",
+"Тимчасові файли, які не мають цінності"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке комп’ютерний вірус?",
+type:"single",
+a:[
+"Будь-яка помилка операційної системи",
+"Вид шкідливого програмного забезпечення, здатного поширюватися та виконувати небажані дії",
+"Тип комп’ютерного процесора",
+"Мережевий кабель"
+],
+correct:["B"]
+},
+
+{
+q:"Які дії допомагають підвищити захищеність комп’ютера?",
+type:"multi",
+a:[
+"Регулярне оновлення операційної системи",
+"Використання антивірусного захисту",
+"Використання складних унікальних паролів",
+"Встановлення програм із невідомих джерел"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке фішинг?",
+type:"single",
+a:[
+"Метод стиснення файлів",
+"Спроба отримати конфіденційні дані шляхом обману користувача",
+"Спосіб підключення принтера",
+"Метод форматування диска"
+],
+correct:["B"]
+},
+
+{
+q:"Які дані не слід повідомляти стороннім особам?",
+type:"multi",
+a:[
+"Пароль",
+"Код підтвердження з SMS",
+"Дані банківської картки",
+"Назву улюбленої програми"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Який пароль є найбільш захищеним?",
+type:"single",
+a:[
+"12345678",
+"qwerty123",
+"Oleksandr2026",
+"T7#kP9!mQ2@x"
+],
+correct:["D"]
+},
+
+{
+q:"Які ознаки можуть свідчити про фішинговий лист?",
+type:"multi",
+a:[
+"Підозріле посилання",
+"Вимога терміново повідомити пароль або код",
+"Незвична адреса відправника",
+"Звичайне повідомлення від відомої людини без підозрілих вкладень"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Для чого використовується двофакторна автентифікація?",
+type:"single",
+a:[
+"Для збільшення швидкості Інтернету",
+"Для додаткового захисту облікового запису",
+"Для збільшення обсягу диска",
+"Для автоматичного видалення вірусів"
+],
+correct:["B"]
+},
+
+{
+q:"Які фактори можуть використовуватися для двофакторної автентифікації?",
+type:"multi",
+a:[
+"Пароль",
+"Код із застосунку-автентифікатора",
+"Фізичний ключ безпеки",
+"Розмір монітора"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що може статися при перегріванні процесора?",
+type:"single",
+a:[
+"Зниження продуктивності або аварійне вимкнення системи",
+"Збільшення обсягу оперативної пам’яті",
+"Автоматичне збільшення ємності SSD",
+"Покращення швидкості роботи"
+],
+correct:["A"]
+},
+
+{
+q:"Які заходи допомагають запобігати перегріванню комп’ютера?",
+type:"multi",
+a:[
+"Очищення системи охолодження від пилу",
+"Забезпечення нормальної циркуляції повітря",
+"Контроль температури компонентів",
+"Закриття вентиляційних отворів"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що станеться з даними на HDD або SSD після вимкнення комп’ютера?",
+type:"single",
+a:[
+"Вони автоматично видаляються",
+"Вони зазвичай зберігаються",
+"Вони переходять до оперативної пам’яті",
+"Вони передаються на монітор"
+],
+correct:["B"]
+},
+
+{
+q:"Які пристрої належать до зовнішніх накопичувачів?",
+type:"multi",
+a:[
+"USB-флешка",
+"Зовнішній SSD",
+"Зовнішній HDD",
+"Оперативна пам’ять"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Яка ситуація найімовірніше призведе до використання віртуальної пам’яті?",
+type:"single",
+a:[
+"Недостатній обсяг оперативної пам’яті під час роботи великої кількості програм",
+"Відсутність підключення монітора",
+"Низька гучність динаміків",
+"Несправність клавіатури"
+],
+correct:["A"]
+},
+
+{
+q:"Які фактори можуть впливати на загальну швидкодію комп’ютера?",
+type:"multi",
+a:[
+"Продуктивність процесора",
+"Обсяг і швидкість оперативної пам’яті",
+"Швидкість накопичувача",
+"Навантаження та кількість запущених програм"
+],
+correct:["A","B","C","D"]
+},
+
+{
+q:"Для чого використовується UPS (ДБЖ)?",
+type:"single",
+a:[
+"Для забезпечення резервного живлення та захисту обладнання при проблемах з електроживленням",
+"Для збільшення обсягу SSD",
+"Для прискорення процесора",
+"Для підключення комп’ютера до Wi-Fi"
+],
+correct:["A"]
+},
+
+{
+q:"Які переваги може забезпечувати ДБЖ?",
+type:"multi",
+a:[
+"Тимчасове живлення обладнання при зникненні електроенергії",
+"Можливість коректно завершити роботу комп’ютера",
+"Захист від деяких проблем із параметрами електроживлення",
+"Збільшення обсягу оперативної пам’яті"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що таке MAC-адреса?",
+type:"single",
+a:[
+"Фізична адреса мережевого інтерфейсу",
+"Пароль користувача",
+"Адреса вебсайту",
+"Назва Wi-Fi мережі"
+],
+correct:["A"]
+},
+
+{
+q:"Які технології можуть використовуватися для підключення пристроїв без дротів?",
+type:"multi",
+a:[
+"Wi-Fi",
+"Bluetooth",
+"NFC",
+"VGA"
+],
+correct:["A","B","C"]
+},
+
+{
+q:"Що найкраще характеризує інформаційну систему?",
+type:"single",
+a:[
+"Лише набір комп’ютерів",
+"Сукупність засобів, програм, даних і технологій, призначених для роботи з інформацією",
+"Лише комп’ютерна мережа",
+"Тільки операційна система"
+],
+correct:["B"]
+},
+
+{
+q:"Які складові можуть входити до комп’ютерної інформаційної системи?",
+type:"multi",
+a:[
+"Апаратне забезпечення",
+"Програмне забезпечення",
+"Дані та інформація",
+"Мережеві засоби"
+],
+correct:["A","B","C","D"]
+}
+
+];
+
+
+/* =========================================================
+   ЗМІННІ
+   ========================================================= */
+
+let currentQuestion = 0;
+
+let answers = {};
+
+let studentName = "";
+
+let timeLeft = 30 * 60;
+
+let timer;
+
+
+/* =========================================================
+   ПОЧАТОК ТЕСТУ
+   ========================================================= */
+
+function startTest() {
+
+    studentName =
+        document.getElementById("studentName").value.trim();
+
+    if (!studentName) {
+
+        document.getElementById("startError").textContent =
+            "Введіть прізвище та ім’я.";
+
+        return;
+    }
+
+    document.getElementById("startScreen")
+        .classList.add("hidden");
+
+    document.getElementById("testScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("studentLabel")
+        .textContent = studentName;
+
+    showQuestion();
+
+    timer = setInterval(updateTimer, 1000);
+}
+
+
+/* =========================================================
+   ТАЙМЕР
+   ========================================================= */
+
+function updateTimer() {
+
+    timeLeft--;
+
+    let minutes =
+        Math.floor(timeLeft / 60);
+
+    let seconds =
+        timeLeft % 60;
+
+    document.getElementById("timer")
+        .textContent =
+        String(minutes).padStart(2,"0")
+        + ":"
+        +
+        String(seconds).padStart(2,"0");
+
+    if (timeLeft <= 60) {
+
+        document.getElementById("timer")
+            .classList.add("timer-warning");
+
+    }
+
+    if (timeLeft <= 0) {
+
+        clearInterval(timer);
+
+        finishTest(true);
+    }
+}
+
+
+/* =========================================================
+   ПОКАЗ ПИТАННЯ
+   ========================================================= */
+
+function showQuestion() {
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("questionNumber")
+        .textContent =
+        currentQuestion + 1;
+
+    document.getElementById("progressBar")
+        .style.width =
+        ((currentQuestion + 1) / questions.length * 100)
+        + "%";
+
+    let html = "";
+
+    html += `
+        <div class="question-number">
+            Питання ${currentQuestion + 1} із ${questions.length}
+        </div>
+    `;
+
+    html += `
+        <h2 class="question-title">
+            ${q.q}
+        </h2>
+    `;
+
+    if (q.type === "multi") {
+
+        html += `
+            <p class="hint">
+                Оберіть усі правильні відповіді.
+            </p>
+        `;
+
+    } else {
+
+        html += `
+            <p class="hint">
+                Оберіть одну правильну відповідь.
+            </p>
+        `;
+    }
+
+    html += `<div class="options">`;
+
+    q.a.forEach((answer,index) => {
+
+        const letter =
+            String.fromCharCode(65 + index);
+
+        let checked = "";
+
+        if (
+            answers[currentQuestion] &&
+            answers[currentQuestion].includes(letter)
+        ) {
+            checked = "checked";
+        }
+
+        html += `
+            <label class="option">
+
+                <input
+                    type="${q.type === "multi" ? "checkbox" : "radio"}"
+                    name="question"
+                    value="${letter}"
+                    ${checked}
+                    onchange="saveAnswer()"
+                >
+
+                <span>
+                    <b>${letter}.</b>
+                    ${answer}
+                </span>
+
+            </label>
+        `;
+
+    });
+
+    html += `</div>`;
+
+    document.getElementById("questionContainer")
+        .innerHTML = html;
+
+    document.getElementById("prevButton")
+        .disabled =
+        currentQuestion === 0;
+
+    if (
+        currentQuestion === questions.length - 1
+    ) {
+
+        document.getElementById("nextButton")
+            .classList.add("hidden");
+
+        document.getElementById("finishButton")
+            .classList.remove("hidden");
+
+    } else {
+
+        document.getElementById("nextButton")
+            .classList.remove("hidden");
+
+        document.getElementById("finishButton")
+            .classList.add("hidden");
+    }
+}
+
+
+/* =========================================================
+   ЗБЕРЕЖЕННЯ ВІДПОВІДІ
+   ========================================================= */
+
+function saveAnswer() {
+
+    const selected =
+        document.querySelectorAll(
+            'input[name="question"]:checked'
+        );
+
+    answers[currentQuestion] =
+        Array.from(selected)
+        .map(input => input.value);
+}
+
+
+/* =========================================================
+   НАСТУПНЕ ПИТАННЯ
+   ========================================================= */
+
+function nextQuestion() {
+
+    saveAnswer();
+
+    if (
+        currentQuestion <
+        questions.length - 1
+    ) {
+
+        currentQuestion++;
+
+        showQuestion();
+    }
+}
+
+
+/* =========================================================
+   ПОПЕРЕДНЄ ПИТАННЯ
+   ========================================================= */
+
+function previousQuestion() {
+
+    saveAnswer();
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        showQuestion();
+    }
+}
+
+
+/* =========================================================
+   ПЕРЕВІРКА
+   ========================================================= */
+
+function checkAnswer(user, correct) {
+
+    if (!user) {
+        return false;
+    }
+
+    if (user.length !== correct.length) {
+        return false;
+    }
+
+    let u =
+        [...user].sort();
+
+    let c =
+        [...correct].sort();
+
+    return u.every(
+        (value,index) =>
+        value === c[index]
+    );
+}
+
+
+/* =========================================================
+   ОЦІНКА
+   ========================================================= */
+
+function calculateGrade(score) {
+
+    const percent =
+        score / questions.length * 100;
+
+    if (percent < 35)
+        return 1;
+
+    if (percent < 45)
+        return 2;
+
+    if (percent < 55)
+        return 3;
+
+    if (percent < 60)
+        return 4;
+
+    if (percent < 65)
+        return 5;
+
+    if (percent < 70)
+        return 6;
+
+    if (percent < 75)
+        return 7;
+
+    if (percent < 80)
+        return 8;
+
+    if (percent < 85)
+        return 9;
+
+    if (percent < 90)
+        return 10;
+
+    if (percent < 95)
+        return 11;
+
+    return 12;
+}
+
+
+/* =========================================================
+   ЗАВЕРШЕННЯ
+   ========================================================= */
+
+async function finishTest(auto = false) {
+
+    saveAnswer();
+
+    if (!auto) {
+
+        const confirmFinish =
+            confirm(
+                "Ви впевнені, що хочете завершити тест?"
+            );
+
+        if (!confirmFinish) {
+            return;
+        }
+    }
+
+    clearInterval(timer);
+
+    let score = 0;
+
+    questions.forEach((q,index) => {
+
+        if (
+            checkAnswer(
+                answers[index],
+                q.correct
+            )
+        ) {
+
+            score++;
+        }
+    });
+
+    const grade =
+        calculateGrade(score);
+
+    const percent =
+        Math.round(
+            score / questions.length * 100
+        );
+
+    document.getElementById("testScreen")
+        .classList.add("hidden");
+
+    document.getElementById("resultScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("resultContent")
+        .innerHTML = `
+
+        <div class="big-result">
+            ${grade} / 12
+        </div>
+
+        <p style="text-align:center">
+            <b>${escapeHtml(studentName)}</b>
+        </p>
+
+        <p style="text-align:center">
+            Правильних відповідей:
+            <b>${score}</b> із ${questions.length}
+        </p>
+
+        <p style="text-align:center">
+            Результат: <b>${percent}%</b>
+        </p>
+
+        ${
+            auto
+            ?
+            "<p class='error'>Час тестування завершився. Тест завершено автоматично.</p>"
+            :
+            ""
+        }
+
+    `;
+
+    await saveResult(score,grade);
+}
+
+
+/* =========================================================
+   ЗБЕРЕЖЕННЯ В SUPABASE
+   ========================================================= */
+
+async function saveResult(score,grade) {
+
+    const status =
+        document.getElementById("saveStatus");
+
+    if (
+        !SUPABASE_URL ||
+        !SUPABASE_ANON_KEY
+    ) {
+
+        status.innerHTML = `
+            <span class="error">
+                Результат не збережено в базу:
+                Supabase ще не налаштований.
+            </span>
+        `;
+
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/test_results",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "apikey":
+                            SUPABASE_ANON_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_ANON_KEY,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Prefer":
+                            "return=minimal"
+                    },
+
+                    body:JSON.stringify({
+
+                        student_name:
+                            studentName,
+
+                        subject:
+                            "Засоби комп'ютерних інформаційних систем",
+
+                        score:
+                            score,
+
+                        max_score:
+                            questions.length,
+
+                        grade:
+                            grade
+
+                    })
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Помилка збереження"
+            );
+        }
+
+        status.innerHTML = `
+            <span class="success">
+                ✓ Результат успішно збережено в базу даних.
+            </span>
+        `;
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        status.innerHTML = `
+            <span class="error">
+                ✗ Не вдалося зберегти результат у базу даних.
+            </span>
+        `;
+    }
+}
+
+
+/* =========================================================
+   ЗАХИСТ ВІД HTML
+   ========================================================= */
+
+function escapeHtml(text) {
+
+    return text
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+</script>
+
+</body>
+</html>
