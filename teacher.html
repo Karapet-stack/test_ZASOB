@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Кабінет викладача — Засоби комп'ютерних інформаційних систем</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+            color: #222;
+        }
+
+        .container {
+            width: min(1200px, calc(100% - 30px));
+            margin: 30px auto;
+        }
+
+        .header {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #666;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .login-card {
+            max-width: 450px;
+            margin: 80px auto;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cfd4da;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4a90e2;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-size: 15px;
+            cursor: pointer;
+            background: #1976d2;
+            color: white;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #555;
+        }
+
+        .btn-success {
+            background: #2e7d32;
+        }
+
+        .btn-danger {
+            background: #c62828;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .student-info {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f7f8fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .student-info strong {
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th,
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f0f2f5;
+            font-weight: bold;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .grade {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-active {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .status-interrupted {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+            display: none;
+        }
+
+        .hint {
+            color: #777;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .logout {
+            background: #757575;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                width: calc(100% - 20px);
+                margin: 15px auto;
+            }
+
+            .card,
+            .header {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ============================= -->
+<!-- ВХІД ВИКЛАДАЧА -->
+<!-- ============================= -->
+
+<div id="loginScreen" class="container">
+
+    <div class="card login-card">
+
+        <h1>Кабінет викладача</h1>
+
+        <p style="text-align:center;color:#666;">
+            Засоби комп'ютерних інформаційних систем
+        </p>
+
+        <br>
+
+        <label for="teacherPassword">
+            Пароль викладача:
+        </label>
+
+        <input
+            type="password"
+            id="teacherPassword"
+            placeholder="Введіть пароль"
+            autocomplete="current-password"
+        >
+
+        <div class="actions">
+            <button id="loginButton" style="width:100%;">
+                Увійти
+            </button>
+        </div>
+
+        <div id="loginError" class="error">
+            Неправильний пароль.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================= -->
+<!-- КАБІНЕТ -->
+<!-- ============================= -->
+
+<div id="teacherPanel" class="container hidden">
+
+    <div class="header">
+
+        <div class="top-bar">
+
+            <div>
+                <h1>Кабінет викладача</h1>
+
+                <p>
+                    Засоби комп'ютерних інформаційних систем
+                </p>
+            </div>
+
+            <button
+                id="logoutButton"
+                class="logout"
+            >
+                Вийти
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ПОШУК СТУДЕНТА -->
+
+    <div class="card">
+
+        <h2 style="margin-top:0;">
+            Результати студента
+        </h2>
+
+        <label for="studentCodeSearch">
+            Код студента
+        </label>
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="studentCodeSearch"
+                placeholder="Наприклад: 12345"
+                maxlength="50"
+                autocomplete="off"
+            >
+
+            <button id="searchButton">
+                Знайти
+            </button>
+
+        </div>
+
+        <div class="hint">
+            Введіть код студента, щоб переглянути всі його спроби.
+        </div>
+
+        <div id="teacherError" class="error"></div>
+
+        <div id="teacherSuccess" class="success"></div>
+
+    </div>
+
+
+    <!-- ІНФОРМАЦІЯ ПРО СТУДЕНТА -->
+
+    <div
+        id="studentInfo"
+        class="card student-info"
+    >
+
+        <div>
+            <strong>Код:</strong>
+            <span id="infoCode">—</span>
+        </div>
+
+        <div style="margin-top:8px;">
+            <strong>ПІБ:</strong>
+            <span id="infoName">—</span>
+        </div>
+
+        <div style="margin-top:8px;">
+            <strong>Кількість спроб:</strong>
+            <span id="infoAttempts">—</span>
+        </div>
+
+    </div>
+
+
+    <!-- РЕЗУЛЬТАТИ -->
+
+    <div id="resultsCard" class="card hidden">
+
+        <div class="top-bar">
+
+            <h2 style="margin:0;">
+                Результати
+            </h2>
+
+            <div class="actions" style="margin-top:0;">
+
+                <button
+                    id="refreshButton"
+                    class="btn-secondary"
+                >
+                    Оновити
+                </button>
+
+                <button
+                    id="csvButton"
+                    class="btn-success"
+                >
+                    Завантажити CSV
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div id="loading" class="loading">
+            Завантаження результатів...
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>№</th>
+                        <th>Спроба</th>
+                        <th>Бали</th>
+                        <th>Оцінка</th>
+                        <th>Статус</th>
+                        <th>Початок</th>
+                        <th>Завершення</th>
+                        <th>IP</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="resultsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   НАЛАШТУВАННЯ
+   ========================================================= */
+
+const SUPABASE_URL =
+    "https://egovkavyxtcztisropsf.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
+
+
+/*
+    ПРОСТИЙ ПАРОЛЬ ВИКЛАДАЧА
+
+    ЗМІНИ ЙОГО НА СВІЙ.
+
+    Наприклад:
+    Teacher2026!
+*/
+const TEACHER_PASSWORD = "Teacher2026!";
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const loginScreen =
+    document.getElementById("loginScreen");
+
+const teacherPanel =
+    document.getElementById("teacherPanel");
+
+const teacherPassword =
+    document.getElementById("teacherPassword");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginError =
+    document.getElementById("loginError");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const studentCodeSearch =
+    document.getElementById("studentCodeSearch");
+
+const searchButton =
+    document.getElementById("searchButton");
+
+const refreshButton =
+    document.getElementById("refreshButton");
+
+const csvButton =
+    document.getElementById("csvButton");
+
+const teacherError =
+    document.getElementById("teacherError");
+
+const teacherSuccess =
+    document.getElementById("teacherSuccess");
+
+const studentInfo =
+    document.getElementById("studentInfo");
+
+const resultsCard =
+    document.getElementById("resultsCard");
+
+const resultsBody =
+    document.getElementById("resultsBody");
+
+const loading =
+    document.getElementById("loading");
+
+const infoCode =
+    document.getElementById("infoCode");
+
+const infoName =
+    document.getElementById("infoName");
+
+const infoAttempts =
+    document.getElementById("infoAttempts");
+
+
+let currentStudentCode = "";
+
+let currentResults = [];
+
+
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function escapeHtml(value) {
+
+    if (value === null || value === undefined) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================================================
+   ФОРМАТ ДАТИ
+   ========================================================= */
+
+function formatDate(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date = new Date(value);
+
+    if (isNaN(date.getTime())) {
+        return escapeHtml(value);
+    }
+
+    return date.toLocaleString("uk-UA", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+}
+
+
+/* =========================================================
+   ПОКАЗ ПОМИЛКИ
+   ========================================================= */
+
+function showError(message) {
+
+    teacherError.textContent = message;
+    teacherError.style.display = "block";
+
+    teacherSuccess.style.display = "none";
+}
+
+
+/* =========================================================
+   ПОКАЗ УСПІХУ
+   ========================================================= */
+
+function showSuccess(message) {
+
+    teacherSuccess.textContent = message;
+    teacherSuccess.style.display = "block";
+
+    teacherError.style.display = "none";
+}
+
+
+/* =========================================================
+   ОЧИЩЕННЯ ПОВІДОМЛЕНЬ
+   ========================================================= */
+
+function clearMessages() {
+
+    teacherError.style.display = "none";
+    teacherSuccess.style.display = "none";
+
+}
+
+
+/* =========================================================
+   ВХІД
+   ========================================================= */
+
+function loginTeacher() {
+
+    const password =
+        teacherPassword.value;
+
+    if (password === TEACHER_PASSWORD) {
+
+        sessionStorage.setItem(
+            "teacher_logged_in",
+            "true"
+        );
+
+        loginScreen.classList.add("hidden");
+
+        teacherPanel.classList.remove("hidden");
+
+        loginError.style.display = "none";
+
+        teacherPassword.value = "";
+
+        studentCodeSearch.focus();
+
+    } else {
+
+        loginError.textContent =
+            "Неправильний пароль.";
+
+        loginError.style.display =
+            "block";
+
+    }
+}
+
+
+/* =========================================================
+   ВИХІД
+   ========================================================= */
+
+function logoutTeacher() {
+
+    sessionStorage.removeItem(
+        "teacher_logged_in"
+    );
+
+    teacherPanel.classList.add("hidden");
+
+    loginScreen.classList.remove("hidden");
+
+    studentCodeSearch.value = "";
+
+    resultsBody.innerHTML = "";
+
+    resultsCard.classList.add("hidden");
+
+    studentInfo.style.display = "none";
+
+    currentResults = [];
+
+    currentStudentCode = "";
+
+}
+
+
+/* =========================================================
+   ПЕРЕВІРКА СЕСІЇ
+   ========================================================= */
+
+function checkTeacherSession() {
+
+    const loggedIn =
+        sessionStorage.getItem(
+            "teacher_logged_in"
+        );
+
+    if (loggedIn === "true") {
+
+        loginScreen.classList.add("hidden");
+
+        teacherPanel.classList.remove("hidden");
+
+    } else {
+
+        loginScreen.classList.remove("hidden");
+
+        teacherPanel.classList.add("hidden");
+
+    }
+
+}
+
+
+/* =========================================================
+   ОТРИМАННЯ РЕЗУЛЬТАТІВ
+   ========================================================= */
+
+async function loadStudentResults(code) {
+
+    code = String(code || "").trim();
+
+    if (code.length < 2) {
+
+        showError(
+            "Введіть код студента."
+        );
+
+        return;
+
+    }
+
+
+    clearMessages();
+
+    loading.style.display = "block";
+
+    resultsCard.classList.remove("hidden");
+
+    resultsBody.innerHTML = "";
+
+    studentInfo.style.display = "none";
+
+    currentResults = [];
+
+    currentStudentCode = code;
+
+
+    try {
+
+        const response = await fetch(
+
+            SUPABASE_URL +
+            "/rest/v1/rpc/get_test_attempts",
+
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "apikey":
+                        SUPABASE_ANON_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_ANON_KEY,
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    p_student_code: code
+
+                })
+
+            }
+
+        );
+
+
+        let raw = null;
+
+        try {
+
+            raw = await response.json();
+
+        } catch (e) {
+
+            raw = null;
+
+        }
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Supabase error:",
+                raw
+            );
+
+            throw new Error(
+                raw?.message ||
+                raw?.error_description ||
+                raw?.hint ||
+                "Помилка отримання даних."
+            );
+
+        }
+
+
+        /*
+            RPC може повернути:
+            - масив
+            - один JSON-об'єкт
+        */
+
+        let data = raw;
+
+
+        if (!Array.isArray(data)) {
+
+            if (
+                data &&
+                Array.isArray(data.data)
+            ) {
+
+                data = data.data;
+
+            } else {
+
+                data = [data];
+
+            }
+
+        }
+
+
+        /*
+            Якщо повернувся порожній масив
+        */
+
+        if (
+            !data ||
+            data.length === 0
+        ) {
+
+            resultsBody.innerHTML =
+                '<tr><td colspan="8" class="empty">' +
+                'Для цього коду результатів не знайдено.' +
+                '</td></tr>';
+
+            resultsCard.classList.remove(
+                "hidden"
+            );
+
+            showError(
+                "Студента з таким кодом не знайдено або він ще не проходив тест."
+            );
+
+            return;
+
+        }
+
+
+        currentResults = data;
+
+
+        /*
+            Визначаємо дані студента
+        */
+
+        const first = data[0];
+
+
+        const studentName =
+            first.student_name ||
+            first.name ||
+            "—";
+
+
+        infoCode.textContent =
+            code;
+
+        infoName.textContent =
+            studentName;
+
+        infoAttempts.textContent =
+            data.length;
+
+
+        studentInfo.style.display =
+            "block";
+
+
+        /*
+            Виводимо результати
+        */
+
+        resultsBody.innerHTML = "";
+
+
+        data.forEach(
+            (attempt, index) => {
+
+                const tr =
+                    document.createElement("tr");
+
+
+                const status =
+                    attempt.status ||
+                    "—";
+
+
+                let statusClass =
+                    "";
+
+
+                if (
+                    status === "completed"
+                ) {
+
+                    statusClass =
+                        "status-completed";
+
+                } else if (
+                    status === "active"
+                ) {
+
+                    statusClass =
+                        "status-active";
+
+                } else if (
+                    status === "interrupted"
+                ) {
+
+                    statusClass =
+                        "status-interrupted";
+
+                }
+
+
+                const score =
+                    attempt.score !== null &&
+                    attempt.score !== undefined
+                        ? attempt.score + " / " +
+                          (attempt.max_score || 60)
+                        : "—";
+
+
+                const grade =
+                    attempt.grade !== null &&
+                    attempt.grade !== undefined
+                        ? attempt.grade
+                        : "—";
+
+
+                tr.innerHTML = `
+
+                    <td>
+                        ${index + 1}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            attempt.attempt_number ?? "—"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(score)}
+                    </td>
+
+                    <td class="grade">
+                        ${escapeHtml(grade)}
+                    </td>
+
+                    <td>
+                        <span class="status ${statusClass}">
+                            ${escapeHtml(
+                                getStatusText(status)
+                            )}
+                        </span>
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            attempt.started_at
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            attempt.finished_at
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            attempt.ip_address || "—"
+                        )}
+                    </td>
+
+                `;
+
+
+                resultsBody.appendChild(tr);
+
+            }
+        );
+
+
+        showSuccess(
+            "Результати успішно завантажено."
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        resultsBody.innerHTML =
+            '<tr><td colspan="8" class="empty">' +
+            'Не вдалося завантажити результати.' +
+            '</td></tr>';
+
+
+        showError(
+            error.message ||
+            "Помилка підключення до Supabase."
+        );
+
+
+    } finally {
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   СТАТУС
+   ========================================================= */
+
+function getStatusText(status) {
+
+    switch (status) {
+
+        case "completed":
+            return "Завершена";
+
+        case "active":
+            return "Активна";
+
+        case "interrupted":
+            return "Перервана";
+
+        default:
+            return status || "Невідомо";
+
+    }
+
+}
+
+
+/* =========================================================
+   CSV
+   ========================================================= */
+
+function downloadCSV() {
+
+    if (
+        !currentResults ||
+        currentResults.length === 0
+    ) {
+
+        showError(
+            "Немає даних для експорту."
+        );
+
+        return;
+
+    }
+
+
+    const rows = [];
+
+
+    rows.push([
+        "Код студента",
+        "ПІБ",
+        "№ спроби",
+        "Бали",
+        "Максимум",
+        "Оцінка",
+        "Статус",
+        "Початок",
+        "Завершення",
+        "IP"
+    ]);
+
+
+    currentResults.forEach(
+        attempt => {
+
+            rows.push([
+
+                attempt.student_code ||
+                    currentStudentCode,
+
+                attempt.student_name ||
+                    "",
+
+                attempt.attempt_number ??
+                    "",
+
+                attempt.score ??
+                    "",
+
+                attempt.max_score ??
+                    60,
+
+                attempt.grade ??
+                    "",
+
+                getStatusText(
+                    attempt.status
+                ),
+
+                formatDate(
+                    attempt.started_at
+                ),
+
+                formatDate(
+                    attempt.finished_at
+                ),
+
+                attempt.ip_address ||
+                    ""
+
+            ]);
+
+        }
+    );
+
+
+    const csv = rows
+        .map(row =>
+            row
+                .map(value =>
+                    '"' +
+                    String(value)
+                        .replace(/"/g, '""') +
+                    '"'
+                )
+                .join(";")
+        )
+        .join("\r\n");
+
+
+    /*
+        BOM потрібен, щоб Excel
+        правильно показував українську.
+    */
+
+    const blob =
+        new Blob(
+            ["\uFEFF" + csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+
+    link.download =
+        "rezultaty_" +
+        currentStudentCode +
+        ".csv";
+
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   ПОДІЇ
+   ========================================================= */
+
+loginButton.addEventListener(
+    "click",
+    loginTeacher
+);
+
+
+logoutButton.addEventListener(
+    "click",
+    logoutTeacher
+);
+
+
+searchButton.addEventListener(
+    "click",
+    () => {
+
+        loadStudentResults(
+            studentCodeSearch.value
+        );
+
+    }
+);
+
+
+refreshButton.addEventListener(
+    "click",
+    () => {
+
+        if (currentStudentCode) {
+
+            loadStudentResults(
+                currentStudentCode
+            );
+
+        }
+
+    }
+);
+
+
+csvButton.addEventListener(
+    "click",
+    downloadCSV
+);
+
+
+/*
+    Enter у полі пароля
+*/
+
+teacherPassword.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Enter") {
+
+            loginTeacher();
+
+        }
+
+    }
+);
+
+
+/*
+    Enter у полі коду
+*/
+
+studentCodeSearch.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.key === "Enter") {
+
+            loadStudentResults(
+                studentCodeSearch.value
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ЗАПУСК
+   ========================================================= */
+
+checkTeacherSession();
+
+</script>
+
+</body>
+</html>
