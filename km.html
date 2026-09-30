@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -52,211 +53,148 @@ button {
 ========================================================= */
 
 .start-screen {
-
     min-height: 100vh;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     padding: 25px 0;
 }
 
 .start-card {
-
     width: 100%;
-
     max-width: 700px;
-
     background: white;
-
     border-radius: 22px;
-
     padding: 35px;
-
-    box-shadow:
-        0 15px 45px rgba(0,0,0,.10);
+    box-shadow: 0 15px 45px rgba(0,0,0,.10);
 }
 
 .logo-icon {
-
     text-align: center;
-
     font-size: 55px;
-
     margin-bottom: 10px;
 }
 
 h1 {
-
     text-align: center;
-
     margin: 0 0 12px;
-
     font-size: 32px;
 }
 
 .subtitle {
-
     text-align: center;
-
     color: #64748b;
-
     margin-bottom: 30px;
-
     line-height: 1.5;
 }
 
 .form-group {
-
     margin-bottom: 18px;
 }
 
 .form-group label {
-
     display: block;
-
     font-weight: bold;
-
     margin-bottom: 7px;
 }
 
 .form-group input {
-
     width: 100%;
-
     padding: 14px 15px;
-
-    border:
-        2px solid #e2e8f0;
-
+    border: 2px solid #e2e8f0;
     border-radius: 12px;
-
     font-size: 16px;
-
     outline: none;
-
     transition: .2s;
-
     user-select: text;
-
     -webkit-user-select: text;
 }
 
 .form-group input:focus {
-
     border-color: #2563eb;
 }
 
 .rules {
-
     background: #f8fafc;
-
     border-radius: 15px;
-
     padding: 18px 20px;
-
     margin: 25px 0;
 }
 
 .rules h3 {
-
     margin-top: 0;
 }
 
 .rules ul {
-
     margin-bottom: 0;
-
     padding-left: 22px;
 }
 
 .rules li {
-
     margin: 8px 0;
-
     line-height: 1.4;
 }
 
 .start-btn,
 .reset-btn {
-
     width: 100%;
-
     border: none;
-
     border-radius: 13px;
-
     padding: 15px;
-
     font-size: 17px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
 .start-btn {
-
     background: #2563eb;
-
     color: white;
 }
 
 .start-btn:hover {
-
     background: #1d4ed8;
 }
 
 .start-btn:disabled {
-
     background: #94a3b8;
-
     cursor: not-allowed;
 }
 
 .reset-btn {
-
     margin-top: 12px;
-
     background: #ef4444;
-
     color: white;
 }
 
 .reset-btn:hover {
-
     background: #dc2626;
 }
 
 .attempt-info {
-
     text-align: center;
-
     margin-top: 15px;
-
     color: #475569;
-
     font-weight: bold;
 }
 
+.start-error {
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 15px;
+    text-align: center;
+    line-height: 1.4;
+}
+
 .reset-box {
-
     margin-top: 20px;
-
     padding: 15px;
-
     border-radius: 13px;
-
     background: #fff7ed;
-
-    border:
-        1px solid #fed7aa;
-
+    border: 1px solid #fed7aa;
     color: #9a3412;
-
     text-align: center;
 }
 
@@ -266,255 +204,166 @@ h1 {
 ========================================================= */
 
 .test-screen {
-
     min-height: 100vh;
-
     padding: 15px 0 35px;
 }
 
 .test-header {
-
     position: sticky;
-
     top: 0;
-
     z-index: 100;
-
     background: white;
-
     border-radius: 16px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.08);
-
+    box-shadow: 0 8px 25px rgba(0,0,0,.08);
     padding: 14px 18px;
-
     margin-bottom: 20px;
 }
 
 .header-top {
-
     display: flex;
-
     justify-content: space-between;
-
     gap: 15px;
-
     align-items: center;
-
     flex-wrap: wrap;
 }
 
 .student-info {
-
     font-weight: bold;
 }
 
 .timer {
-
     font-size: 22px;
-
     font-weight: bold;
-
     color: #2563eb;
 }
 
 .timer.warning {
-
     color: #f97316;
 }
 
 .timer.danger {
-
     color: #dc2626;
 }
 
 .progress-wrap {
-
     margin-top: 12px;
 }
 
 .progress-text {
-
     display: flex;
-
     justify-content: space-between;
-
     font-size: 14px;
-
     color: #64748b;
-
     margin-bottom: 5px;
 }
 
 .progress-bar {
-
     height: 9px;
-
     background: #e2e8f0;
-
     border-radius: 20px;
-
     overflow: hidden;
 }
 
 .progress-fill {
-
     height: 100%;
-
     background: #2563eb;
-
     width: 0%;
-
     transition: width .2s;
 }
 
 .violation-counter {
-
     margin-top: 10px;
-
     font-size: 14px;
-
     font-weight: bold;
-
     color: #b91c1c;
 }
 
 .question-card {
-
     background: white;
-
     border-radius: 18px;
-
     padding: 25px;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.07);
+    box-shadow: 0 8px 25px rgba(0,0,0,.07);
 }
 
 .question-number {
-
     color: #2563eb;
-
     font-weight: bold;
-
     margin-bottom: 10px;
 }
 
 .question-text {
-
     font-size: 20px;
-
     font-weight: bold;
-
     line-height: 1.45;
-
     margin-bottom: 22px;
 }
 
 .answer-list {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 12px;
 }
 
 .answer-option {
-
     display: flex;
-
     align-items: flex-start;
-
     gap: 12px;
-
     padding: 15px;
-
-    border:
-        2px solid #e2e8f0;
-
+    border: 2px solid #e2e8f0;
     border-radius: 13px;
-
     cursor: pointer;
-
     transition: .15s;
-
     background: white;
 }
 
 .answer-option:hover {
-
     border-color: #93c5fd;
-
     background: #eff6ff;
 }
 
 .answer-option.selected {
-
     border-color: #2563eb;
-
     background: #eff6ff;
 }
 
 .answer-option input {
-
     margin-top: 4px;
-
     transform: scale(1.2);
-
     flex-shrink: 0;
 }
 
 .answer-text {
-
     line-height: 1.4;
 }
 
 .navigation {
-
     display: flex;
-
     justify-content: space-between;
-
     gap: 12px;
-
     margin-top: 20px;
 }
 
 .nav-btn {
-
     border: none;
-
     padding: 13px 20px;
-
     border-radius: 12px;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
 .prev-btn {
-
     background: #e2e8f0;
-
     color: #172033;
 }
 
 .next-btn {
-
     background: #2563eb;
-
     color: white;
 }
 
 .finish-btn {
-
     background: #16a34a;
-
     color: white;
 }
 
@@ -524,182 +373,119 @@ h1 {
 ========================================================= */
 
 .result-screen {
-
     min-height: 100vh;
-
     padding: 35px 0;
 }
 
 .result-card {
-
     background: white;
-
     border-radius: 22px;
-
     padding: 35px;
-
-    box-shadow:
-        0 15px 45px rgba(0,0,0,.10);
+    box-shadow: 0 15px 45px rgba(0,0,0,.10);
 }
 
 .result-title {
-
     text-align: center;
-
     font-size: 30px;
-
     font-weight: bold;
 }
 
 .grade {
-
     text-align: center;
-
     font-size: 65px;
-
     font-weight: bold;
-
     margin: 15px 0;
-
     color: #2563eb;
 }
 
 .result-stats {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-
     margin: 25px 0;
 }
 
 .stat {
-
     background: #f8fafc;
-
     border-radius: 14px;
-
     padding: 15px;
-
     text-align: center;
 }
 
 .stat-value {
-
     display: block;
-
     font-size: 25px;
-
     font-weight: bold;
 }
 
 .stat-label {
-
     display: block;
-
     margin-top: 5px;
-
     color: #64748b;
-
     font-size: 13px;
 }
 
 .finish-reason {
-
     background: #f8fafc;
-
     border-radius: 14px;
-
     padding: 15px;
-
     margin-top: 20px;
-
     line-height: 1.5;
 }
 
 .next-attempt-box {
-
     margin-top: 20px;
 }
 
 .review-lock {
-
     margin-top: 25px;
-
     padding: 20px;
-
     border-radius: 15px;
-
     background: #fff7ed;
-
-    border:
-        1px solid #fed7aa;
-
+    border: 1px solid #fed7aa;
     color: #9a3412;
-
     text-align: center;
-
     line-height: 1.5;
 }
 
 .review {
-
     margin-top: 25px;
 }
 
 .review h2 {
-
     text-align: center;
 }
 
 .review-question {
-
-    border:
-        1px solid #e2e8f0;
-
+    border: 1px solid #e2e8f0;
     border-radius: 14px;
-
     padding: 18px;
-
     margin: 12px 0;
 }
 
 .review-question.correct {
-
-    border-left:
-        5px solid #16a34a;
+    border-left: 5px solid #16a34a;
 }
 
 .review-question.wrong {
-
-    border-left:
-        5px solid #dc2626;
+    border-left: 5px solid #dc2626;
 }
 
 .review-q {
-
     font-weight: bold;
-
     margin-bottom: 10px;
 }
 
 .review-answer {
-
     margin: 6px 0;
 }
 
 .correct-answer {
-
     color: #15803d;
-
     font-weight: bold;
 }
 
 .user-wrong {
-
     color: #b91c1c;
 }
 
@@ -709,71 +495,45 @@ h1 {
 ========================================================= */
 
 #securityOverlay {
-
     position: fixed;
-
     inset: 0;
-
     z-index: 99999;
-
-    background:
-        rgba(15,23,42,.96);
-
+    background: rgba(15,23,42,.96);
     color: white;
-
     display: none;
-
     justify-content: center;
-
     align-items: center;
-
     padding: 25px;
-
     text-align: center;
 }
 
 .security-box {
-
     max-width: 450px;
 }
 
 .security-icon {
-
     font-size: 60px;
-
     margin-bottom: 15px;
 }
 
 .security-title {
-
     font-size: 26px;
-
     font-weight: bold;
-
     margin-bottom: 12px;
 }
 
 .security-text {
-
     color: #cbd5e1;
-
     line-height: 1.5;
 }
 
 .security-btn {
-
     margin-top: 20px;
-
     border: none;
-
     border-radius: 12px;
-
     padding: 14px 22px;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
 }
 
@@ -785,79 +545,62 @@ h1 {
 @media (max-width: 700px) {
 
     .container {
-
-        width:
-            min(100% - 16px, 1000px);
+        width: min(100% - 16px, 1000px);
     }
 
     .start-card,
     .result-card {
-
         padding: 22px;
-
         border-radius: 17px;
     }
 
     h1 {
-
         font-size: 25px;
     }
 
     .question-card {
-
         padding: 18px;
     }
 
     .question-text {
-
         font-size: 18px;
     }
 
     .result-stats {
-
-        grid-template-columns:
-            repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .navigation {
-
         flex-direction: column;
     }
 
     .nav-btn {
-
         width: 100%;
     }
 
     .header-top {
-
         flex-direction: column;
-
         align-items: stretch;
     }
 
     .timer {
-
         text-align: center;
     }
+
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
 <!-- =========================================================
-     START SCREEN
+     START
 ========================================================= -->
 
-<section
-    id="startScreen"
-    class="start-screen"
->
+<section id="startScreen" class="start-screen">
 
 <div class="container">
 
@@ -872,9 +615,22 @@ h1 {
     </h1>
 
     <div class="subtitle">
+        Перевірка знань з теми комп’ютерних мереж
+    </div>
 
-        Перевірка знань з теми
-        комп’ютерних мереж
+
+    <div class="form-group">
+
+        <label for="studentCode">
+            Код здобувача освіти
+        </label>
+
+        <input
+            id="studentCode"
+            type="text"
+            autocomplete="off"
+            placeholder="Введіть код"
+        >
 
     </div>
 
@@ -913,58 +669,49 @@ h1 {
 
     <div class="rules">
 
-        <h3>
-            📋 Правила тесту
-        </h3>
+        <h3>📋 Правила тесту</h3>
 
         <ul>
 
+            <li>50 запитань.</li>
+
+            <li>Час виконання — 30 хвилин.</li>
+
+            <li>Максимум 3 спроби.</li>
+
             <li>
-                50 запитань.
+                У деяких питаннях може бути декілька
+                правильних відповідей.
             </li>
 
             <li>
-                Час виконання — 30 хвилин.
+                Питання без відповіді зараховується
+                як неправильне.
             </li>
 
             <li>
-                Максимум 3 спроби.
+                Перехід в іншу вкладку або програму
+                рахується як вихід.
             </li>
 
             <li>
-                У деяких питаннях може бути
-                декілька правильних відповідей.
+                Режим розділеного екрана може бути
+                зафіксований.
             </li>
 
             <li>
-                Питання без відповіді
-                зараховується як неправильне.
+                Після 3 виходів тест автоматично
+                завершується.
             </li>
 
             <li>
-                Перехід в іншу вкладку або
-                програму рахується як вихід.
+                Правильні відповіді відкриваються
+                тільки після 3-ї спроби.
             </li>
 
             <li>
-                Режим розділеного екрана
-                на телефоні може бути зафіксований.
-            </li>
-
-            <li>
-                Після 3 виходів тест
-                автоматично завершується.
-            </li>
-
-            <li>
-                Правильні відповіді
-                відкриваються тільки після
-                3-ї спроби.
-            </li>
-
-            <li>
-                Таймер не зупиняється
-                при виході з тесту.
+                Таймер не зупиняється при виході
+                з тесту.
             </li>
 
         </ul>
@@ -978,6 +725,12 @@ h1 {
     >
         ▶ Почати тест
     </button>
+
+
+    <div
+        id="startError"
+        class="start-error hidden"
+    ></div>
 
 
     <div
@@ -995,10 +748,9 @@ h1 {
             Використано всі 3 спроби.
         </strong>
 
-        <br>
+        <br><br>
 
-        Для нового проходження
-        натисніть кнопку нижче.
+        Для нового проходження натисніть кнопку нижче.
 
         <button
             id="resetBtn"
@@ -1016,9 +768,8 @@ h1 {
 </section>
 
 
-
 <!-- =========================================================
-     TEST SCREEN
+     TEST
 ========================================================= -->
 
 <section
@@ -1028,21 +779,13 @@ h1 {
 
 <div class="container">
 
-
     <div class="test-header">
-
 
         <div class="header-top">
 
-
             <div class="student-info">
-
-                <span
-                    id="studentDisplay"
-                ></span>
-
+                <span id="studentDisplay"></span>
             </div>
-
 
             <div
                 id="timer"
@@ -1051,30 +794,22 @@ h1 {
                 30:00
             </div>
 
-
         </div>
 
 
         <div class="progress-wrap">
 
-
             <div class="progress-text">
 
-                <span
-                    id="progressText"
-                >
+                <span id="progressText">
                     Питання 1 з 50
                 </span>
 
-
-                <span
-                    id="answeredText"
-                >
+                <span id="answeredText">
                     Відповіді: 0/50
                 </span>
 
             </div>
-
 
             <div class="progress-bar">
 
@@ -1084,7 +819,6 @@ h1 {
                 ></div>
 
             </div>
-
 
         </div>
 
@@ -1096,34 +830,27 @@ h1 {
             ⚠ Виходи: 0/3
         </div>
 
-
     </div>
 
 
-
     <div class="question-card">
-
 
         <div
             id="questionNumber"
             class="question-number"
         ></div>
 
-
         <div
             id="questionText"
             class="question-text"
         ></div>
-
 
         <div
             id="answerList"
             class="answer-list"
         ></div>
 
-
         <div class="navigation">
-
 
             <button
                 id="prevBtn"
@@ -1132,14 +859,12 @@ h1 {
                 ← Назад
             </button>
 
-
             <button
                 id="nextBtn"
                 class="nav-btn next-btn"
             >
                 Далі →
             </button>
-
 
             <button
                 id="finishBtn"
@@ -1148,21 +873,17 @@ h1 {
                 Завершити тест
             </button>
 
-
         </div>
 
-
     </div>
-
 
 </div>
 
 </section>
 
 
-
 <!-- =========================================================
-     RESULT SCREEN
+     RESULT
 ========================================================= -->
 
 <section
@@ -1174,11 +895,9 @@ h1 {
 
 <div class="result-card">
 
-
     <div class="result-title">
         🏁 Результат тесту
     </div>
-
 
     <div
         id="resultGrade"
@@ -1187,9 +906,7 @@ h1 {
         —
     </div>
 
-
     <div class="result-stats">
-
 
         <div class="stat">
 
@@ -1254,7 +971,6 @@ h1 {
 
         </div>
 
-
     </div>
 
 
@@ -1264,7 +980,13 @@ h1 {
     ></div>
 
 
-    <!-- НОВА КНОПКА НАСТУПНОЇ СПРОБИ -->
+    <div
+        id="saveStatus"
+        class="finish-reason"
+    >
+        Результат зберігається...
+    </div>
+
 
     <div
         id="nextAttemptBox"
@@ -1286,13 +1008,11 @@ h1 {
         class="review-lock"
     >
 
-        🔒 Правильні відповіді
-        поки приховані.
+        🔒 Правильні відповіді поки приховані.
 
         <br><br>
 
-        Вони стануть доступними
-        після завершення 3-ї спроби.
+        Вони стануть доступними після завершення 3-ї спроби.
 
     </div>
 
@@ -1306,12 +1026,9 @@ h1 {
             📖 Перевірка відповідей
         </h2>
 
-        <div
-            id="reviewContainer"
-        ></div>
+        <div id="reviewContainer"></div>
 
     </div>
-
 
 </div>
 
@@ -1320,9 +1037,8 @@ h1 {
 </section>
 
 
-
 <!-- =========================================================
-     SECURITY OVERLAY
+     SECURITY
 ========================================================= -->
 
 <div id="securityOverlay">
@@ -1340,8 +1056,8 @@ h1 {
         <div
             class="security-text"
         >
-            Тест виявив зміну режиму
-            перегляду або вихід зі сторінки.
+            Тест виявив зміну режиму перегляду
+            або вихід зі сторінки.
         </div>
 
         <button
@@ -1356,16 +1072,31 @@ h1 {
 </div>
 
 
-
 <script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://egovkavyxtcztisropsf.supabase.co";
+
+const SUPABASE_ANON_KEY =
+    "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
 
 
 /* =========================================================
-   SETTINGS
+   TEST SETTINGS
 ========================================================= */
 
+const TEST_ID =
+    "km_2026";
+
+const TEST_SUBJECT =
+    "Комп’ютерні мережі";
+
 const STORAGE_KEY =
-    "network_test_v5";
+    "network_test_v6_" + TEST_ID;
 
 const MAX_ATTEMPTS =
     3;
@@ -1378,7 +1109,6 @@ const TOTAL_QUESTIONS =
 
 const TEST_TIME =
     30 * 60;
-
 
 
 /* =========================================================
@@ -1985,192 +1715,141 @@ c: [0]
 
 
 /* =========================================================
+   CHECK QUESTIONS
+========================================================= */
+
+if (Q.length < TOTAL_QUESTIONS) {
+
+    console.error(
+        "У масиві недостатньо питань:",
+        Q.length
+    );
+
+}
+
+if (Q.length > TOTAL_QUESTIONS) {
+
+    console.warn(
+        `У масиві ${Q.length} питань. Для тесту використовуються перші ${TOTAL_QUESTIONS}.`
+    );
+
+}
+
+
+/* =========================================================
    DOM
 ========================================================= */
 
 const startScreen =
-    document.getElementById(
-        "startScreen"
-    );
+    document.getElementById("startScreen");
 
 const testScreen =
-    document.getElementById(
-        "testScreen"
-    );
+    document.getElementById("testScreen");
 
 const resultScreen =
-    document.getElementById(
-        "resultScreen"
-    );
+    document.getElementById("resultScreen");
 
+const studentCode =
+    document.getElementById("studentCode");
 
 const studentName =
-    document.getElementById(
-        "studentName"
-    );
+    document.getElementById("studentName");
 
 const studentGroup =
-    document.getElementById(
-        "studentGroup"
-    );
-
+    document.getElementById("studentGroup");
 
 const startBtn =
-    document.getElementById(
-        "startBtn"
-    );
+    document.getElementById("startBtn");
 
 const resetBtn =
-    document.getElementById(
-        "resetBtn"
-    );
+    document.getElementById("resetBtn");
 
+const startError =
+    document.getElementById("startError");
 
 const attemptInfo =
-    document.getElementById(
-        "attemptInfo"
-    );
+    document.getElementById("attemptInfo");
 
 const resetBox =
-    document.getElementById(
-        "resetBox"
-    );
-
+    document.getElementById("resetBox");
 
 const studentDisplay =
-    document.getElementById(
-        "studentDisplay"
-    );
-
+    document.getElementById("studentDisplay");
 
 const timer =
-    document.getElementById(
-        "timer"
-    );
-
+    document.getElementById("timer");
 
 const progressText =
-    document.getElementById(
-        "progressText"
-    );
+    document.getElementById("progressText");
 
 const answeredText =
-    document.getElementById(
-        "answeredText"
-    );
+    document.getElementById("answeredText");
 
 const progressFill =
-    document.getElementById(
-        "progressFill"
-    );
-
+    document.getElementById("progressFill");
 
 const violationCounter =
-    document.getElementById(
-        "violationCounter"
-    );
-
+    document.getElementById("violationCounter");
 
 const questionNumber =
-    document.getElementById(
-        "questionNumber"
-    );
+    document.getElementById("questionNumber");
 
 const questionText =
-    document.getElementById(
-        "questionText"
-    );
+    document.getElementById("questionText");
 
 const answerList =
-    document.getElementById(
-        "answerList"
-    );
-
+    document.getElementById("answerList");
 
 const prevBtn =
-    document.getElementById(
-        "prevBtn"
-    );
+    document.getElementById("prevBtn");
 
 const nextBtn =
-    document.getElementById(
-        "nextBtn"
-    );
+    document.getElementById("nextBtn");
 
 const finishBtn =
-    document.getElementById(
-        "finishBtn"
-    );
-
+    document.getElementById("finishBtn");
 
 const resultGrade =
-    document.getElementById(
-        "resultGrade"
-    );
+    document.getElementById("resultGrade");
 
 const correctCount =
-    document.getElementById(
-        "correctCount"
-    );
+    document.getElementById("correctCount");
 
 const wrongCount =
-    document.getElementById(
-        "wrongCount"
-    );
+    document.getElementById("wrongCount");
 
 const percentCount =
-    document.getElementById(
-        "percentCount"
-    );
+    document.getElementById("percentCount");
 
 const attemptResult =
-    document.getElementById(
-        "attemptResult"
-    );
+    document.getElementById("attemptResult");
 
 const finishReason =
-    document.getElementById(
-        "finishReason"
-    );
+    document.getElementById("finishReason");
 
+const saveStatus =
+    document.getElementById("saveStatus");
 
 const nextAttemptBox =
-    document.getElementById(
-        "nextAttemptBox"
-    );
+    document.getElementById("nextAttemptBox");
 
 const nextAttemptBtn =
-    document.getElementById(
-        "nextAttemptBtn"
-    );
-
+    document.getElementById("nextAttemptBtn");
 
 const reviewLock =
-    document.getElementById(
-        "reviewLock"
-    );
+    document.getElementById("reviewLock");
 
 const review =
-    document.getElementById(
-        "review"
-    );
+    document.getElementById("review");
 
 const reviewContainer =
-    document.getElementById(
-        "reviewContainer"
-    );
-
+    document.getElementById("reviewContainer");
 
 const securityOverlay =
-    document.getElementById(
-        "securityOverlay"
-    );
+    document.getElementById("securityOverlay");
 
 const securityReturnBtn =
-    document.getElementById(
-        "securityReturnBtn"
-    );
-
+    document.getElementById("securityReturnBtn");
 
 
 /* =========================================================
@@ -2195,20 +1874,180 @@ let lastViewportHeight = null;
 
 let securityTimer = null;
 
+let finishing = false;
 
 
 /* =========================================================
-   STORAGE
+   SUPABASE REQUEST
+========================================================= */
+
+async function supabaseRPC(
+    functionName,
+    body
+) {
+
+    const response =
+        await fetch(
+            SUPABASE_URL +
+            "/rest/v1/rpc/" +
+            functionName,
+            {
+                method: "POST",
+
+                headers: {
+                    "apikey":
+                        SUPABASE_ANON_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_ANON_KEY,
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(body)
+            }
+        );
+
+
+    const rawText =
+        await response.text();
+
+
+    let data = null;
+
+
+    try {
+
+        data =
+            rawText
+                ? JSON.parse(rawText)
+                : null;
+
+    } catch {
+
+        data = null;
+
+    }
+
+
+    if (!response.ok) {
+
+        console.error(
+            "Supabase RPC error:",
+            functionName,
+            rawText
+        );
+
+
+        throw new Error(
+            data?.message ||
+            rawText ||
+            "Помилка Supabase."
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =========================================================
+   IDs
+========================================================= */
+
+function getOrCreateId(key) {
+
+    let id =
+        localStorage.getItem(key);
+
+
+    if (!id) {
+
+        id =
+            crypto.randomUUID();
+
+        localStorage.setItem(
+            key,
+            id
+        );
+
+    }
+
+
+    return id;
+
+}
+
+
+const browserId =
+    getOrCreateId(
+        "test_browser_id"
+    );
+
+const deviceId =
+    getOrCreateId(
+        "test_device_id"
+    );
+
+
+/* =========================================================
+   IP
+========================================================= */
+
+async function getIpAddress() {
+
+    try {
+
+        const response =
+            await fetch(
+                "https://api.ipify.org?format=json",
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            return null;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        return data.ip || null;
+
+    } catch {
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOCAL STORAGE
 ========================================================= */
 
 function saveState() {
 
     if (!state) return;
 
+
     localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(state)
     );
+
 }
 
 
@@ -2219,7 +2058,13 @@ function loadState() {
             STORAGE_KEY
         );
 
-    if (!raw) return null;
+
+    if (!raw) {
+
+        return null;
+
+    }
+
 
     try {
 
@@ -2232,7 +2077,9 @@ function loadState() {
         console.error(error);
 
         return null;
+
     }
+
 }
 
 
@@ -2244,12 +2091,14 @@ function normalizeState(s) {
     if (!Array.isArray(s.questions)) {
 
         s.questions = [];
+
     }
 
 
     if (!Array.isArray(s.userAnswers)) {
 
         s.userAnswers = [];
+
     }
 
 
@@ -2266,6 +2115,7 @@ function normalizeState(s) {
     ) {
 
         s.userAnswers.push([]);
+
     }
 
 
@@ -2301,6 +2151,7 @@ function normalizeState(s) {
 
 
     return s;
+
 }
 
 
@@ -2310,7 +2161,9 @@ function normalizeState(s) {
 
 function shuffle(array) {
 
-    const arr = [...array];
+    const arr =
+        [...array];
+
 
     for (
         let i = arr.length - 1;
@@ -2324,6 +2177,7 @@ function shuffle(array) {
                 (i + 1)
             );
 
+
         [
             arr[i],
             arr[j]
@@ -2332,9 +2186,12 @@ function shuffle(array) {
             arr[j],
             arr[i]
         ];
+
     }
 
+
     return arr;
+
 }
 
 
@@ -2351,52 +2208,56 @@ function createQuestions() {
         );
 
 
-    return selected.map(item => {
+    return selected.map(
+        item => {
+
+            const options =
+                item.a.map(
+                    (text, index) => ({
+
+                        text: text,
+
+                        correct:
+                            item.c.includes(
+                                index
+                            )
+
+                    })
+                );
 
 
-        const options =
-            item.a.map(
-                (text, index) => ({
+            const shuffled =
+                shuffle(options);
 
-                    text: text,
 
-                    correct:
-                        item.c.includes(
-                            index
+            return {
+
+                q:
+                    item.q,
+
+                a:
+                    shuffled.map(
+                        x => x.text
+                    ),
+
+                c:
+                    shuffled
+                        .map(
+                            (x, i) =>
+                                x.correct
+                                    ? i
+                                    : -1
+                        )
+                        .filter(
+                            i =>
+                                i !== -1
                         )
 
-                })
-            );
+            };
 
+        }
+    );
 
-        const shuffled =
-            shuffle(options);
-
-
-        return {
-
-            q: item.q,
-
-            a:
-                shuffled.map(
-                    x => x.text
-                ),
-
-            c:
-                shuffled
-                    .map(
-                        (x, i) =>
-                            x.correct
-                                ? i
-                                : -1
-                    )
-                    .filter(
-                        i => i !== -1
-                    )
-
-        };
-
-    });
 }
 
 
@@ -2404,7 +2265,13 @@ function createQuestions() {
    START TEST
 ========================================================= */
 
-function startTest() {
+async function startTest() {
+
+    if (finishing) return;
+
+
+    const code =
+        studentCode.value.trim();
 
     const name =
         studentName.value.trim();
@@ -2413,27 +2280,42 @@ function startTest() {
         studentGroup.value.trim();
 
 
-    if (!name) {
+    if (code.length < 2) {
 
-        alert(
+        showStartError(
+            "Введіть код здобувача освіти."
+        );
+
+        studentCode.focus();
+
+        return;
+
+    }
+
+
+    if (name.length < 2) {
+
+        showStartError(
             "Введіть ПІБ."
         );
 
         studentName.focus();
 
         return;
+
     }
 
 
-    if (!group) {
+    if (group.length < 1) {
 
-        alert(
+        showStartError(
             "Введіть групу."
         );
 
         studentGroup.focus();
 
         return;
+
     }
 
 
@@ -2442,8 +2324,9 @@ function startTest() {
 
 
     /*
-       Якщо є незавершена спроба —
-       відновлюємо саме її.
+       -------------------------------------------------------
+       ВІДНОВЛЕННЯ НЕЗАВЕРШЕНОЇ СПРОБИ
+       -------------------------------------------------------
     */
 
     if (
@@ -2454,51 +2337,104 @@ function startTest() {
 
 
         if (
+            saved.studentCode !== code ||
             saved.studentName !== name ||
             saved.studentGroup !== group
         ) {
 
-            alert(
+            showStartError(
                 "У браузері вже є незавершений тест іншого здобувача."
             );
 
             return;
+
         }
 
 
-        state = saved;
+        state =
+            saved;
 
-        state.active = true;
+
+        state.active =
+            true;
+
+
+        startLocalTest();
+
+
+        return;
 
     }
 
+
     /*
-       Якщо попередня спроба завершена —
-       створюємо НОВУ спробу.
+       -------------------------------------------------------
+       НОВА СПРОБА
+       -------------------------------------------------------
     */
 
-    else {
+    startBtn.disabled =
+        true;
+
+    startBtn.textContent =
+        "Перевірка доступності спроби...";
+
+    hideStartError();
+
+
+    try {
+
+        const ipAddress =
+            await getIpAddress();
+
+
+        const data =
+            await supabaseRPC(
+                "start_test_attempt",
+                {
+                    p_test_id:
+                        TEST_ID,
+
+                    p_student_code:
+                        code,
+
+                    p_student_name:
+                        name,
+
+                    p_browser_id:
+                        browserId,
+
+                    p_device_id:
+                        deviceId,
+
+                    p_ip_address:
+                        ipAddress
+                }
+            );
+
+
+        console.log(
+            "START TEST:",
+            data
+        );
 
 
         if (
-            saved &&
-            saved.attemptsUsed >=
-            MAX_ATTEMPTS
+            !data ||
+            data.success !== true
         ) {
 
-            alert(
-                "Використано всі 3 спроби. Спочатку скиньте спроби."
+            throw new Error(
+                data?.message ||
+                "Не вдалося розпочати тест."
             );
 
-            return;
         }
 
 
-        const attempt =
-            saved
-                ? saved.attemptsUsed + 1
-                : 1;
-
+        /*
+           Створюємо локальний стан.
+        */
 
         state = {
 
@@ -2506,13 +2442,32 @@ function startTest() {
 
             finished: false,
 
-            studentName: name,
+            studentCode:
+                code,
 
-            studentGroup: group,
+            studentName:
+                name,
 
-            attemptsUsed: attempt,
+            studentGroup:
+                group,
 
-            attempt: attempt,
+            testId:
+                TEST_ID,
+
+            attemptId:
+                Number(
+                    data.attempt_id
+                ),
+
+            attemptsUsed:
+                Number(
+                    data.attempt_number
+                ),
+
+            attempt:
+                Number(
+                    data.attempt_number
+                ),
 
             current: 0,
 
@@ -2533,18 +2488,64 @@ function startTest() {
             finishReason: "",
 
             startTime:
-                Date.now(),
+                data.started_at
+                    ? new Date(
+                        data.started_at
+                    ).getTime()
+                    : Date.now(),
 
             endTime:
-                Date.now() +
-                TEST_TIME * 1000
+                data.started_at
+                    ? new Date(
+                        data.started_at
+                    ).getTime() +
+                        TEST_TIME * 1000
+                    : Date.now() +
+                        TEST_TIME * 1000,
+
+            savedToServer: false
 
         };
 
+
+        saveState();
+
+
+        startLocalTest();
+
+    }
+    catch (error) {
+
+        console.error(
+            "START ERROR:",
+            error
+        );
+
+
+        showStartError(
+            error.message ||
+            "Не вдалося розпочати тест."
+        );
+
+
+        startBtn.disabled =
+            false;
+
+        startBtn.textContent =
+            "▶ Почати тест";
+
     }
 
+}
 
-    saveState();
+
+/* =========================================================
+   START LOCAL TEST
+========================================================= */
+
+function startLocalTest() {
+
+    hideStartError();
 
 
     startScreen.classList.add(
@@ -2603,14 +2604,15 @@ async function requestFullscreen() {
             "Fullscreen недоступний:",
             error
         );
+
     }
+
 }
 
 
 document.addEventListener(
     "fullscreenchange",
     () => {
-
 
         if (
             !state ||
@@ -2619,6 +2621,7 @@ document.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -2626,12 +2629,12 @@ document.addEventListener(
             !document.fullscreenElement
         ) {
 
-
             if (
                 !fullscreenEpisode
             ) {
 
-                fullscreenEpisode = true;
+                fullscreenEpisode =
+                    true;
 
 
                 registerViolation(
@@ -2642,7 +2645,9 @@ document.addEventListener(
 
         } else {
 
-            fullscreenEpisode = false;
+            fullscreenEpisode =
+                false;
+
         }
 
     }
@@ -2686,7 +2691,6 @@ function renderQuestion() {
     q.a.forEach(
         (answer, index) => {
 
-
             const label =
                 document.createElement(
                     "label"
@@ -2706,6 +2710,7 @@ function renderQuestion() {
                 label.classList.add(
                     "selected"
                 );
+
             }
 
 
@@ -2738,7 +2743,6 @@ function renderQuestion() {
             input.addEventListener(
                 "change",
                 () => {
-
 
                     saveAnswer(
                         index,
@@ -2774,11 +2778,9 @@ function renderQuestion() {
                 input
             );
 
-
             label.appendChild(
                 span
             );
-
 
             answerList.appendChild(
                 label
@@ -2814,6 +2816,7 @@ function renderQuestion() {
         finishBtn.classList.add(
             "hidden"
         );
+
     }
 
 
@@ -2851,7 +2854,6 @@ function saveAnswer(
 
     } else {
 
-
         if (checked) {
 
             if (
@@ -2861,14 +2863,17 @@ function saveAnswer(
             ) {
 
                 answers.push(index);
+
             }
 
         } else {
 
             answers =
                 answers.filter(
-                    x => x !== index
+                    x =>
+                        x !== index
                 );
+
         }
 
     }
@@ -2881,7 +2886,8 @@ function saveAnswer(
 
     state.userAnswers[
         state.current
-    ] = answers;
+    ] =
+        answers;
 
 
     saveState();
@@ -2900,7 +2906,6 @@ prevBtn.addEventListener(
     "click",
     () => {
 
-
         if (
             state &&
             state.current > 0
@@ -2911,6 +2916,7 @@ prevBtn.addEventListener(
             saveState();
 
             renderQuestion();
+
         }
 
     }
@@ -2920,7 +2926,6 @@ prevBtn.addEventListener(
 nextBtn.addEventListener(
     "click",
     () => {
-
 
         if (
             state &&
@@ -2933,6 +2938,7 @@ nextBtn.addEventListener(
             saveState();
 
             renderQuestion();
+
         }
 
     }
@@ -2943,7 +2949,6 @@ finishBtn.addEventListener(
     "click",
     () => {
 
-
         if (
             confirm(
                 "Завершити тест?"
@@ -2953,6 +2958,7 @@ finishBtn.addEventListener(
             finishTest(
                 "manual"
             );
+
         }
 
     }
@@ -3012,6 +3018,7 @@ function startTimer() {
             updateTimer,
             500
         );
+
 }
 
 
@@ -3023,8 +3030,11 @@ function stopTimer() {
             timerInterval
         );
 
-        timerInterval = null;
+        timerInterval =
+            null;
+
     }
+
 }
 
 
@@ -3037,6 +3047,7 @@ function updateTimer() {
     ) {
 
         return;
+
     }
 
 
@@ -3057,6 +3068,7 @@ function updateTimer() {
         );
 
         return;
+
     }
 
 
@@ -3101,6 +3113,7 @@ function updateTimer() {
         timer.classList.add(
             "warning"
         );
+
     }
 
 }
@@ -3114,7 +3127,6 @@ document.addEventListener(
     "visibilitychange",
     () => {
 
-
         if (
             !state ||
             !state.active ||
@@ -3122,6 +3134,7 @@ document.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -3129,24 +3142,24 @@ document.addEventListener(
             document.hidden
         ) {
 
-
             if (
                 !hiddenEpisode
             ) {
 
-                hiddenEpisode = true;
+                hiddenEpisode =
+                    true;
 
 
                 registerViolation(
                     "Перехід на іншу вкладку або програму"
                 );
-            }
 
+            }
 
         } else {
 
-
-            hiddenEpisode = false;
+            hiddenEpisode =
+                false;
 
 
             hideSecurityOverlay();
@@ -3168,7 +3181,6 @@ window.addEventListener(
     "blur",
     () => {
 
-
         if (
             !state ||
             !state.active ||
@@ -3176,6 +3188,7 @@ window.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -3184,8 +3197,8 @@ window.addEventListener(
             !focusEpisode
         ) {
 
-
-            focusEpisode = true;
+            focusEpisode =
+                true;
 
 
             registerViolation(
@@ -3202,8 +3215,8 @@ window.addEventListener(
     "focus",
     () => {
 
-
-        focusEpisode = false;
+        focusEpisode =
+            false;
 
 
         if (
@@ -3232,10 +3245,12 @@ function getViewportWidth() {
     ) {
 
         return window.visualViewport.width;
+
     }
 
 
     return window.innerWidth;
+
 }
 
 
@@ -3247,10 +3262,12 @@ function getViewportHeight() {
     ) {
 
         return window.visualViewport.height;
+
     }
 
 
     return window.innerHeight;
+
 }
 
 
@@ -3261,6 +3278,7 @@ function initViewportBaseline() {
 
     lastViewportHeight =
         getViewportHeight();
+
 }
 
 
@@ -3273,11 +3291,13 @@ function checkViewport() {
     ) {
 
         return;
+
     }
 
 
     const width =
         getViewportWidth();
+
 
     const height =
         getViewportHeight();
@@ -3291,6 +3311,7 @@ function checkViewport() {
         initViewportBaseline();
 
         return;
+
     }
 
 
@@ -3299,16 +3320,9 @@ function checkViewport() {
         lastViewportWidth;
 
 
-    /*
-       Якщо ширина стала меншою
-       приблизно ніж 75% —
-       можливий split-screen.
-    */
-
     if (
         widthRatio < 0.75
     ) {
-
 
         if (
             !viewportViolationEpisode
@@ -3321,13 +3335,14 @@ function checkViewport() {
             registerViolation(
                 "Виявлено суттєве зменшення області тесту"
             );
-        }
 
+        }
 
     } else {
 
         viewportViolationEpisode =
             false;
+
     }
 
 }
@@ -3347,6 +3362,7 @@ if (
         "resize",
         checkViewport
     );
+
 }
 
 
@@ -3363,6 +3379,7 @@ function registerViolation(reason) {
     ) {
 
         return;
+
     }
 
 
@@ -3385,7 +3402,6 @@ function registerViolation(reason) {
         MAX_PAGE_LEAVES
     ) {
 
-
         setTimeout(
             () => {
 
@@ -3406,9 +3422,7 @@ function registerViolation(reason) {
    SECURITY OVERLAY
 ========================================================= */
 
-function showSecurityOverlay(
-    reason
-) {
+function showSecurityOverlay(reason) {
 
     if (!state) return;
 
@@ -3457,6 +3471,7 @@ function hideSecurityOverlay() {
 
     securityOverlay.style.display =
         "none";
+
 }
 
 
@@ -3476,15 +3491,21 @@ securityReturnBtn.addEventListener(
    FINISH
 ========================================================= */
 
-function finishTest(reason) {
+async function finishTest(reason) {
 
     if (
         !state ||
-        state.finished
+        state.finished ||
+        finishing
     ) {
 
         return;
+
     }
+
+
+    finishing =
+        true;
 
 
     state.active =
@@ -3514,9 +3535,9 @@ function finishTest(reason) {
 
         try {
 
-            document.exitFullscreen();
+            await document.exitFullscreen();
 
-        } catch (error) {}
+        } catch {}
 
     }
 
@@ -3524,7 +3545,86 @@ function finishTest(reason) {
     hideSecurityOverlay();
 
 
-    showResult();
+    const result =
+        calculateResult();
+
+
+    showResult(
+        result
+    );
+
+
+    /*
+       Відправляємо результат
+       у Supabase.
+    */
+
+    try {
+
+        const data =
+            await supabaseRPC(
+                "finish_test_attempt",
+                {
+                    p_test_id:
+                        TEST_ID,
+
+                    p_attempt_id:
+                        Number(
+                            state.attemptId
+                        ),
+
+                    p_score:
+                        result.correct
+                }
+            );
+
+
+        console.log(
+            "FINISH TEST:",
+            data
+        );
+
+
+        state.savedToServer =
+            true;
+
+
+        saveState();
+
+
+        saveStatus.textContent =
+            "✅ Результат успішно збережено.";
+
+        saveStatus.style.color =
+            "#15803d";
+
+    }
+    catch (error) {
+
+        console.error(
+            "FINISH ERROR:",
+            error
+        );
+
+
+        state.savedToServer =
+            false;
+
+
+        saveState();
+
+
+        saveStatus.textContent =
+            "⚠ Результат не вдалося зберегти в базі. Не закривайте сторінку та повідомте викладача.";
+
+        saveStatus.style.color =
+            "#b91c1c";
+
+    }
+
+
+    finishing =
+        false;
 
 }
 
@@ -3535,27 +3635,37 @@ function finishTest(reason) {
 
 function startSecurityMonitoring() {
 
-    hiddenEpisode = false;
+    hiddenEpisode =
+        false;
 
-    focusEpisode = false;
+    focusEpisode =
+        false;
 
-    fullscreenEpisode = false;
+    fullscreenEpisode =
+        false;
 
-    viewportViolationEpisode = false;
+    viewportViolationEpisode =
+        false;
 
     initViewportBaseline();
+
 }
 
 
 function stopSecurityMonitoring() {
 
-    hiddenEpisode = false;
+    hiddenEpisode =
+        false;
 
-    focusEpisode = false;
+    focusEpisode =
+        false;
 
-    fullscreenEpisode = false;
+    fullscreenEpisode =
+        false;
 
-    viewportViolationEpisode = false;
+    viewportViolationEpisode =
+        false;
+
 }
 
 
@@ -3565,7 +3675,8 @@ function stopSecurityMonitoring() {
 
 function calculateResult() {
 
-    let correct = 0;
+    let correct =
+        0;
 
 
     for (
@@ -3573,7 +3684,6 @@ function calculateResult() {
         i < TOTAL_QUESTIONS;
         i++
     ) {
-
 
         const user =
             state.userAnswers[i] ||
@@ -3603,6 +3713,7 @@ function calculateResult() {
         ) {
 
             correct++;
+
         }
 
     }
@@ -3633,6 +3744,10 @@ function calculateResult() {
 
 }
 
+
+/* =========================================================
+   GRADE
+========================================================= */
 
 function getGrade(percent) {
 
@@ -3670,6 +3785,7 @@ function getGrade(percent) {
         return 2;
 
     return 1;
+
 }
 
 
@@ -3677,7 +3793,7 @@ function getGrade(percent) {
    SHOW RESULT
 ========================================================= */
 
-function showResult() {
+function showResult(result = null) {
 
     startScreen.classList.add(
         "hidden"
@@ -3692,8 +3808,15 @@ function showResult() {
     );
 
 
-    const result =
-        calculateResult();
+    if (!state) return;
+
+
+    if (!result) {
+
+        result =
+            calculateResult();
+
+    }
 
 
     resultGrade.textContent =
@@ -3718,13 +3841,19 @@ function showResult() {
         `${state.attempt}/3`;
 
 
-    let reasonText = "";
+    saveStatus.textContent =
+        state.savedToServer
+            ? "✅ Результат збережено."
+            : "Результат зберігається...";
+
+
+    let reasonText =
+        "";
 
 
     switch (
         state.finishReason
     ) {
-
 
         case "manual":
 
@@ -3763,16 +3892,13 @@ function showResult() {
 
 
     /*
-       ================================
-       КНОПКА НАСТУПНОЇ СПРОБИ
-       ================================
+       Наступна спроба
     */
 
     if (
         state.attempt <
         MAX_ATTEMPTS
     ) {
-
 
         nextAttemptBox.classList.remove(
             "hidden"
@@ -3790,11 +3916,10 @@ function showResult() {
 
             nextAttemptBtn.textContent =
                 "▶ Перейти до 3-ї спроби";
+
         }
 
-
     } else {
-
 
         nextAttemptBox.classList.add(
             "hidden"
@@ -3804,9 +3929,7 @@ function showResult() {
 
 
     /*
-       ================================
-       ПРАВИЛЬНІ ВІДПОВІДІ
-       ================================
+       Правильні відповіді
     */
 
     const canReviewCorrectAnswers =
@@ -3818,32 +3941,25 @@ function showResult() {
         canReviewCorrectAnswers
     ) {
 
-
         reviewLock.classList.add(
             "hidden"
         );
-
 
         review.classList.remove(
             "hidden"
         );
 
-
         renderReview();
 
-
     } else {
-
 
         review.classList.add(
             "hidden"
         );
 
-
         reviewLock.classList.remove(
             "hidden"
         );
-
 
         reviewContainer.innerHTML =
             "";
@@ -3861,7 +3977,6 @@ nextAttemptBtn.addEventListener(
     "click",
     () => {
 
-
         if (!state) return;
 
 
@@ -3871,19 +3986,8 @@ nextAttemptBtn.addEventListener(
         ) {
 
             return;
+
         }
-
-
-        /*
-           ВАЖЛИВО:
-           тут НЕ видаляємо localStorage.
-
-           Нам потрібно зберегти:
-           attemptsUsed = 1 або 2.
-
-           startTest() прочитає це значення
-           і створить наступну спробу.
-        */
 
 
         startScreen.classList.remove(
@@ -3899,26 +4003,26 @@ nextAttemptBtn.addEventListener(
         );
 
 
-        studentName.value =
-            state.studentName || "";
+        studentCode.value =
+            state.studentCode ||
+            "";
 
+        studentName.value =
+            state.studentName ||
+            "";
 
         studentGroup.value =
-            state.studentGroup || "";
+            state.studentGroup ||
+            "";
 
 
         updateStartInfo();
 
 
-        /*
-           Автоматично переводимо курсор
-           у поле ПІБ.
-        */
-
         setTimeout(
             () => {
 
-                studentName.focus();
+                studentCode.focus();
 
             },
             100
@@ -3940,7 +4044,6 @@ function renderReview() {
 
     state.questions.forEach(
         (q, index) => {
-
 
             const user =
                 state.userAnswers[index] ||
@@ -4020,19 +4123,17 @@ function renderReview() {
                 user.length === 0
             ) {
 
-
                 userText.innerHTML =
                     `<span class="user-wrong">
                         Ваша відповідь: немає відповіді
                     </span>`;
 
-
             } else {
-
 
                 const answers =
                     user.map(
-                        i => q.a[i]
+                        i =>
+                            q.a[i]
                     ).join("; ");
 
 
@@ -4045,6 +4146,7 @@ function renderReview() {
                         Ваша відповідь:
                         ${escapeHtml(answers)}
                     </span>`;
+
             }
 
 
@@ -4061,7 +4163,8 @@ function renderReview() {
 
             const correctAnswers =
                 right.map(
-                    i => q.a[i]
+                    i =>
+                        q.a[i]
                 ).join("; ");
 
 
@@ -4085,6 +4188,7 @@ function renderReview() {
 
         }
     );
+
 }
 
 
@@ -4120,21 +4224,49 @@ function escapeHtml(text) {
             "'",
             "&#039;"
         );
+
 }
 
 
 /* =========================================================
-   RESET ATTEMPTS
+   START ERROR
+========================================================= */
+
+function showStartError(message) {
+
+    startError.textContent =
+        message;
+
+    startError.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+function hideStartError() {
+
+    startError.textContent =
+        "";
+
+    startError.classList.add(
+        "hidden"
+    );
+
+}
+
+
+/* =========================================================
+   RESET
 ========================================================= */
 
 resetBtn.addEventListener(
     "click",
     () => {
 
-
         const confirmed =
             confirm(
-                "Скинути всі 3 спроби?\n\nПісля цього можна буде пройти тест ще 3 рази."
+                "Скинути локальний стан цього тесту?\n\nСпроба в базі не видаляється."
             );
 
 
@@ -4147,13 +4279,12 @@ resetBtn.addEventListener(
             !state.finished
         ) {
 
-
             alert(
                 "Спочатку потрібно завершити поточний тест."
             );
 
-
             return;
+
         }
 
 
@@ -4162,7 +4293,8 @@ resetBtn.addEventListener(
         );
 
 
-        state = null;
+        state =
+            null;
 
 
         stopTimer();
@@ -4171,9 +4303,11 @@ resetBtn.addEventListener(
         stopSecurityMonitoring();
 
 
-        studentName.value =
+        studentCode.value =
             "";
 
+        studentName.value =
+            "";
 
         studentGroup.value =
             "";
@@ -4183,11 +4317,9 @@ resetBtn.addEventListener(
             "hidden"
         );
 
-
         testScreen.classList.add(
             "hidden"
         );
-
 
         startScreen.classList.remove(
             "hidden"
@@ -4204,7 +4336,7 @@ resetBtn.addEventListener(
    START INFO
 ========================================================= */
 
-function updateStartInfo() {
+async function updateStartInfo() {
 
     const saved =
         loadState();
@@ -4212,9 +4344,8 @@ function updateStartInfo() {
 
     if (!saved) {
 
-
         attemptInfo.textContent =
-            "Спроб використано: 0/3";
+            "Спроб використано: перевіряється...";
 
 
         startBtn.disabled =
@@ -4226,12 +4357,82 @@ function updateStartInfo() {
         );
 
 
+        /*
+           Перевіряємо інформацію
+           в Supabase, якщо є код.
+        */
+
+        const code =
+            studentCode.value.trim();
+
+
+        if (code.length >= 2) {
+
+            try {
+
+                const data =
+                    await supabaseRPC(
+                        "get_student_test_info",
+                        {
+                            p_test_id:
+                                TEST_ID,
+
+                            p_student_code:
+                                code
+                        }
+                    );
+
+
+                if (data) {
+
+                    const used =
+                        Number(
+                            data.attempts_used
+                        ) || 0;
+
+
+                    attemptInfo.textContent =
+                        `Спроб використано: ${used}/${MAX_ATTEMPTS}`;
+
+
+                    if (
+                        used >= MAX_ATTEMPTS
+                    ) {
+
+                        startBtn.disabled =
+                            true;
+
+                        resetBox.classList.remove(
+                            "hidden"
+                        );
+
+                    }
+
+                }
+
+            }
+            catch (error) {
+
+                console.warn(
+                    "Не вдалося отримати інформацію про спроби:",
+                    error
+                );
+
+                attemptInfo.textContent =
+                    "Спроб використано: перевіриться при початку тесту.";
+
+            }
+
+        }
+
+
         return;
+
     }
 
 
     /*
-       Є незавершений тест
+       Незавершений тест
     */
 
     if (
@@ -4239,10 +4440,11 @@ function updateStartInfo() {
         !saved.finished
     ) {
 
+        studentCode.value =
+            saved.studentCode || "";
 
         studentName.value =
             saved.studentName || "";
-
 
         studentGroup.value =
             saved.studentGroup || "";
@@ -4262,6 +4464,7 @@ function updateStartInfo() {
 
 
         return;
+
     }
 
 
@@ -4277,22 +4480,17 @@ function updateStartInfo() {
         used >= MAX_ATTEMPTS
     ) {
 
-
         startBtn.disabled =
             true;
-
 
         resetBox.classList.remove(
             "hidden"
         );
 
-
     } else {
-
 
         startBtn.disabled =
             false;
-
 
         resetBox.classList.add(
             "hidden"
@@ -4309,8 +4507,7 @@ function updateStartInfo() {
 
 window.addEventListener(
     "load",
-    () => {
-
+    async () => {
 
         state =
             loadState();
@@ -4318,11 +4515,10 @@ window.addEventListener(
 
         if (!state) {
 
-
-            updateStartInfo();
-
+            await updateStartInfo();
 
             return;
+
         }
 
 
@@ -4334,11 +4530,10 @@ window.addEventListener(
             state.finished
         ) {
 
-
             showResult();
 
-
             return;
+
         }
 
 
@@ -4350,19 +4545,17 @@ window.addEventListener(
             state.active
         ) {
 
-
             if (
                 state.pageLeaves >=
                 MAX_PAGE_LEAVES
             ) {
 
-
                 finishTest(
                     "page_leave"
                 );
 
-
                 return;
+
             }
 
 
@@ -4371,27 +4564,31 @@ window.addEventListener(
                 state.endTime
             ) {
 
-
                 finishTest(
                     "time"
                 );
 
-
                 return;
+
             }
 
 
-            studentName.value =
-                state.studentName || "";
+            studentCode.value =
+                state.studentCode ||
+                "";
 
+            studentName.value =
+                state.studentName ||
+                "";
 
             studentGroup.value =
-                state.studentGroup || "";
+                state.studentGroup ||
+                "";
 
         }
 
 
-        updateStartInfo();
+        await updateStartInfo();
 
     }
 );
@@ -4415,13 +4612,11 @@ window.addEventListener(
     "beforeunload",
     event => {
 
-
         if (
             state &&
             state.active &&
             !state.finished
         ) {
-
 
             saveState();
 
@@ -4446,7 +4641,6 @@ window.addEventListener(
     "pagehide",
     () => {
 
-
         if (
             state &&
             state.active &&
@@ -4469,7 +4663,6 @@ document.addEventListener(
     "contextmenu",
     event => {
 
-
         if (
             state &&
             state.active &&
@@ -4477,6 +4670,7 @@ document.addEventListener(
         ) {
 
             event.preventDefault();
+
         }
 
     }
@@ -4491,7 +4685,6 @@ document.addEventListener(
     "keydown",
     event => {
 
-
         if (
             !state ||
             !state.active ||
@@ -4499,6 +4692,7 @@ document.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -4507,8 +4701,10 @@ document.addEventListener(
 
 
         if (
-            (event.ctrlKey ||
-             event.metaKey) &&
+            (
+                event.ctrlKey ||
+                event.metaKey
+            ) &&
             [
                 "c",
                 "v",
@@ -4519,11 +4715,10 @@ document.addEventListener(
             ].includes(key)
         ) {
 
-
             event.preventDefault();
 
-
             return;
+
         }
 
 
@@ -4532,6 +4727,28 @@ document.addEventListener(
         ) {
 
             event.preventDefault();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+studentCode.addEventListener(
+    "input",
+    () => {
+
+        if (
+            !state ||
+            !state.active
+        ) {
+
+            updateStartInfo();
+
         }
 
     }
@@ -4541,3 +4758,4 @@ document.addEventListener(
 
 </body>
 </html>
+```
