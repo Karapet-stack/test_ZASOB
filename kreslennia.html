@@ -1,13 +1,17 @@
-
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Тест: Креслення</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
@@ -190,96 +194,186 @@ button:disabled{
 .review-item.wrong{
     border-left:5px solid #dc2626;
 }
+
+.image-error{
+    padding:12px;
+    border:1px solid #fecaca;
+    background:#fef2f2;
+    color:#991b1b;
+    border-radius:10px;
+    margin:12px 0 18px;
+    text-align:center;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="container">
-    <h1>Тест: Креслення</h1>
-    <div class="small" style="color:#dbeafe">
-        30 питань · 30 хвилин · до 3 спроб
-    </div>
-</div>
-</header>
 
 <div class="container">
+
+    <h1>Тест: Креслення</h1>
+
+    <div class="small" style="color:#dbeafe">
+        32 питання · 30 хвилин · до 3 спроб
+    </div>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- =========================================================
+     ПОЧАТОК
+========================================================= -->
 
 <section id="startCard" class="card">
 
-<h2>Початок тестування</h2>
+    <h2>Початок тестування</h2>
 
-<p>
-Тест містить 30 питань з креслення.
-Частина завдань містить графічні зображення.
-</p>
+    <p>
+        Тест містить 32 питання з креслення.
+        Частина завдань містить графічні зображення.
+    </p>
 
-<label for="studentCode">Код здобувача</label>
-<input id="studentCode" maxlength="50" autocomplete="off">
+    <label for="studentCode">
+        Код здобувача
+    </label>
 
-<label for="studentName">ПІБ</label>
-<input id="studentName" maxlength="100" autocomplete="name">
-
-<label for="studentGroup">Група</label>
-<input id="studentGroup" maxlength="50" autocomplete="off">
-
-<div id="attemptInfo" class="small" style="margin-top:12px"></div>
-
-<button id="startBtn" style="margin-top:16px">
-    Розпочати тест
-</button>
-
-<div id="startError" class="warn hidden"></div>
-
-</section>
+    <input
+        id="studentCode"
+        maxlength="50"
+        autocomplete="off"
+    >
 
 
-<section id="testCard" class="card hidden">
+    <label for="studentName">
+        ПІБ
+    </label>
 
-<div class="topbar">
-    <div>
-        <b id="qCounter"></b>
-    </div>
+    <input
+        id="studentName"
+        maxlength="100"
+        autocomplete="name"
+    >
 
-    <div class="timer" id="timer">
-        30:00
-    </div>
-</div>
 
-<div class="progress">
-    <div id="progressBar"></div>
-</div>
+    <label for="studentGroup">
+        Група
+    </label>
 
-<div id="questionBox"></div>
+    <input
+        id="studentGroup"
+        maxlength="50"
+        autocomplete="off"
+    >
 
-<div class="nav">
-    <button id="prevBtn" class="secondary">
-        ← Назад
+
+    <div
+        id="attemptInfo"
+        class="small"
+        style="margin-top:12px"
+    ></div>
+
+
+    <button
+        id="startBtn"
+        style="margin-top:16px"
+    >
+        Розпочати тест
     </button>
 
-    <button id="nextBtn">
-        Далі →
-    </button>
-</div>
+
+    <div
+        id="startError"
+        class="warn hidden"
+    ></div>
 
 </section>
 
 
-<section id="resultCard" class="card hidden">
+<!-- =========================================================
+     ТЕСТ
+========================================================= -->
 
-<h2>Результат</h2>
+<section
+    id="testCard"
+    class="card hidden"
+>
 
-<div id="resultBox"></div>
+    <div class="topbar">
 
-<div id="reviewBox"></div>
+        <div>
+            <b id="qCounter"></b>
+        </div>
+
+        <div
+            class="timer"
+            id="timer"
+        >
+            30:00
+        </div>
+
+    </div>
+
+
+    <div class="progress">
+
+        <div id="progressBar"></div>
+
+    </div>
+
+
+    <div id="questionBox"></div>
+
+
+    <div class="nav">
+
+        <button
+            id="prevBtn"
+            class="secondary"
+        >
+            ← Назад
+        </button>
+
+
+        <button id="nextBtn">
+            Далі →
+        </button>
+
+    </div>
 
 </section>
+
+
+<!-- =========================================================
+     РЕЗУЛЬТАТ
+========================================================= -->
+
+<section
+    id="resultCard"
+    class="card hidden"
+>
+
+    <h2>Результат</h2>
+
+    <div id="resultBox"></div>
+
+    <div id="reviewBox"></div>
+
+</section>
+
 
 </div>
 
 
 <script>
+
 
 /* =========================================================
    SUPABASE
@@ -287,6 +381,7 @@ button:disabled{
 
 const SUPABASE_URL =
 "https://egovkavyxtcztisropsf.supabase.co";
+
 
 const SUPABASE_ANON_KEY =
 "sb_publishable_xteyS9yX00x-hZwLSdxgOg_D3ny6D-P";
@@ -296,40 +391,52 @@ const SUPABASE_ANON_KEY =
    НАЛАШТУВАННЯ ТЕСТУ
 ========================================================= */
 
-const TEST_ID = "kreslennia_2026";
+const TEST_ID =
+"kreslennia_2026";
 
-const TEST_SUBJECT = "Креслення";
 
-const TEST_TIME = 30 * 60;
+const TEST_SUBJECT =
+"Креслення";
 
-const MAX_ATTEMPTS = 3;
 
-const MAX_SCORE = 30;
+const TEST_TIME =
+30 * 60;
+
+
+const MAX_ATTEMPTS =
+3;
+
+
+const MAX_SCORE =
+32;
+
 
 const STORAGE_KEY =
 "kreslennia_test_" + TEST_ID;
 
 
 /* =========================================================
-   КАРТИНКИ З ІНТЕРНЕТУ
+   КАРТИНКИ
 ========================================================= */
 
 /*
-   Якщо якась картинка перестане працювати,
-   просто заміни її URL.
+   Використовуються актуальні файли Wikimedia Commons.
 */
 
 const IMG_LINES =
-"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Technical_drawing_lines.svg/1280px-Technical_drawing_lines.svg.png";
+"https://commons.wikimedia.org/wiki/Special:FilePath/Line_types.png";
+
 
 const IMG_DIMENSIONS =
-"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Dimensioning.svg/1280px-Dimensioning.svg.png";
+"https://commons.wikimedia.org/wiki/Special:FilePath/Dimensioning%20example-tech%20drawing.png";
+
 
 const IMG_PROJECTION =
-"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Orthographic_projection.svg/1280px-Orthographic_projection.svg.png";
+"https://commons.wikimedia.org/wiki/Special:FilePath/OrthographicProjection.png";
+
 
 const IMG_SECTION =
-"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Sectional_view.svg/1280px-Sectional_view.svg.png";
+"https://commons.wikimedia.org/wiki/Special:FilePath/Radial%20sealing%20CAD%20sectional%20view.PNG";
 
 
 /* =========================================================
@@ -339,362 +446,470 @@ const IMG_SECTION =
 const Q = [
 
 {
-q:"Що називають кресленням?",
-a:[
-"Графічний конструкторський документ із зображенням виробу та необхідними даними",
-"Текстовий опис виробу без графіки",
-"Фотографію готового виробу",
-"Таблицю технічних характеристик"
-],
-c:[0]
+    q:"Що називають кресленням?",
+
+    a:[
+        "Графічний конструкторський документ із зображенням виробу та необхідними даними",
+        "Текстовий опис виробу без графіки",
+        "Фотографію готового виробу",
+        "Таблицю технічних характеристик"
+    ],
+
+    c:[0]
 },
 
-{
-q:"Який формат аркуша має розміри 210 × 297 мм?",
-a:[
-"А3",
-"А4",
-"А2",
-"А5"
-],
-c:[1]
-},
 
 {
-q:"Який масштаб відповідає натуральній величині?",
-a:[
-"1:2",
-"2:1",
-"1:1",
-"1:5"
-],
-c:[2]
+    q:"Який формат аркуша має розміри 210 × 297 мм?",
+
+    a:[
+        "А3",
+        "А4",
+        "А2",
+        "А5"
+    ],
+
+    c:[1]
 },
 
-{
-q:"Що означає масштаб 2:1?",
-a:[
-"Зображення зменшене вдвічі",
-"Зображення збільшене вдвічі",
-"Предмет показаний у натуральну величину",
-"Зображення збільшене у п'ять разів"
-],
-c:[1]
-},
 
 {
-q:"Яка лінія використовується для зображення видимого контуру деталі?",
-a:[
-"Суцільна товста основна",
-"Штрихова",
-"Штрихпунктирна тонка",
-"Суцільна хвиляста"
-],
-c:[0],
-img:IMG_LINES
+    q:"Який масштаб відповідає натуральній величині?",
+
+    a:[
+        "1:2",
+        "2:1",
+        "1:1",
+        "1:5"
+    ],
+
+    c:[2]
 },
 
-{
-q:"Яка лінія використовується для невидимого контуру?",
-a:[
-"Суцільна тонка",
-"Штрихова",
-"Суцільна товста",
-"Розімкнута"
-],
-c:[1],
-img:IMG_LINES
-},
 
 {
-q:"Для чого застосовують штрихпунктирну тонку лінію?",
-a:[
-"Для видимого контуру",
-"Для розмірних ліній",
-"Для осьових і центрових ліній",
-"Для лінії обриву"
-],
-c:[2],
-img:IMG_LINES
+    q:"Що означає масштаб 2:1?",
+
+    a:[
+        "Зображення зменшене вдвічі",
+        "Зображення збільшене вдвічі",
+        "Предмет показаний у натуральну величину",
+        "Зображення збільшене у п'ять разів"
+    ],
+
+    c:[1]
 },
 
-{
-q:"Яка лінія використовується для нанесення розмірів?",
-a:[
-"Суцільна тонка",
-"Штрихова",
-"Суцільна товста",
-"Штрихпунктирна товста"
-],
-c:[0],
-img:IMG_DIMENSIONS
-},
 
 {
-q:"Який принцип правильного розташування розмірних ліній?",
-a:[
-"Менший розмір розміщують ближче до контуру, більший — далі",
-"Усі розміри повинні лежати на одному місці",
-"Більший розмір завжди розміщують ближче до контуру",
-"Розміри можна ставити без виносних ліній у будь-якому місці"
-],
-c:[0],
-img:IMG_DIMENSIONS
+    q:"Яка лінія використовується для зображення видимого контуру деталі?",
+
+    a:[
+        "Суцільна товста основна",
+        "Штрихова",
+        "Штрихпунктирна тонка",
+        "Суцільна хвиляста"
+    ],
+
+    c:[0],
+    img:IMG_LINES
 },
 
-{
-q:"Що показує розмірна лінія?",
-a:[
-"Межі вимірюваного елемента",
-"Колір матеріалу",
-"Напрямок штрихування",
-"Номер деталі"
-],
-c:[0],
-img:IMG_DIMENSIONS
-},
 
 {
-q:"Якими лініями зазвичай виконують штрихування в розрізі?",
-a:[
-"Суцільними тонкими",
-"Суцільними товстими",
-"Штриховими",
-"Розімкнутими"
-],
-c:[0],
-img:IMG_SECTION
+    q:"Яка лінія використовується для невидимого контуру?",
+
+    a:[
+        "Суцільна тонка",
+        "Штрихова",
+        "Суцільна товста",
+        "Розімкнута"
+    ],
+
+    c:[1],
+    img:IMG_LINES
 },
 
-{
-q:"Що показує штрихування на розрізі?",
-a:[
-"Місце, де січна площина перетинає матеріал деталі",
-"Лише невидимі контури",
-"Тільки осьову лінію",
-"Місце нанесення розмірів"
-],
-c:[0],
-img:IMG_SECTION
-},
 
 {
-q:"Яке зображення деталі отримують при проєціюванні на фронтальну площину?",
-a:[
-"Головний або фронтальний вид",
-"План",
-"Розгортку",
-"Аксонометрію"
-],
-c:[0],
-img:IMG_PROJECTION
+    q:"Для чого застосовують штрихпунктирну тонку лінію?",
+
+    a:[
+        "Для видимого контуру",
+        "Для розмірних ліній",
+        "Для осьових і центрових ліній",
+        "Для лінії обриву"
+    ],
+
+    c:[2],
+    img:IMG_LINES
 },
 
-{
-q:"Що таке головний вид?",
-a:[
-"Вид спереду, який найповніше розкриває форму та розміри деталі",
-"Вид лише зверху",
-"Вид лише знизу",
-"Будь-який випадковий вид"
-],
-c:[0]
-},
 
 {
-q:"Скільки основних видів передбачено в системі прямокутного проєціювання?",
-a:[
-"3",
-"4",
-"6",
-"8"
-],
-c:[2],
-img:IMG_PROJECTION
+    q:"Яка лінія використовується для нанесення розмірів?",
+
+    a:[
+        "Суцільна тонка",
+        "Штрихова",
+        "Суцільна товста",
+        "Штрихпунктирна товста"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
 },
 
-{
-q:"Що називають розрізом?",
-a:[
-"Зображення предмета, уявно розсіченого площиною, з показом того, що лежить у січній площині та за нею",
-"Зображення лише зовнішнього контуру",
-"Фотографію деталі",
-"Тільки її аксонометричне зображення"
-],
-c:[0],
-img:IMG_SECTION
-},
 
 {
-q:"Що називають перерізом?",
-a:[
-"Зображення фігури, що утворюється безпосередньо в січній площині",
-"Повний вигляд деталі",
-"Текстовий опис деталі",
-"Вид ззаду"
-],
-c:[0]
+    q:"Який принцип правильного розташування розмірних ліній?",
+
+    a:[
+        "Менший розмір розміщують ближче до контуру, більший — далі",
+        "Усі розміри повинні лежати на одному місці",
+        "Більший розмір завжди розміщують ближче до контуру",
+        "Розміри можна ставити без виносних ліній у будь-якому місці"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
 },
 
-{
-q:"Який тип розрізу отримують горизонтальною січною площиною?",
-a:[
-"Горизонтальний",
-"Фронтальний",
-"Профільний",
-"Місцевий"
-],
-c:[0]
-},
 
 {
-q:"Який тип розрізу отримують фронтальною січною площиною?",
-a:[
-"Профільний",
-"Фронтальний",
-"Горизонтальний",
-"Ступінчастий"
-],
-c:[1]
+    q:"Що показує розмірна лінія?",
+
+    a:[
+        "Межі вимірюваного елемента",
+        "Колір матеріалу",
+        "Напрямок штрихування",
+        "Номер деталі"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
 },
 
-{
-q:"Яке позначення використовують для діаметра?",
-a:[
-"R",
-"Ø",
-"L",
-"S"
-],
-c:[1]
-},
 
 {
-q:"Що означає літера R перед числом на кресленні?",
-a:[
-"Радіус",
-"Діаметр",
-"Масштаб",
-"Розріз"
-],
-c:[0]
+    q:"Якими лініями зазвичай виконують штрихування в розрізі?",
+
+    a:[
+        "Суцільними тонкими",
+        "Суцільними товстими",
+        "Штриховими",
+        "Розімкнутими"
+    ],
+
+    c:[0],
+    img:IMG_SECTION
 },
 
-{
-q:"Як записують лінійні розміри на кресленні?",
-a:[
-"У міліметрах без зазначення одиниці",
-"У сантиметрах із написом «см»",
-"У метрах із написом «м»",
-"Лише у дюймах"
-],
-c:[0],
-img:IMG_DIMENSIONS
-},
 
 {
-q:"Якою має бути розмірна лінія для прямолінійного розміру?",
-a:[
-"Паралельною вимірюваному відрізку",
-"Перпендикулярною до нього завжди",
-"Хвилястою",
-"Штриховою"
-],
-c:[0],
-img:IMG_DIMENSIONS
+    q:"Що показує штрихування на розрізі?",
+
+    a:[
+        "Місце, де січна площина перетинає матеріал деталі",
+        "Лише невидимі контури",
+        "Тільки осьову лінію",
+        "Місце нанесення розмірів"
+    ],
+
+    c:[0],
+    img:IMG_SECTION
 },
 
-{
-q:"Що таке виносна лінія?",
-a:[
-"Лінія, яка відводить межі вимірюваного елемента до розмірної лінії",
-"Лінія невидимого контуру",
-"Лінія осі симетрії",
-"Лінія перерізу"
-],
-c:[0],
-img:IMG_DIMENSIONS
-},
 
 {
-q:"Яке призначення основного напису?",
-a:[
-"Містить основні відомості про креслення, виріб, масштаб та виконавця",
-"Показує лише колір деталі",
-"Замінює всі розміри",
-"Використовується тільки для штрихування"
-],
-c:[0]
+    q:"Яке зображення деталі отримують при проєціюванні на фронтальну площину?",
+
+    a:[
+        "Головний або фронтальний вид",
+        "План",
+        "Розгортку",
+        "Аксонометрію"
+    ],
+
+    c:[0],
+    img:IMG_PROJECTION
 },
 
-{
-q:"Де на кресленні формату А4 зазвичай розміщують основний напис?",
-a:[
-"У правому нижньому куті",
-"У лівому верхньому куті",
-"У центрі аркуша",
-"У правому верхньому куті"
-],
-c:[0]
-},
 
 {
-q:"Який масштаб є масштабом зменшення?",
-a:[
-"2:1",
-"5:1",
-"1:2",
-"1:1"
-],
-c:[2]
+    q:"Що таке головний вид?",
+
+    a:[
+        "Вид спереду, який найповніше розкриває форму та розміри деталі",
+        "Вид лише зверху",
+        "Вид лише знизу",
+        "Будь-який випадковий вид"
+    ],
+
+    c:[0]
 },
 
-{
-q:"Який масштаб є масштабом збільшення?",
-a:[
-"1:5",
-"1:2",
-"1:1",
-"5:1"
-],
-c:[3]
-},
 
 {
-q:"Що таке осьова лінія?",
-a:[
-"Лінія, яка показує вісь симетрії або центр елемента",
-"Лінія видимого контуру",
-"Лінія розміру",
-"Лінія обриву"
-],
-c:[0],
-img:IMG_LINES
+    q:"Скільки основних видів передбачено в системі прямокутного проєціювання?",
+
+    a:[
+        "3",
+        "4",
+        "6",
+        "8"
+    ],
+
+    c:[2],
+    img:IMG_PROJECTION
 },
 
-{
-q:"Що потрібно враховувати під час вибору кількості видів деталі?",
-a:[
-"Кількість має бути мінімальною, але достатньою для повного визначення форми",
-"Потрібно завжди виконувати всі шість видів",
-"Достатньо одного виду для будь-якої деталі",
-"Кількість видів залежить тільки від формату аркуша"
-],
-c:[0]
-},
 
 {
-q:"Яке призначення креслярського шрифту?",
-a:[
-"Забезпечити однакове та читабельне виконання написів на кресленнях",
-"Змінити масштаб деталі",
-"Показати матеріал деталі",
-"Позначити невидимий контур"
-],
-c:[0]
+    q:"Що називають розрізом?",
+
+    a:[
+        "Зображення предмета, уявно розсіченого площиною, з показом того, що лежить у січній площині та за нею",
+        "Зображення лише зовнішнього контуру",
+        "Фотографію деталі",
+        "Тільки її аксонометричне зображення"
+    ],
+
+    c:[0],
+    img:IMG_SECTION
+},
+
+
+{
+    q:"Що називають перерізом?",
+
+    a:[
+        "Зображення фігури, що утворюється безпосередньо в січній площині",
+        "Повний вигляд деталі",
+        "Текстовий опис деталі",
+        "Вид ззаду"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Який тип розрізу отримують горизонтальною січною площиною?",
+
+    a:[
+        "Горизонтальний",
+        "Фронтальний",
+        "Профільний",
+        "Місцевий"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Який тип розрізу отримують фронтальною січною площиною?",
+
+    a:[
+        "Профільний",
+        "Фронтальний",
+        "Горизонтальний",
+        "Ступінчастий"
+    ],
+
+    c:[1]
+},
+
+
+{
+    q:"Яке позначення використовують для діаметра?",
+
+    a:[
+        "R",
+        "Ø",
+        "L",
+        "S"
+    ],
+
+    c:[1]
+},
+
+
+{
+    q:"Що означає літера R перед числом на кресленні?",
+
+    a:[
+        "Радіус",
+        "Діаметр",
+        "Масштаб",
+        "Розріз"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Як записують лінійні розміри на кресленні?",
+
+    a:[
+        "У міліметрах без зазначення одиниці",
+        "У сантиметрах із написом «см»",
+        "У метрах із написом «м»",
+        "Лише у дюймах"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
+},
+
+
+{
+    q:"Якою має бути розмірна лінія для прямолінійного розміру?",
+
+    a:[
+        "Паралельною вимірюваному відрізку",
+        "Перпендикулярною до нього завжди",
+        "Хвилястою",
+        "Штриховою"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
+},
+
+
+{
+    q:"Що таке виносна лінія?",
+
+    a:[
+        "Лінія, яка відводить межі вимірюваного елемента до розмірної лінії",
+        "Лінія невидимого контуру",
+        "Лінія осі симетрії",
+        "Лінія перерізу"
+    ],
+
+    c:[0],
+    img:IMG_DIMENSIONS
+},
+
+
+{
+    q:"Яке призначення основного напису?",
+
+    a:[
+        "Містить основні відомості про креслення, виріб, масштаб та виконавця",
+        "Показує лише колір деталі",
+        "Замінює всі розміри",
+        "Використовується тільки для штрихування"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Де на кресленні формату А4 зазвичай розміщують основний напис?",
+
+    a:[
+        "У правому нижньому куті",
+        "У лівому верхньому куті",
+        "У центрі аркуша",
+        "У правому верхньому куті"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Який масштаб є масштабом зменшення?",
+
+    a:[
+        "2:1",
+        "5:1",
+        "1:2",
+        "1:1"
+    ],
+
+    c:[2]
+},
+
+
+{
+    q:"Який масштаб є масштабом збільшення?",
+
+    a:[
+        "1:5",
+        "1:2",
+        "1:1",
+        "5:1"
+    ],
+
+    c:[3]
+},
+
+
+{
+    q:"Що таке осьова лінія?",
+
+    a:[
+        "Лінія, яка показує вісь симетрії або центр елемента",
+        "Лінія видимого контуру",
+        "Лінія розміру",
+        "Лінія обриву"
+    ],
+
+    c:[0],
+    img:IMG_LINES
+},
+
+
+{
+    q:"Що потрібно враховувати під час вибору кількості видів деталі?",
+
+    a:[
+        "Кількість має бути мінімальною, але достатньою для повного визначення форми",
+        "Потрібно завжди виконувати всі шість видів",
+        "Достатньо одного виду для будь-якої деталі",
+        "Кількість видів залежить тільки від формату аркуша"
+    ],
+
+    c:[0]
+},
+
+
+{
+    q:"Яке призначення креслярського шрифту?",
+
+    a:[
+        "Забезпечити однакове та читабельне виконання написів на кресленнях",
+        "Змінити масштаб деталі",
+        "Показати матеріал деталі",
+        "Позначити невидимий контур"
+    ],
+
+    c:[0]
 }
 
 ];
+
+
+/* =========================================================
+   ПЕРЕВІРКА КІЛЬКОСТІ ПИТАНЬ
+========================================================= */
+
+if(Q.length !== MAX_SCORE){
+
+    console.error(
+        "Помилка: кількість питань не відповідає MAX_SCORE.",
+        {
+            questions:Q.length,
+            maxScore:MAX_SCORE
+        }
+    );
+}
 
 
 /* =========================================================
@@ -702,27 +917,39 @@ c:[0]
 ========================================================= */
 
 let state={
+
     active:false,
+
     finished:false,
+
     attemptId:null,
+
     attemptNumber:null,
 
     studentCode:"",
+
     studentName:"",
+
     studentGroup:"",
 
     current:0,
+
     answers:[],
 
     startTime:null,
+
     endTime:null,
 
     finishReason:"",
+
     score:null,
+
     grade:null
 };
 
+
 let timerHandle=null;
+
 let finishing=false;
 
 
@@ -730,7 +957,8 @@ let finishing=false;
    DOM
 ========================================================= */
 
-const $=id=>document.getElementById(id);
+const $ =
+id => document.getElementById(id);
 
 
 /* =========================================================
@@ -739,29 +967,48 @@ const $=id=>document.getElementById(id);
 
 function makeId(prefix){
 
-    const key=prefix+"_id";
+    const key =
+        prefix + "_id";
 
-    let id=localStorage.getItem(key);
+    let id =
+        localStorage.getItem(key);
 
     if(!id){
 
-        id=
+        id =
             crypto.randomUUID
             ? crypto.randomUUID()
-            : prefix+"_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+            : prefix +
+              "_" +
+              Date.now() +
+              "_" +
+              Math.random()
+                .toString(36)
+                .slice(2);
 
-        localStorage.setItem(key,id);
+        localStorage.setItem(
+            key,
+            id
+        );
     }
 
     return id;
 }
 
+
 function browserId(){
-    return makeId("test_browser");
+
+    return makeId(
+        "test_browser"
+    );
 }
 
+
 function deviceId(){
-    return makeId("test_device");
+
+    return makeId(
+        "test_device"
+    );
 }
 
 
@@ -773,16 +1020,23 @@ async function getIP(){
 
     try{
 
-        const r=await fetch(
-            "https://api.ipify.org?format=json",
-            {cache:"no-store"}
-        );
+        const r =
+            await fetch(
+                "https://api.ipify.org?format=json",
+                {
+                    cache:"no-store"
+                }
+            );
 
-        if(!r.ok)return null;
+        if(!r.ok){
 
-        const j=await r.json();
+            return null;
+        }
 
-        return j.ip||null;
+        const j =
+            await r.json();
+
+        return j.ip || null;
 
     }catch(e){
 
@@ -795,41 +1049,71 @@ async function getIP(){
    SUPABASE RPC
 ========================================================= */
 
-async function supabaseRPC(name,body){
+async function supabaseRPC(
+    name,
+    body
+){
 
-    const r=await fetch(
-        SUPABASE_URL+"/rest/v1/rpc/"+name,
-        {
-            method:"POST",
+    const r =
+        await fetch(
+            SUPABASE_URL +
+            "/rest/v1/rpc/" +
+            name,
+            {
+                method:"POST",
 
-            headers:{
-                apikey:SUPABASE_ANON_KEY,
-                Authorization:"Bearer "+SUPABASE_ANON_KEY,
-                "Content-Type":"application/json"
-            },
+                headers:{
 
-            body:JSON.stringify(body)
-        }
-    );
+                    apikey:
+                        SUPABASE_ANON_KEY,
 
-    const text=await r.text();
+                    Authorization:
+                        "Bearer " +
+                        SUPABASE_ANON_KEY,
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(body)
+            }
+        );
+
+
+    const text =
+        await r.text();
+
 
     let data=null;
 
+
     try{
-        data=text?JSON.parse(text):null;
+
+        data =
+            text
+            ? JSON.parse(text)
+            : null;
+
     }catch(e){
+
         data=text;
     }
+
 
     if(!r.ok){
 
         throw new Error(
-            (data&&data.message)||
-            text||
-            ("HTTP "+r.status)
+
+            (data && data.message)
+            ||
+            text
+            ||
+            ("HTTP " + r.status)
+
         );
     }
+
 
     return data;
 }
@@ -841,21 +1125,39 @@ async function supabaseRPC(name,body){
 
 function saveState(){
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-    );
+    try{
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(state)
+        );
+
+    }catch(e){
+
+        console.error(
+            "Помилка localStorage:",
+            e
+        );
+    }
 }
+
 
 function loadState(){
 
     try{
 
-        const s=JSON.parse(
-            localStorage.getItem(STORAGE_KEY)||"null"
-        );
+        const s =
+            JSON.parse(
+                localStorage.getItem(
+                    STORAGE_KEY
+                ) || "null"
+            );
 
-        if(s&&typeof s==="object"){
+
+        if(
+            s &&
+            typeof s === "object"
+        ){
 
             state={
                 ...state,
@@ -863,7 +1165,13 @@ function loadState(){
             };
         }
 
-    }catch(e){}
+    }catch(e){
+
+        console.error(
+            "Помилка завантаження стану:",
+            e
+        );
+    }
 }
 
 
@@ -874,15 +1182,25 @@ function loadState(){
 function gradeFromPercent(p){
 
     if(p>=1)return 12;
+
     if(p>=.94)return 11;
+
     if(p>=.86)return 10;
+
     if(p>=.78)return 9;
+
     if(p>=.70)return 8;
+
     if(p>=.62)return 7;
+
     if(p>=.54)return 6;
+
     if(p>=.46)return 5;
+
     if(p>=.38)return 4;
+
     if(p>=.20)return 3;
+
     if(p>0)return 2;
 
     return 1;
@@ -895,41 +1213,77 @@ function gradeFromPercent(p){
 
 async function checkAttempts(){
 
-    const code=$("studentCode").value.trim();
+    const code =
+        $("studentCode")
+        .value
+        .trim();
 
-    if(!code)return;
+
+    if(!code){
+
+        $("attemptInfo").textContent =
+            "";
+
+        return;
+    }
+
 
     try{
 
-        const data=await supabaseRPC(
-            "get_student_test_info",
-            {
-                p_test_id:TEST_ID,
-                p_student_code:code
-            }
-        );
+        const data =
+            await supabaseRPC(
+                "get_student_test_info",
+                {
+                    p_test_id:
+                        TEST_ID,
 
-        const info=
+                    p_student_code:
+                        code
+                }
+            );
+
+
+        const info =
             Array.isArray(data)
-            ?data[0]
-            :data;
+            ? data[0]
+            : data;
 
-        if(!info)return;
 
-        const used=
-            Number(info.attempts_used||0);
+        if(!info){
 
-        $("attemptInfo").textContent=
-            `Використано спроб: ${used} із ${MAX_ATTEMPTS}. `+
-            `Залишилось: ${Math.max(0,MAX_ATTEMPTS-used)}.`;
+            return;
+        }
 
-        $("startBtn").disabled=
-            used>=MAX_ATTEMPTS;
+
+        const used =
+            Number(
+                info.attempts_used || 0
+            );
+
+
+        $("attemptInfo").textContent =
+
+            `Використано спроб: ${used} із ${MAX_ATTEMPTS}. ` +
+
+            `Залишилось: ${
+                Math.max(
+                    0,
+                    MAX_ATTEMPTS-used
+                )
+            }.`;
+
+
+
+        $("startBtn").disabled =
+            used >= MAX_ATTEMPTS;
+
 
     }catch(e){
 
-        $("attemptInfo").textContent=
+        $("attemptInfo").textContent =
             "Не вдалося перевірити кількість спроб.";
+
+        console.error(e);
     }
 }
 
@@ -941,14 +1295,23 @@ async function checkAttempts(){
 function escapeHtml(s){
 
     return String(s).replace(
+
         /[&<>"']/g,
-        ch=>({
+
+        ch => ({
+
             "&":"&amp;",
+
             "<":"&lt;",
+
             ">":"&gt;",
+
             '"':"&quot;",
+
             "'":"&#039;"
+
         }[ch])
+
     );
 }
 
@@ -959,80 +1322,142 @@ function escapeHtml(s){
 
 function renderQuestion(){
 
-    const q=Q[state.current];
+    const q =
+        Q[state.current];
 
-    $("qCounter").textContent=
-        `Питання ${state.current+1} із ${Q.length}`;
 
-    $("progressBar").style.width=
-        ((state.current+1)/Q.length*100)+"%";
+    $("qCounter").textContent =
 
-    let html=
+        `Питання ${
+            state.current + 1
+        } із ${Q.length}`;
+
+
+    $("progressBar").style.width =
+
+        (
+            (state.current + 1)
+            /
+            Q.length
+            *
+            100
+        ) + "%";
+
+
+    let html =
+
         `<div class="question-title">
-            ${state.current+1}. ${escapeHtml(q.q)}
+            ${
+                state.current + 1
+            }.
+            ${
+                escapeHtml(q.q)
+            }
         </div>`;
+
 
     if(q.img){
 
-        html+=
+        html +=
+
             `<img
                 class="question-image"
                 src="${q.img}"
                 alt="Ілюстрація до питання"
-                loading="lazy"
-                referrerpolicy="no-referrer"
-            >`;
-    }
-
-    html+=q.a.map((ans,i)=>{
-
-        const checked=
-            state.answers[state.current]===i
-            ?"checked"
-            :"";
-
-        return `
-        <label class="option">
-
-            <input
-                type="radio"
-                name="answer"
-                value="${i}"
-                ${checked}
+                loading="eager"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
             >
 
-            ${escapeHtml(ans)}
+            <div
+                class="image-error"
+                style="display:none"
+            >
+                Не вдалося завантажити ілюстрацію.
+            </div>`;
+    }
 
-        </label>
-        `;
 
-    }).join("");
+    html +=
 
-    $("questionBox").innerHTML=html;
+        q.a.map(
+            (ans,i) => {
+
+                const checked =
+
+                    state.answers[
+                        state.current
+                    ] === i
+
+                    ? "checked"
+
+                    : "";
+
+
+                return `
+
+                <label class="option">
+
+                    <input
+                        type="radio"
+                        name="answer"
+                        value="${i}"
+                        ${checked}
+                    >
+
+                    ${
+                        escapeHtml(ans)
+                    }
+
+                </label>
+
+                `;
+
+            }
+        ).join("");
+
+
+    $("questionBox").innerHTML =
+        html;
 
 
     document
-        .querySelectorAll('input[name="answer"]')
-        .forEach(el=>{
+        .querySelectorAll(
+            'input[name="answer"]'
+        )
+        .forEach(
+            el => {
 
-            el.addEventListener("change",()=>{
+                el.addEventListener(
+                    "change",
+                    () => {
 
-                state.answers[state.current]=
-                    Number(el.value);
+                        state.answers[
+                            state.current
+                        ] =
+                            Number(
+                                el.value
+                            );
 
-                saveState();
-            });
-        });
+                        saveState();
+
+                    }
+                );
+
+            }
+        );
 
 
-    $("prevBtn").disabled=
-        state.current===0;
+    $("prevBtn").disabled =
+        state.current === 0;
 
 
-    $("nextBtn").textContent=
-        state.current===Q.length-1
-        ?"Завершити тест"
-        :"Далі →";
+    $("nextBtn").textContent =
+
+        state.current === Q.length - 1
+
+        ? "Завершити тест"
+
+        : "Далі →";
 }
 
 
@@ -1042,60 +1467,94 @@ function renderQuestion(){
 
 function formatTime(sec){
 
-    sec=Math.max(
-        0,
-        Math.floor(sec)
-    );
+    sec =
+        Math.max(
+            0,
+            Math.floor(sec)
+        );
+
 
     return String(
-        Math.floor(sec/60)
+        Math.floor(sec / 60)
     ).padStart(2,"0")
-    +":"
-    +String(
-        sec%60
+
+    +
+
+    ":"
+
+    +
+
+    String(
+        sec % 60
     ).padStart(2,"0");
 }
 
 
 function startTimer(){
 
-    clearInterval(timerHandle);
+    clearInterval(
+        timerHandle
+    );
 
-    timerHandle=setInterval(()=>{
 
-        if(
-            !state.active||
-            state.finished
-        )return;
+    timerHandle =
+        setInterval(
 
-        const left=Math.max(
-            0,
-            Math.floor(
-                (state.endTime-Date.now())/1000
-            )
+            () => {
+
+                if(
+                    !state.active ||
+                    state.finished
+                ){
+
+                    return;
+                }
+
+
+                const left =
+
+                    Math.max(
+                        0,
+                        Math.floor(
+                            (
+                                state.endTime -
+                                Date.now()
+                            ) / 1000
+                        )
+                    );
+
+
+                $("timer").textContent =
+                    formatTime(left);
+
+
+                if(left <= 0){
+
+                    clearInterval(
+                        timerHandle
+                    );
+
+
+                    finishTest(
+                        "Час вичерпано"
+                    );
+                }
+
+            },
+
+            250
         );
-
-        $("timer").textContent=
-            formatTime(left);
-
-        if(left<=0){
-
-            clearInterval(timerHandle);
-
-            finishTest("Час вичерпано");
-        }
-
-    },250);
 }
 
 
 /* =========================================================
-   РЕЗУЛЬТАТ
+   РОЗРАХУНОК РЕЗУЛЬТАТУ
 ========================================================= */
 
 function calculateResult(){
 
     let correct=0;
+
 
     for(
         let i=0;
@@ -1103,46 +1562,66 @@ function calculateResult(){
         i++
     ){
 
-        const selected=
+        const selected =
             state.answers[i];
 
+
         if(
-            Q[i].c.length===1 &&
-            selected===Q[i].c[0]
+            Q[i].c.length === 1 &&
+            selected === Q[i].c[0]
         ){
 
             correct++;
         }
     }
 
-    const percent=
-        correct/Q.length;
+
+    const percent =
+        correct / Q.length;
+
 
     return{
+
         correct,
+
         max:Q.length,
+
         percent,
-        grade:gradeFromPercent(percent)
+
+        grade:
+            gradeFromPercent(
+                percent
+            )
     };
 }
 
 
 /* =========================================================
-   ЗАВЕРШЕННЯ
+   НОРМАЛЬНЕ ЗАВЕРШЕННЯ
 ========================================================= */
 
-async function finishTest(reason){
+async function finishTest(
+    reason
+){
 
     if(
-        finishing||
+        finishing ||
         state.finished
-    )return;
+    ){
+
+        return;
+    }
+
 
     finishing=true;
 
-    clearInterval(timerHandle);
 
-    const result=
+    clearInterval(
+        timerHandle
+    );
+
+
+    const result =
         calculateResult();
 
 
@@ -1150,14 +1629,15 @@ async function finishTest(reason){
 
     state.finished=true;
 
-    state.finishReason=
-        reason||"Завершено";
+    state.finishReason =
+        reason || "Завершено";
 
-    state.score=
+    state.score =
         result.correct;
 
-    state.grade=
+    state.grade =
         result.grade;
+
 
     saveState();
 
@@ -1170,22 +1650,34 @@ async function finishTest(reason){
         if(state.attemptId){
 
             await supabaseRPC(
+
                 "finish_test_attempt",
+
                 {
-                    p_test_id:TEST_ID,
-                    p_attempt_id:Number(
-                        state.attemptId
-                    ),
-                    p_score:result.correct
+
+                    p_test_id:
+                        TEST_ID,
+
+                    p_attempt_id:
+                        Number(
+                            state.attemptId
+                        ),
+
+                    p_score:
+                        result.correct
                 }
             );
+
 
             serverSaved=true;
         }
 
     }catch(e){
 
-        console.error(e);
+        console.error(
+            "Помилка збереження результату:",
+            e
+        );
     }
 
 
@@ -1194,7 +1686,142 @@ async function finishTest(reason){
         serverSaved
     );
 
+
     finishing=false;
+}
+
+
+/* =========================================================
+   ПЕРЕРИВАННЯ СПРОБИ
+========================================================= */
+
+function interruptAttemptOnClose(){
+
+    if(
+        !state.active ||
+        state.finished ||
+        finishing ||
+        !state.attemptId ||
+        !state.studentCode
+    ){
+
+        return;
+    }
+
+
+    const body =
+
+        JSON.stringify({
+
+            p_test_id:
+                TEST_ID,
+
+            p_attempt_id:
+                Number(
+                    state.attemptId
+                ),
+
+            p_student_code:
+                state.studentCode,
+
+            p_browser_id:
+                browserId(),
+
+            p_device_id:
+                deviceId()
+        });
+
+
+    try{
+
+        fetch(
+
+            SUPABASE_URL +
+            "/rest/v1/rpc/interrupt_test_attempt",
+
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":
+                        "application/json",
+
+                    "apikey":
+                        SUPABASE_ANON_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        SUPABASE_ANON_KEY
+                },
+
+                body:body,
+
+                keepalive:true,
+
+                credentials:"omit"
+            }
+
+        );
+
+    }catch(e){
+
+        console.error(
+            "Не вдалося перервати спробу:",
+            e
+        );
+    }
+
+
+    /*
+       Видаляємо локальний стан.
+       Після повторного відкриття
+       стара спроба не відновиться.
+    */
+
+    try{
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+    }catch(e){
+
+        console.error(e);
+    }
+
+
+    state={
+
+        active:false,
+
+        finished:false,
+
+        attemptId:null,
+
+        attemptNumber:null,
+
+        studentCode:"",
+
+        studentName:"",
+
+        studentGroup:"",
+
+        current:0,
+
+        answers:[],
+
+        startTime:null,
+
+        endTime:null,
+
+        finishReason:"",
+
+        score:null,
+
+        grade:null
+    };
 }
 
 
@@ -1211,108 +1838,163 @@ function showResult(
         .classList
         .add("hidden");
 
+
     $("testCard")
         .classList
         .add("hidden");
+
 
     $("resultCard")
         .classList
         .remove("hidden");
 
 
-    $("resultBox").innerHTML=`
+    $("resultBox").innerHTML = `
 
         <div class="result">
-            ${result.correct} / ${result.max} балів
+
+            ${result.correct}
+            /
+            ${result.max}
+            балів
+
         </div>
 
+
         <p>
+
             Оцінка:
             <b>${result.grade}</b>
+
         </p>
+
 
         <p>
+
             Результат:
-            <b>${Math.round(
-                result.percent*100
-            )}%</b>
-        </p>
-
-        <p class="small">
-            Причина завершення:
-            ${escapeHtml(
-                state.finishReason||
-                "Завершено"
-            )}
-        </p>
-
-        ${
-            serverSaved
-            ?
-            `<div class="good">
-                Результат збережено в системі.
-            </div>`
-            :
-            `<div class="warn">
-                Сервер не підтвердив збереження результату.
-            </div>`
-        }
-    `;
-
-
-    let review=
-        "<h3>Перегляд відповідей</h3>";
-
-
-    Q.forEach((q,i)=>{
-
-        const selected=
-            state.answers[i];
-
-        const ok=
-            q.c.length===1&&
-            selected===q.c[0];
-
-
-        review+=`
-
-        <div class="review-item ${ok?"correct":"wrong"}">
-
             <b>
-                ${i+1}. ${escapeHtml(q.q)}
+                ${
+                    Math.round(
+                        result.percent * 100
+                    )
+                }%
             </b>
 
-            <br>
+        </p>
 
-            Ваша відповідь:
+
+        <p class="small">
+
+            Причина завершення:
             ${
-                selected==null
-                ?"не вибрано"
-                :escapeHtml(
-                    q.a[selected]
+                escapeHtml(
+                    state.finishReason ||
+                    "Завершено"
                 )
             }
 
-            <br>
-
-            Правильна відповідь:
-            ${escapeHtml(
-                q.a[q.c[0]]
-            )}
-
-        </div>
-
-        `;
-    });
+        </p>
 
 
-    $("reviewBox").innerHTML=
+        ${
+            serverSaved
+
+            ?
+
+            `<div class="good">
+
+                Результат збережено в системі.
+
+            </div>`
+
+            :
+
+            `<div class="warn">
+
+                Сервер не підтвердив
+                збереження результату.
+
+            </div>`
+        }
+
+    `;
+
+
+    let review =
+        "<h3>Перегляд відповідей</h3>";
+
+
+    Q.forEach(
+        (q,i) => {
+
+            const selected =
+                state.answers[i];
+
+
+            const ok =
+
+                q.c.length === 1 &&
+                selected === q.c[0];
+
+
+            review += `
+
+                <div
+                    class="review-item ${
+                        ok
+                        ? "correct"
+                        : "wrong"
+                    }"
+                >
+
+                    <b>
+
+                        ${i+1}.
+                        ${
+                            escapeHtml(q.q)
+                        }
+
+                    </b>
+
+                    <br><br>
+
+                    Ваша відповідь:
+
+                    ${
+                        selected == null
+
+                        ? "не вибрано"
+
+                        : escapeHtml(
+                            q.a[selected]
+                        )
+                    }
+
+                    <br>
+
+                    Правильна відповідь:
+
+                    ${
+                        escapeHtml(
+                            q.a[q.c[0]]
+                        )
+                    }
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    $("reviewBox").innerHTML =
         review;
 }
 
 
 /* =========================================================
-   ПОЧАТОК
+   ПОЧАТОК ТЕСТУ
 ========================================================= */
 
 async function startTest(){
@@ -1322,34 +2004,39 @@ async function startTest(){
         .add("hidden");
 
 
-    const code=
+    const code =
         $("studentCode")
         .value
         .trim();
 
-    const name=
+
+    const name =
         $("studentName")
         .value
         .trim();
 
-    const group=
+
+    const group =
         $("studentGroup")
         .value
         .trim();
 
 
     if(
-        code.length<2||
-        name.length<2||
-        group.length<1
+        code.length < 2 ||
+        name.length < 2 ||
+        group.length < 1
     ){
 
-        $("startError").textContent=
+        $("startError").textContent =
+
             "Заповніть код здобувача, ПІБ та групу.";
+
 
         $("startError")
             .classList
             .remove("hidden");
+
 
         return;
     }
@@ -1360,19 +2047,25 @@ async function startTest(){
 
     try{
 
-        const ip=
+        const ip =
             await getIP();
 
 
-        const data=
+        const data =
             await supabaseRPC(
+
                 "start_test_attempt",
+
                 {
-                    p_test_id:TEST_ID,
 
-                    p_student_code:code,
+                    p_test_id:
+                        TEST_ID,
 
-                    p_student_name:name,
+                    p_student_code:
+                        code,
+
+                    p_student_name:
+                        name,
 
                     p_browser_id:
                         browserId(),
@@ -1380,7 +2073,8 @@ async function startTest(){
                     p_device_id:
                         deviceId(),
 
-                    p_ip_address:ip,
+                    p_ip_address:
+                        ip,
 
                     p_max_score:
                         MAX_SCORE
@@ -1388,19 +2082,20 @@ async function startTest(){
             );
 
 
-        const info=
+        const info =
             Array.isArray(data)
-            ?data[0]
-            :data;
+            ? data[0]
+            : data;
 
 
         if(
-            !info||
-            info.allowed!==true
+            !info ||
+            info.allowed !== true
         ){
 
             throw new Error(
-                info?.message||
+
+                info?.message ||
                 "Ця спроба недоступна."
             );
         }
@@ -1418,24 +2113,28 @@ async function startTest(){
             attemptNumber:
                 info.attempt_number,
 
-            studentCode:code,
+            studentCode:
+                code,
 
-            studentName:name,
+            studentName:
+                name,
 
-            studentGroup:group,
+            studentGroup:
+                group,
 
             current:0,
 
             answers:
-                Array(Q.length)
-                .fill(null),
+                Array(
+                    Q.length
+                ).fill(null),
 
             startTime:
                 Date.now(),
 
             endTime:
-                Date.now()+
-                TEST_TIME*1000,
+                Date.now() +
+                TEST_TIME * 1000,
 
             finishReason:"",
 
@@ -1452,6 +2151,7 @@ async function startTest(){
             .classList
             .add("hidden");
 
+
         $("testCard")
             .classList
             .remove("hidden");
@@ -1463,25 +2163,35 @@ async function startTest(){
 
 
         if(
-            document.documentElement.requestFullscreen
+            document
+                .documentElement
+                .requestFullscreen
         ){
 
             document
                 .documentElement
                 .requestFullscreen()
-                .catch(()=>{});
+                .catch(
+                    ()=>{}
+                );
         }
 
 
     }catch(e){
 
-        $("startError").textContent=
-            "Не вдалося розпочати тест: "+
+        console.error(e);
+
+
+        $("startError").textContent =
+
+            "Не вдалося розпочати тест: " +
             e.message;
+
 
         $("startError")
             .classList
             .remove("hidden");
+
 
         $("startBtn").disabled=false;
     }
@@ -1509,9 +2219,11 @@ $("startBtn")
 $("prevBtn")
 .addEventListener(
     "click",
-    ()=>{
+    () => {
 
-        if(state.current>0){
+        if(
+            state.current > 0
+        ){
 
             state.current--;
 
@@ -1526,11 +2238,11 @@ $("prevBtn")
 $("nextBtn")
 .addEventListener(
     "click",
-    ()=>{
+    () => {
 
         if(
-            state.current<
-            Q.length-1
+            state.current <
+            Q.length - 1
         ){
 
             state.current++;
@@ -1557,17 +2269,32 @@ $("nextBtn")
 
 
 /* =========================================================
-   ЗБЕРЕЖЕННЯ
+   ЗАКРИТТЯ ВКЛАДКИ / ВІКНА
 ========================================================= */
 
-window.addEventListener(
-    "beforeunload",
-    saveState
-);
+/*
+   pagehide спрацьовує при:
+   - закритті вкладки;
+   - закритті браузера;
+   - перезавантаженні;
+   - переході на іншу сторінку.
+
+   keepalive дозволяє спробувати відправити
+   RPC навіть під час вивантаження сторінки.
+*/
 
 window.addEventListener(
     "pagehide",
-    saveState
+    function(event){
+
+        if(event.persisted){
+
+            return;
+        }
+
+
+        interruptAttemptOnClose();
+    }
 );
 
 
@@ -1575,69 +2302,137 @@ window.addEventListener(
    ЗАПУСК
 ========================================================= */
 
-function init(){
+async function init(){
 
     loadState();
 
 
-    if(state.finished){
-
-        showResult(
-            {
-                correct:Number(
-                    state.score||0
-                ),
-
-                max:Q.length,
-
-                percent:
-                    Number(
-                        state.score||0
-                    )/Q.length,
-
-                grade:Number(
-                    state.grade||
-                    gradeFromPercent(
-                        Number(
-                            state.score||0
-                        )/Q.length
-                    )
-                )
-            },
-            false
-        );
-
-        return;
-    }
-
+    /*
+       Якщо в localStorage залишилася активна
+       спроба після аварійного закриття браузера,
+       намагаємося позначити її interrupted.
+    */
 
     if(
-        state.active&&
+        state.active &&
         state.attemptId
     ){
 
-        $("startCard")
-            .classList
-            .add("hidden");
+        try{
 
-        $("testCard")
-            .classList
-            .remove("hidden");
+            await supabaseRPC(
 
+                "interrupt_test_attempt",
 
-        renderQuestion();
+                {
 
-        startTimer();
+                    p_test_id:
+                        TEST_ID,
 
+                    p_attempt_id:
+                        Number(
+                            state.attemptId
+                        ),
 
-        if(
-            Date.now()>=state.endTime
-        ){
+                    p_student_code:
+                        state.studentCode,
 
-            finishTest(
-                "Час вичерпано"
+                    p_browser_id:
+                        browserId(),
+
+                    p_device_id:
+                        deviceId()
+                }
+            );
+
+        }catch(e){
+
+            console.error(
+                "Помилка переривання попередньої спроби:",
+                e
             );
         }
+
+
+        /*
+           Стара спроба більше не відновлюється.
+        */
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+
+        state={
+
+            active:false,
+
+            finished:false,
+
+            attemptId:null,
+
+            attemptNumber:null,
+
+            studentCode:"",
+
+            studentName:"",
+
+            studentGroup:"",
+
+            current:0,
+
+            answers:[],
+
+            startTime:null,
+
+            endTime:null,
+
+            finishReason:"",
+
+            score:null,
+
+            grade:null
+        };
+    }
+
+
+    /*
+       Якщо тест уже був нормально завершений
+       у цій вкладці/сесії — показуємо результат.
+    */
+
+    if(state.finished){
+
+        showResult(
+
+            {
+
+                correct:
+                    Number(
+                        state.score || 0
+                    ),
+
+                max:
+                    Q.length,
+
+                percent:
+                    Number(
+                        state.score || 0
+                    ) / Q.length,
+
+                grade:
+                    Number(
+                        state.grade ||
+                        gradeFromPercent(
+                            Number(
+                                state.score || 0
+                            ) / Q.length
+                        )
+                    )
+            },
+
+            false
+        );
 
         return;
     }
